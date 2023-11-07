@@ -15,22 +15,22 @@ Cilj našeg projekta jest olakšati i ubrzati broj donacija te povećati broj do
 
 
 # Funkcijski zahtjevi
-Registracija i prijava potencijalnih donora krvi.  
-Verifikacija registracija donora koju vrši administrator.  
-Omogućiti registriranim donorima odabir lokacije i rezervaciju termina darivanja krvi.  
-Prikaz aktivnih lokacija darivanja krvi na karti.  
-Vođenje evidencije darivanja krvi.  
-Povijest darivanja krvi je dostupna korisnicima.  
-Kada su količine krvi male, sustav šalje oglas svim korisnicima za potrebnu lokaciju.  
-Darivatelj potvrđuje dolazak na darivanje krvi.  
-Ako nakon postavljenog vremena nema odaziva za donore na određenoj lokaciji, šalju se oglasi za druge lokacije darivanja.  
+> Registracija i prijava potencijalnih donora krvi.  
+> Verifikacija registracija donora koju vrši administrator.  
+> Omogućiti registriranim donorima odabir lokacije i rezervaciju termina darivanja krvi.  
+> Prikaz aktivnih lokacija darivanja krvi na karti.  
+> Vođenje evidencije darivanja krvi.  
+> Povijest darivanja krvi je dostupna korisnicima.  
+> Kada su količine krvi male, sustav šalje oglas svim korisnicima za potrebnu lokaciju.  
+> Darivatelj potvrđuje dolazak na darivanje krvi.  
+> Ako nakon postavljenog vremena nema odaziva za donore na određenoj lokaciji, šalju se oglasi za druge lokacije darivanja.  
 
 
 # Nefunkcijski zahtjevi
-> Osigurani i zaštićeni su podaci o korisniku.
->	Osigurani i zaštićeni su podaci o administratoru.
->	Osobni podaci korisnika moraju biti po pravilima primarne zdravstvene zaštite RH.
->	Dodjeljivanje priznanja sukladno Pravilniku o priznanjima Hrvatskog Crvenog križa.
+> Osigurani i zaštićeni su podaci o korisniku.  
+>	Osigurani i zaštićeni su podaci o administratoru.  
+>	Osobni podaci korisnika moraju biti po pravilima primarne zdravstvene zaštite RH.  
+>	Dodjeljivanje priznanja sukladno Pravilniku o priznanjima Hrvatskog Crvenog križa.  
 
 
 # Tehnologije
@@ -38,13 +38,13 @@ Ako nakon postavljenog vremena nema odaziva za donore na određenoj lokaciji, š
 #Instalacija
 
 # Članovi tima 
-> Gabriel Višek gabriel.visek@fer.hr - Voditelj
-> Fran Canjuga fran.canjuga@fer.hr
-> Teo Putarek teo.putarek@fer.hr
-> Oliver Ozvačić oliver.ozvacic@fer.hr
-> Toni Grgurević toni.grgurevic@fer.hr
-> Baraa Yassin baraa.yassin@fer.hr
-> Petar Zlomislić petar.zlomislic@fer.hr
+> Gabriel Višek gabriel.visek@fer.hr - Voditelj  
+> Fran Canjuga fran.canjuga@fer.hr  
+> Teo Putarek teo.putarek@fer.hr  
+> Oliver Ozvačić oliver.ozvacic@fer.hr  
+> Toni Grgurević toni.grgurevic@fer.hr  
+> Baraa Yassin baraa.yassin@fer.hr  
+> Petar Zlomislić petar.zlomislic@fer.hr  
 
 # Kontribucije
 >Pravila ovise o organizaciji tima i su često izdvojena u CONTRIBUTING.md

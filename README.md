@@ -15,15 +15,15 @@ Cilj našeg projekta jest olakšati i ubrzati broj donacija te povećati broj do
 
 
 # Funkcijski zahtjevi
-Registracija i prijava potencijalnih donora krvi.__
-Verifikacija registracija donora koju vrši administrator.
-Omogućiti registriranim donorima odabir lokacije i rezervaciju termina darivanja krvi.
-Prikaz aktivnih lokacija darivanja krvi na karti.
-Vođenje evidencije darivanja krvi.
-Povijest darivanja krvi je dostupna korisnicima.
-Kada su količine krvi male, sustav šalje oglas svim korisnicima za potrebnu lokaciju.
-Darivatelj potvrđuje dolazak na darivanje krvi.
-Ako nakon postavljenog vremena nema odaziva za donore na određenoj lokaciji, šalju se oglasi za druge lokacije darivanja.
+Registracija i prijava potencijalnih donora krvi.  
+Verifikacija registracija donora koju vrši administrator.  
+Omogućiti registriranim donorima odabir lokacije i rezervaciju termina darivanja krvi.  
+Prikaz aktivnih lokacija darivanja krvi na karti.  
+Vođenje evidencije darivanja krvi.  
+Povijest darivanja krvi je dostupna korisnicima.  
+Kada su količine krvi male, sustav šalje oglas svim korisnicima za potrebnu lokaciju.  
+Darivatelj potvrđuje dolazak na darivanje krvi.  
+Ako nakon postavljenog vremena nema odaziva za donore na određenoj lokaciji, šalju se oglasi za druge lokacije darivanja.  
 
 
 # Nefunkcijski zahtjevi

@@ -34,7 +34,6 @@ Cilj našeg projekta jest olakšati i ubrzati broj donacija te povećati broj do
 
 
 # Tehnologije
-
 >SpringBoot Framework
 >React
 >PostgreSQL

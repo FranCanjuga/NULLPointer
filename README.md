@@ -35,7 +35,10 @@ Cilj našeg projekta jest olakšati i ubrzati broj donacija te povećati broj do
 
 # Tehnologije
 
-#Instalacija
+>SpringBoot Framework
+>React
+>PostgreSQL
+>Docker
 
 # Članovi tima 
 > Gabriel Višek gabriel.visek@fer.hr - Voditelj  

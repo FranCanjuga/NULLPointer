@@ -1,5 +1,6 @@
 package com.fer.progi.BloodDonation.security.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -23,11 +24,13 @@ public class HomeController {
     }
 
     @GetMapping("/secured")
+    @PreAuthorize("isAuthenticated()")
     public String secured(@AuthenticationPrincipal OidcUser user){
         return String.format("Welcome %s", user);
     }
 
     @GetMapping("/admin")
+    @PreAuthorize("hasRole('admin')")
     public String admin(@AuthenticationPrincipal OidcUser user){
         return String.format("Welcome %s", user);
     }

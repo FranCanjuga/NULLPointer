@@ -1,10 +1,12 @@
 package com.fer.progi.BloodDonation.security.services;
 
+import com.fer.progi.BloodDonation.repositorys.DonorRepository;
 import com.fer.progi.BloodDonation.security.models.AppUser;
 import com.fer.progi.BloodDonation.security.models.DTO.LoginResponseDTO;
 import com.fer.progi.BloodDonation.security.models.Role;
 import com.fer.progi.BloodDonation.security.repository.AppUserRepository;
 import com.fer.progi.BloodDonation.security.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,9 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
 
     private TokenService tokenService;
+
+    @Autowired
+    private DonorRepository donorRepository;
 
     public AuthenticationService(AppUserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, TokenService tokenService) {
         this.userRepository = userRepository;

@@ -1,6 +1,10 @@
 package com.fer.progi.BloodDonation.funcionality.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -38,6 +42,8 @@ public class AppUser implements UserDetails {
     )
     private Set<Role> authorities;
 
+    public AppUser() {
+    }
     public AppUser(AppUser user){
         this.username = user.getUsername();
         this.firstName = user.getFirstName();

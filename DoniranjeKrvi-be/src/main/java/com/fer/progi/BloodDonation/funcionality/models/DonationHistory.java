@@ -1,12 +1,20 @@
 package com.fer.progi.BloodDonation.funcionality.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class DonationHistory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -30,33 +38,7 @@ public class DonationHistory {
         this(donor, appointment, false);
     }
 
-    public void setDonor(Donor donor) {
-        this.donor = donor;
-    }
 
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
-    }
-
-    public void setExecuted(boolean executed) {
-        this.executed = executed;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Donor getDonor() {
-        return donor;
-    }
-
-    public Appointment getAppointment() {
-        return appointment;
-    }
-
-    public boolean isExecuted() {
-        return executed;
-    }
 }
 
 

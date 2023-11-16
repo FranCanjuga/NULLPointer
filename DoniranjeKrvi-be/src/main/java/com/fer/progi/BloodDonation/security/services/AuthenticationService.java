@@ -54,7 +54,9 @@ public class AuthenticationService {
         Set<Role> authorities = Set.of(userRole);
 
         var user = userRepository.save(new AppUser(username, firstName, lastName, phoneNumber, encodedPassword, authorities));
-        donorRepository.save(new Donor(username, dateOfBirth, gender, bloodType, city, address));
+       Donor donor =  new Donor(username, dateOfBirth, gender, bloodType, city, address);
+        donor.setAppUser(user);
+        donorRepository.save(donor);
         return user;
 
     }

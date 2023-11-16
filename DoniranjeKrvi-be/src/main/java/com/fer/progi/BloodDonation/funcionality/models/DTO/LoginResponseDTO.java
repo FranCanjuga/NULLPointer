@@ -4,7 +4,7 @@ import com.fer.progi.BloodDonation.funcionality.models.AppUser;
 
 public class LoginResponseDTO {
 
-    private AppUser user;
+    private String username;
     private String jwt;
 
     public LoginResponseDTO(){
@@ -12,20 +12,20 @@ public class LoginResponseDTO {
     }
 
     public LoginResponseDTO(AppUser user, String jwt) {
-        this.user = user;
+        this.username = user.getUsername();
         this.jwt = jwt;
     }
 
-    public AppUser getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
     public String getJwt() {
         return jwt;
     }
 
-    public void setUser(AppUser user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setJwt(String jwt) {

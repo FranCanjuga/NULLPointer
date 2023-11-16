@@ -3,11 +3,17 @@ package com.fer.progi.BloodDonation.funcionality.models;
 
 import jakarta.persistence.*;
 
+import lombok.*;
+
 @Entity(name = "donationLocation")
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Location {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long locationID;
 
     private String locationName;
@@ -40,51 +46,5 @@ public class Location {
         this(null, town, street,null,true);
     }
 
-    public void setLocationID(Long locationID) {
-        this.locationID = locationID;
-    }
 
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-
-    public void setTown(String town) {
-        this.town = town;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Long getLocationID() {
-        return locationID;
-    }
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    public String getTown() {
-        return town;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
 }

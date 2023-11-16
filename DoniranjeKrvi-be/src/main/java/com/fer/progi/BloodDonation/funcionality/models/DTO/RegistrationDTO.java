@@ -38,6 +38,10 @@ public class RegistrationDTO {
         this.gender = gender;
     }
 
+    public RegistrationDTO() {
+        // Default constructor needed for serialization/deserialization
+    }
+
 
 
     public RegistrationDTO(String username, String password) {

@@ -23,8 +23,9 @@ public class AuthenticationController {
     public LoginResponseDTO LoginResponseDTO(@RequestBody RegistrationDTO body){
         AppUser user =  authenticationService.registerUser(body.getUsername(), body.getPassword(), body.getFirstName(),
                 body.getLastName(), body.getPhoneNumber(), body.getDateOfBirth(), body.getCity(),
-                body.getAddress(), body.getBloodType() , body.getGender());
-        return authenticationService.loginUser(user.getUsername(), user.getPassword());
+                  body.getAddress(), body.getBloodType() , body.getGender());
+
+        return authenticationService.loginUser(body.getUsername(), body.getPassword());
 
     }
 

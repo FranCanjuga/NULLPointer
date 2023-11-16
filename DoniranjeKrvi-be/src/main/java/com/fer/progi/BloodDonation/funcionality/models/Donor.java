@@ -2,16 +2,24 @@ package com.fer.progi.BloodDonation.funcionality.models;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "donor")
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Donor   {
 
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long donorID;
 
         @Column(unique = true)
@@ -53,75 +61,6 @@ public class Donor   {
                this(username, dateOfBirth, gender, bloodType, town, street, false);
         }
 
-        public AppUser getAppUser() {
-                return appUser;
-        }
-
-        public Set<DonationHistory> getDonationHistory() {
-                return donationHistory;
-        }
-
-        public void setUsername(String username) {
-                this.username = username;
-        }
-
-        public void setDateOfBirth(Date dateOfBirth) {
-                this.dateOfBirth = dateOfBirth;
-        }
-
-        public void setGender(String gender) {
-                this.gender = gender;
-        }
-
-        public void setBloodType(String bloodType) {
-                this.bloodType = bloodType;
-        }
-
-        public void setTown(String town) {
-                this.town = town;
-        }
-
-        public void setStreet(String address) {
-                this.street = address;
-        }
-
-        public void setVerified(boolean verified) {
-                this.verified = verified;
-        }
-
-
-
-        public Long getDonorID() {
-                return donorID;
-        }
-
-        public String getUsername() {
-                return username;
-        }
-
-        public Date getDateOfBirth() {
-                return dateOfBirth;
-        }
-
-        public String getGender() {
-                return gender;
-        }
-
-        public String getBloodType() {
-                return bloodType;
-        }
-
-        public String getTown() {
-                return town;
-        }
-
-        public String getStreet() {
-                return street;
-        }
-
-        public boolean isVerified() {
-                return verified;
-        }
 
 
 }

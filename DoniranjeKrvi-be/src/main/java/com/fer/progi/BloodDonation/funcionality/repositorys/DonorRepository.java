@@ -9,4 +9,5 @@ public interface DonorRepository  extends JpaRepository<Donor, Long> {
 
     Optional<Donor> findDonorByUsername(String username);
 
+    Donor findByUsername(String username);
 }

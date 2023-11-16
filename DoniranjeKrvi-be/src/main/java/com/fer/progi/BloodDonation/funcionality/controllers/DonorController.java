@@ -21,7 +21,7 @@ public class DonorController {
         this.donorService = donorService;
     }
 
-    @GetMapping
+    @GetMapping("/donor_data")
     public ResponseEntity<DonorDTO> getDonorData(@RequestBody String username) {
 
 

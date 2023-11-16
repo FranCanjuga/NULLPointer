@@ -4,6 +4,7 @@ import com.fer.progi.BloodDonation.funcionality.models.AppUser;
 import com.fer.progi.BloodDonation.funcionality.models.Role;
 
 import java.util.List;
+import java.util.Set;
 
 public class LoginResponseDTO {
 
@@ -17,7 +18,7 @@ public class LoginResponseDTO {
     public LoginResponseDTO(AppUser user, String jwt) {
         this.username = user.getUsername();
         this.jwt = jwt;
-        this.roles= (List<Role>) user.getAuthorities();
+        roles= user.getAuthorities().stream().toList();
     }
 
     public String getUsername() {
@@ -34,5 +35,14 @@ public class LoginResponseDTO {
 
     public void setJwt(String jwt) {
         this.jwt = jwt;
+    }
+
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

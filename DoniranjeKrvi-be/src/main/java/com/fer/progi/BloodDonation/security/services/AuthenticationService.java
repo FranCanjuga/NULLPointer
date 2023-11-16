@@ -70,6 +70,10 @@ public class AuthenticationService {
 
             String token = tokenService.generateJwt(auth);
 
+            if(userRepository.findAppUserByUsername(username).isEmpty())
+                throw new AuthenticationException("User not found") {
+                };
+
             return new LoginResponseDTO(userRepository.findAppUserByUsername(username).get(), token);
 
         }catch (AuthenticationException e){

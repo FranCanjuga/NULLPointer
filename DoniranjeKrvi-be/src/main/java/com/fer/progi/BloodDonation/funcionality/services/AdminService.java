@@ -33,20 +33,24 @@ public class AdminService {
         return donorRepository.findByUsername(username);
     }
 
-    public void approveDonor(String username) {
+    public boolean approveDonor(String username) {
         Donor donor = donorRepository.findByUsername(username);
         if (donor != null) {
             // Approve the donor, for example, set verified to true
             donor.setVerified(true);
             donorRepository.save(donor);
+            return true;
         }
+        return false;
     }
 
-    public void rejectDonor(String username) {
+    public boolean rejectDonor(String username) {
         Donor donor = donorRepository.findByUsername(username);
         if (donor != null) {
             // Reject the donor, for example, remove the donor from the database
             donorRepository.delete(donor);
+            return true;
         }
+        return false;
     }
 }

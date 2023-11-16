@@ -1,6 +1,7 @@
 package com.fer.progi.BloodDonation.security.controller;
 
 import com.fer.progi.BloodDonation.funcionality.models.AppUser;
+import com.fer.progi.BloodDonation.funcionality.models.DTO.LoginDTO;
 import com.fer.progi.BloodDonation.funcionality.models.DTO.LoginResponseDTO;
 import com.fer.progi.BloodDonation.funcionality.models.DTO.RegistrationDTO;
 import com.fer.progi.BloodDonation.security.services.AuthenticationService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     private AuthenticationService authenticationService;
+
 
     public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
@@ -30,7 +32,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public LoginResponseDTO loginUser(@RequestBody RegistrationDTO body){
+    public LoginResponseDTO loginUser(@RequestBody LoginDTO body){
         return authenticationService.loginUser(body.getUsername(), body.getPassword());
     }
 }

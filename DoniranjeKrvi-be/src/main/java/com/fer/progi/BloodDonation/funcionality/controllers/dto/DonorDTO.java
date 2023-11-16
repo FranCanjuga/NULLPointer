@@ -1,4 +1,4 @@
-package com.fer.progi.BloodDonation.controllers.dto;
+package com.fer.progi.BloodDonation.funcionality.controllers.dto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;

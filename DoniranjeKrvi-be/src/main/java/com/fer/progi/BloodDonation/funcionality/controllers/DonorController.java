@@ -1,8 +1,8 @@
-package com.fer.progi.BloodDonation.controllers;
+package com.fer.progi.BloodDonation.funcionality.controllers;
 
 
-import com.fer.progi.BloodDonation.controllers.dto.DonorDTO;
-import com.fer.progi.BloodDonation.services.DonorService;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.services.DonorService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

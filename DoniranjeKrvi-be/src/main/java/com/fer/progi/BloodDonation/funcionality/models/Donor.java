@@ -1,14 +1,14 @@
-package com.fer.progi.BloodDonation.models;
+package com.fer.progi.BloodDonation.funcionality.models;
 
 
-import com.fer.progi.BloodDonation.security.models.AppUser;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "donor")
-public class Donor {
+public class Donor   {
 
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,13 +29,16 @@ public class Donor {
 
         private boolean verified;
 
+        @OneToOne
+        @JoinColumn(name = "user_username")
+        private AppUser appUser;
+
         @OneToMany(mappedBy = "donor")
         private Set<DonationHistory> donationHistory;
 
-        @OneToOne(mappedBy = "donor", cascade = CascadeType.ALL)
-        private AppUser appUser;
 
-        public Donor(String username, Date dateOfBirth, String gender, String bloodType, String town, String street, boolean verified, Set<DonationHistory> donationHistory) {
+
+        public Donor( String username, Date dateOfBirth, String gender, String bloodType, String town, String street, boolean verified) {
                 this.username = username;
                 this.dateOfBirth = dateOfBirth;
                 this.gender = gender;
@@ -43,11 +46,15 @@ public class Donor {
                 this.town = town;
                 this.street = street;
                 this.verified = verified;
-                this.donationHistory = donationHistory;
+                donationHistory = new HashSet<>();
         }
 
-        public Donor(String username, Date dateOfBirth, String gender, String bloodType, String town, String street, Set<DonationHistory> donationHistory) {
-               this(username, dateOfBirth, gender, bloodType, town, street, false, donationHistory);
+        public Donor(String username, Date dateOfBirth, String gender, String bloodType, String town, String street) {
+               this(username, dateOfBirth, gender, bloodType, town, street, false);
+        }
+
+        public AppUser getAppUser() {
+                return appUser;
         }
 
         public Set<DonationHistory> getDonationHistory() {
@@ -82,9 +89,7 @@ public class Donor {
                 this.verified = verified;
         }
 
-        public void setAppUser(AppUser appUser) {
-                this.appUser = appUser;
-        }
+
 
         public Long getDonorID() {
                 return donorID;
@@ -118,7 +123,5 @@ public class Donor {
                 return verified;
         }
 
-        public AppUser getAppUser() {
-                return appUser;
-        }
+
 }

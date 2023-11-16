@@ -1,9 +1,9 @@
-package com.fer.progi.BloodDonation.services;
+package com.fer.progi.BloodDonation.funcionality.services;
 
 
-import com.fer.progi.BloodDonation.controllers.dto.DonorDTO;
-import com.fer.progi.BloodDonation.repositorys.DonorRepository;
-import com.fer.progi.BloodDonation.models.Donor;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
+import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +27,7 @@ public class DonorService {
             return null;
         }
         Donor donor = opt.get();
-        return  new DonorDTO(donor.getUsername() , donor.getDateOfBirth(), donor.getGender(), donor.getBloodType(), donor.getTown(), donor.getAddress(), donor.isVerified(),
+        return  new DonorDTO(donor.getUsername() , donor.getDateOfBirth(), donor.getGender(), donor.getBloodType(), donor.getTown(), donor.getStreet(), donor.isVerified(),
                 donor.getAppUser().getFirstName(), donor.getAppUser().getLastName(), donor.getAppUser().getPhoneNumber());
     }
 }

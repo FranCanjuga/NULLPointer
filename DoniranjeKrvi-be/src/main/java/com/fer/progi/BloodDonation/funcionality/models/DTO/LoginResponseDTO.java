@@ -1,6 +1,6 @@
-package com.fer.progi.BloodDonation.security.models.DTO;
+package com.fer.progi.BloodDonation.funcionality.models.DTO;
 
-import com.fer.progi.BloodDonation.security.models.AppUser;
+import com.fer.progi.BloodDonation.funcionality.models.AppUser;
 
 public class LoginResponseDTO {
 

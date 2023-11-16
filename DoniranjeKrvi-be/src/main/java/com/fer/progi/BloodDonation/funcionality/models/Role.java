@@ -1,4 +1,4 @@
-package com.fer.progi.BloodDonation.security.models;
+package com.fer.progi.BloodDonation.funcionality.models;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;

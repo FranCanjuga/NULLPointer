@@ -1,4 +1,4 @@
-package com.fer.progi.BloodDonation.security.models;
+package com.fer.progi.BloodDonation.funcionality.models;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,11 +12,10 @@ import java.util.Set;
 @Table(name = "users")
 public class AppUser implements UserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
-    private Integer userId;
 
+
+
+    @Id
     @Column(unique = true)
     private String username;
 
@@ -28,36 +27,45 @@ public class AppUser implements UserDetails {
     private String password;
 
 
+
+
     @Column(unique = true)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role_junction",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+            joinColumns = {@JoinColumn(name = "username")},
+            inverseJoinColumns = {@JoinColumn(name = "roleId")}
     )
     private Set<Role> authorities;
 
-    public AppUser(){
-        super();
-        this.authorities = new HashSet<>();
+    public AppUser(AppUser user){
+        this.username = user.getUsername();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.phoneNumber = user.phoneNumber;
+        this.password = user.getPassword();
+        this.authorities = (Set<Role>) user.getAuthorities();
+
     }
 
-    public AppUser(Integer userId, String username, String password, Set<Role> authorities) {
+    public AppUser( String username, String password, Set<Role> authorities) {
         super();
-        this.userId = userId;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public AppUser(String username, String firstName, String lastName, String phoneNumber, String password, Set<Role> authorities) {
+        super();
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.authorities = authorities;
     }
 
-    public void setUserId(Integer userId) {
 
-        this.userId = userId;
-    }
 
     public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;

@@ -1,4 +1,4 @@
-package com.fer.progi.BloodDonation.models;
+package com.fer.progi.BloodDonation.funcionality.models;
 
 
 import jakarta.persistence.*;

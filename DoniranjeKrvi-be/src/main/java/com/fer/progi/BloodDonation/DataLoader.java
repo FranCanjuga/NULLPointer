@@ -20,6 +20,8 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         addRolesIfNotExist("admin");
+        addRolesIfNotExist("institution");
+        addRolesIfNotExist("cross");
         addRolesIfNotExist("user");
     }
 

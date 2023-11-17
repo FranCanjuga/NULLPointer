@@ -8,7 +8,7 @@ const Header = () => {
             <img id="logo2" src="/images/bell.jpg"></img>
             {
             (localStorage.token) ?
-            <a>
+            <a href="./user">
                 <img id="logo3" src="/images/user_icon.png"></img>
             </a>
             : 

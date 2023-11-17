@@ -1,22 +1,29 @@
-package com.fer.progi.BloodDonation.security.models;
+package com.fer.progi.BloodDonation.funcionality.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name="roles")
+@Setter
+@Getter
+@AllArgsConstructor
 public class Role implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "roleId")
     private Integer roleId;
 
     private String authority;
 
-    public Role(){
-        super();
+    public Role() {
     }
+
 
     public Role(String authority) {
         this.authority = authority;

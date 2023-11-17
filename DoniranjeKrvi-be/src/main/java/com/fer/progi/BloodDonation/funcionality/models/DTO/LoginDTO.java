@@ -1,12 +1,16 @@
-package com.fer.progi.BloodDonation.security.models.DTO;
+package com.fer.progi.BloodDonation.funcionality.models.DTO;
 
-public class RegistrationDTO {
+public class LoginDTO {
     private String username;
     private String password;
 
-    public RegistrationDTO(String username, String password) {
+    public LoginDTO(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public LoginDTO() {
+        // Default constructor needed for serialization/deserialization
     }
 
     public String getUsername() {
@@ -23,13 +27,5 @@ public class RegistrationDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "Registration info{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }

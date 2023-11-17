@@ -1,6 +1,6 @@
 package com.fer.progi.BloodDonation.security.repository;
 
-import com.fer.progi.BloodDonation.security.models.AppUser;
+import com.fer.progi.BloodDonation.funcionality.models.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

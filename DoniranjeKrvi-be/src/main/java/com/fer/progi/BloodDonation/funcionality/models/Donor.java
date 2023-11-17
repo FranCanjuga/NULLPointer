@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Donor   {
+public class Donor {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +41,33 @@ public class Donor   {
         @JoinColumn(name = "user_username")
         private AppUser appUser;
 
-        @OneToMany(mappedBy = "donor")
-        private Set<DonationHistory> donationHistory;
+
+        @Column(unique = true)
+        @ManyToMany(fetch = FetchType.EAGER)
+        @JoinTable(
+                name = "DonoroPriznanje",
+                joinColumns = {@JoinColumn(name = "donorId")},
+                inverseJoinColumns = {@JoinColumn(name = "priznanjeId")},
+                uniqueConstraints = @UniqueConstraint(columnNames = {"donorId", "priznanjeId"})
+        )
+        private Set<Priznanje> priznanja;
+
+
+
+        @OneToMany(mappedBy = "donor", cascade = CascadeType.ALL, orphanRemoval = true)
+        private Set<DonationHistory> donationHistory = new HashSet<>();
+
+
+
+        @Column(unique = true)
+        @ManyToMany(fetch = FetchType.EAGER)
+        @JoinTable(
+                name = "donor_priznanje_junction",
+                joinColumns = {@JoinColumn(name = "donorID")},
+                inverseJoinColumns = {@JoinColumn(name = "priznanjeId")}
+        )
+        private Set<Priznanje> recognitions;
+
 
 
 

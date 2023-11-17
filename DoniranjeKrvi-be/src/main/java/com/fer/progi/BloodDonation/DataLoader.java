@@ -46,6 +46,18 @@ public class DataLoader implements CommandLineRunner {
         userRepository.save(new AppUser("admin@gmail.com", "admin", null, null, encodedPassword, authorities));
 
 
+         encodedPassword = passwordEncoder.encode("cross");
+         userRole = roleRepository.findByAuthority("cross").get();
+         authorities = Set.of(userRole);
+
+        userRepository.save(new AppUser("cross@gmail.com", "cross", null, null, encodedPassword, authorities));
+
+        encodedPassword = passwordEncoder.encode("institution");
+        userRole = roleRepository.findByAuthority("institution").get();
+        authorities = Set.of(userRole);
+
+        userRepository.save(new AppUser("institution@gmail.com", "institution", null, null, encodedPassword, authorities));
+
 
 
     }

@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "donationAppointment")
+@Entity(name = "appointment")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -26,8 +27,14 @@ import java.util.Set;
         @JoinColumn(name = "locationID")
         private Location location;
 
-    @OneToMany(mappedBy = "appointment")
-    private Set<DonationHistory> donors;
+    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<DonationHistory> donationHistory = new HashSet<>();
+
+    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AkcijaKrv> bloodTypes = new HashSet<>();
+
+
+    private boolean criticalAction;
 
     private LocalDateTime dateAndTime;
 

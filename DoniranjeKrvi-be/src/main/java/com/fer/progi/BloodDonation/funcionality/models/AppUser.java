@@ -36,9 +36,10 @@ public class AppUser implements UserDetails {
     @Column(unique = true)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_role_junction",
+            name = "userRole",
             joinColumns = {@JoinColumn(name = "username")},
-            inverseJoinColumns = {@JoinColumn(name = "roleId")}
+            inverseJoinColumns = {@JoinColumn(name = "roleId")},
+            uniqueConstraints = @UniqueConstraint(columnNames = {"username", "roleId"})
     )
     private Set<Role> authorities;
 

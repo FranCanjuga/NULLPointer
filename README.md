@@ -32,6 +32,7 @@ Cilj našeg projekta jest olakšati i ubrzati broj donacija te povećati broj do
 >	Dodjeljivanje priznanja sukladno Pravilniku o priznanjima Hrvatskog Crvenog križa.  
 
 # Tehnologije
+SpringBoot Framework React PostgreSQL Docker
 
 #Instalcija
 

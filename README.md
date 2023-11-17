@@ -34,8 +34,6 @@ Cilj našeg projekta jest olakšati i ubrzati broj donacija te povećati broj do
 # Tehnologije
 SpringBoot Framework React PostgreSQL Docker
 
-#Instalcija
-
 # Članovi tima 
 > Gabriel Višek gabriel.visek@fer.hr - Voditelj  
 > Fran Canjuga fran.canjuga@fer.hr  

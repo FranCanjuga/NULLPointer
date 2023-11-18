@@ -1,6 +1,8 @@
 import React, {useState} from "react"
 import axios from "axios"
 
+const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
+
 const SignIn = () => {
 
     const[username,setUsername] = useState('')
@@ -10,7 +12,7 @@ const SignIn = () => {
         const korisnik = { username, password};
         console.log(korisnik);
     
-        axios.post("http://localhost:8080/auth/login", korisnik,
+        axios.post(`${baseURL}/auth/login`, korisnik,
             {headers: {
                 'Content-Type': 'application/json'
             }}

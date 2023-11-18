@@ -18,7 +18,7 @@ const Register = () => {
         const korisnik = { username, password, firstName, lastName, phoneNumber, dateOfBirth, city, address, bloodType };
         console.log(korisnik);
     
-        axios.post("http://localhost:8080/auth/register", korisnik,
+        axios.post("https://doniranjekrvi.agreeabledune-5b53f232.westeurope.azurecontainerapps.io/auth/register", korisnik,
             {headers: {
                 'Content-Type': 'application/json'
             }}

@@ -10,7 +10,7 @@ const SignIn = () => {
         const korisnik = { username, password};
         console.log(korisnik);
     
-        axios.post("http://localhost:8080/auth/login", korisnik,
+        axios.post("https://doniranjekrvi.agreeabledune-5b53f232.westeurope.azurecontainerapps.io/auth/login", korisnik,
             {headers: {
                 'Content-Type': 'application/json'
             }}

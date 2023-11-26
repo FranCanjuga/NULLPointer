@@ -12,5 +12,8 @@ RUN mvn clean package
 FROM openjdk:17-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar /app/app.jar
+
+COPY doniranje_krvi_front /app/
+
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","app.jar"]

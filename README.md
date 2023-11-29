@@ -31,8 +31,7 @@ Cilj našeg projekta jest olakšati i ubrzati broj donacija te povećati broj do
 > Osigurani i zaštićeni su podaci o korisniku.  
 >	Osigurani i zaštićeni su podaci o administratoru.  
 >	Osobni podaci korisnika moraju biti po pravilima primarne zdravstvene zaštite RH.  
->	Dodjeljivanje priznanja sukladno Pravilniku o priznanjima Hrvatskog Crvenog križa.  
-
+>	Dodjeljivanje priznanja sukladno Pravilniku o priznanjima Hrvatskog Crvenog križa. 
 
 # Tehnologije
 >SpringBoot Framework

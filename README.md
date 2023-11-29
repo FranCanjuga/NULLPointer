@@ -15,7 +15,6 @@ Ovaj projekt je rezultat timskog rada u sklopu projeknog zadatka kolegija [Progr
 Cilj našeg projekta jest olakšati i ubrzati broj donacija te povećati broj donora. Također želimo omogućiti bolnicama poziv na donacije krvi ukoliko su razine krvi male. Tako bismo doniranje krvi približili ljudima koji bi zakazali doniranje iz komforta svojeg doma. Najvažnija svrha ovog projekta jest omogućiti dovoljno krvi onima kojima je to najhitnije.
 > Željeli bismo naučiti kako raditi u timu, kako napraviti web aplikaciju, nauciti izradu backend-a, frontend-a i baze podataka te iskoristiti znanje iz prijašnjih kolegija na ovom projektu.
 
-
 # Funkcijski zahtjevi
 > Registracija i prijava potencijalnih donora krvi.  
 > Verifikacija registracija donora koju vrši administrator.  

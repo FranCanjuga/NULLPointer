@@ -1,9 +1,11 @@
+# Url na aplikaciju
+> https://blood-donations-fe2.onrender.com/
 # Programsko inženjerstvo
 
 > Ime projekta u naslovu ima cilj opisati namjenu projekta te pomoći u podizanju početnog interesa za projekt prezentirajući osnovnu svrhu projekta.
 > Isključivo ovisi o Vama!
 > 
-> Naravno, nijedan predložak nije idealan za sve projekte jer su potrebe i ciljevi različiti. Ne bojte se naglasiti Vaš cilj u ovoj početnoj stranici projekta, podržat ćemo ga bez obzira usredotočili se Vi više na tenologiju ili marketing.
+> Naravno, nijedan predložak nije idealan za sve projekte jer su potrebe i ciljevi različiti. Ne bojte se naglasiti Vaš cilj u ovoj početnoj stranici projekta, podržat ćemo ga bez obzira usredotočili se Vi više na tehnologiju ili marketing.
 > 
 > Zašto ovaj dokument? Samo manji dio timova je do sada propoznao potrebu (a i meni je lakše pratiti Vaš rad).  
 
@@ -33,7 +35,10 @@ Cilj našeg projekta jest olakšati i ubrzati broj donacija te povećati broj do
 
 
 # Tehnologije
-SpringBoot Framework React PostgreSQL Docker
+>SpringBoot Framework
+>React
+>PostgreSQL
+>Docker
 
 # Članovi tima 
 > Gabriel Višek gabriel.visek@fer.hr - Voditelj  

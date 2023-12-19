@@ -30,6 +30,7 @@ const Register = () => {
             localStorage.setItem("token", token);
             if (token && token!==undefined) {
                 axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+                console.log(token)
             }
             else
                 delete axios.defaults.headers.common["Authorization"];

@@ -57,12 +57,26 @@ body {
   border-bottom: 5px solid red;
 }
 
-#logo, #logo2,#logo3 {
+#logo, #logo2 {
   width: 100px;
   height: 100px;
   background-color: white; 
   border: 2px solid gray; 
   margin: 5px; 
+}
+
+#logo3{
+  width: 100px;
+  height: 95px;
+  background-color: white; 
+  border: 2px solid gray; 
+  margin: 5px; 
+}
+
+.gumbi{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .naslov{
@@ -82,6 +96,16 @@ body {
   height: 100px;
   text-align: center;
   font-weight: bold;
+}
+
+.odjava_button{
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  font-weight: bold;
+  background-color: white; 
+  border: 2px solid gray; 
+  margin: 5px; 
 }
 
 .signin-form {

@@ -9,10 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/user")
-@PreAuthorize("hasRole('USER')")
 public class DonorController {
     @Autowired
     private final DonorService donorService;

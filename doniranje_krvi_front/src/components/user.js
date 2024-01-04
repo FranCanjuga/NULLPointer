@@ -8,34 +8,38 @@ const User = () => {
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
   const roles = decodedToken.roles;
+  console.log(roles)
 
   const [userData, setUserData] = useState(null);
+  const [donorData, setDonorData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (roles.includes("admin")) {
-          const response = await axios.get(`${baseURL}/admin/unregistered`,{
-            headers: {
-                Authorization: `Bearer ${token}`,
-              },
-          });
+    if(roles.includes("admin")){
+      fetch(`${baseURL}/admin/unregister`, {
+        method : "GET",
+        headers: {
+          "Authorization" : `Bearer ${token}`
+        }
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(response.error)
+        }
+        setDonorData(response.data);
+    })}
+
+    else{
+      axios.get(`${baseURL}/user/profile`,{
+        headers: {
+          "Authorization" : `Bearer ${token}`
+        }
+      }).then((response) => {
           setUserData(response.data);
-        } else {
-            const response = await axios.get(`${baseURL}/user/profile`, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-            });
-            setUserData(response.data);
-          }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-  
-    fetchData();
-  }, [token, roles]);
+        }).catch((error) => {
+          console.error('Error fetching user profile:', error);
+        })}
+
+  });
 
   const approveUser = (username) => {
     axios.post(`${baseURL}/admin/approveDonor`, { username })
@@ -59,28 +63,12 @@ const User = () => {
 
   return (
     <div>
-      <h1>Pozdrav {decodedToken.username}</h1>
-
       {roles.includes("admin") ? (
         <div>
-            <h2>Vaši podaci</h2>
-            <p>Korisničko ime: {decodedToken.username}</p>
+            <h1>Pozdrav admin</h1>
             <h1>Svi neverificirani korisnici</h1>
             <ul>
-                {userData.map((user) => (
-                <li key={user.username}>
-                    <p>Korisničko ime: {user.username}</p>
-                    <p>Ime: {user.firstName}</p>
-                    <p>Prezime: {user.lastName}</p>
-                    <p>Broj mobitela: {user.phoneNumber}</p>
-                    <p>Datum rođenja: {user.dateOfBirth}</p>
-                    <p>Mjesto: {user.city}</p>
-                    <p>Adresa: {user.address}</p>
-                    <p>Krvna grupa: {user.bloodType}</p>
-                    <button onClick={() => approveUser(user.username)}>Potvrdi</button>
-                    <button onClick={() => rejectUser(user.username)}>Reject</button>
-                </li>
-                ))}
+                
             </ul>
         
         </div>

@@ -120,8 +120,11 @@ const Register = () => {
                     <div className="reg-input-box">
                         <label htmlFor="krv"><b>Krvna grupa</b></label>
                         <select className="bloodType" required value={bloodType} onChange={(e)=>setBloodType(e.target.value)}>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
+                            <option value="default"></option>
+                            <option value="A">A+</option>
+                            <option value="A">A-</option>
+                            <option value="B">B+</option>
+                            <option value="B">B-</option>
                             <option value="AB">AB</option>
                             <option value="0">0</option>
                             </select>

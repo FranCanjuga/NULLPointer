@@ -1,0 +1,65 @@
+/*    -> ovo niš ne radi
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}*/   
+
+#header_h {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: gray; 
+    padding: 20px; 
+    border-bottom: 5px solid red;
+}
+
+#logo, #logo2 {
+    width: 100px;
+    height: 100px;
+    background-color: white; 
+    border: 2px solid gray; 
+    margin: 5px; 
+}
+  
+#logo3 {
+    width: 100px;
+    height: 95px;
+    background-color: white; 
+    border: 2px solid gray; 
+    margin: 5px; 
+}
+
+.gumbi {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.naslov {
+    background-color: white; 
+    border: 5px solid gray; 
+    margin: 5px; 
+}
+
+.login_button {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-weight: bold;
+}
+  
+.odjava_button {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-weight: bold;
+    background-color: white; 
+    border: 2px solid gray; 
+    margin: 5px; 
+}

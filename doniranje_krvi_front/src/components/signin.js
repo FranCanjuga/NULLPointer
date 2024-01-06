@@ -1,6 +1,5 @@
 import React, {useState} from "react"
 import axios from "axios"
-
 const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
 
 const SignIn = () => {
@@ -31,22 +30,37 @@ const SignIn = () => {
 
 
     return (
-        <form className="signin-form" action="" method="post">
-            <div className="container">
-                <label htmlFor="uname"><b>Username</b></label>
-                <input type="text" placeholder="Upišite username" name="uname" required value={username} onChange={(e)=>setUsername(e.target.value)}></input><br></br>
+    <body className="signin">
 
-                <label htmlFor="psw"><b>Lozinka</b></label>
-                <input type="password" placeholder="Upišite lozinku" name="psw" required value={password} onChange={(e)=>setLozinka(e.target.value)}></input><br></br>
+    <div className="wrapper">   
+        <form action="" method="post">
+            <h1>Login</h1>
+                <div className="input-box">
+                    <input type="text" placeholder="Username" name="uname"
+                    required value={username} onChange={(e)=>setUsername(e.target.value)}></input>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div className="input-box">
+                    <input type="password" placeholder="Password" name="psw" 
+                    required value={password} onChange={(e)=>setLozinka(e.target.value)}></input>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
 
-                <button type="submit" onClick={handleClick}>Prijava</button><br></br>
-                <label>Nemaš račun? <a href="./registracija">Registriraj se</a></label>
-            </div>
+                <div className="remember-forgot">
+                    <label><input type="checkbox"></input> Zapamti me</label>
+                    <a href="#">Zaboravljena lozinka?</a>
+                </div>
 
-            <div className="container">
-                <a href="./"><button type="button" className="cancelbtn">Vrati se</button></a>
-            </div>
+                <button type="submit" className="btn" onClick={handleClick}>
+                Prijava</button>
+                
+                <div className="register-link">
+                    <p>Nemaš račun? <a href="./registracija">Registriraj se</a></p>
+                </div>
         </form>
+        </div>
+
+    </body>
     )
 }
 

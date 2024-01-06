@@ -1,0 +1,16 @@
+.map{
+  display: flex;
+  background-color: gray;
+}
+  
+#karta{
+  border: 5px solid gray; 
+  margin: 5px; 
+}
+  
+#popis_mjesta {
+  flex: 1;
+  background-color: white; 
+  border: 5px solid gray; 
+  margin: 5px; 
+}

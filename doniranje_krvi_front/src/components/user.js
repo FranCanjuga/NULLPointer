@@ -12,26 +12,24 @@ const User = () => {
 
   const [userData, setUserData] = useState(null);
   const [donorData, setDonorData] = useState(null);
-
+ 
   useEffect(() => {
     if(roles.includes("admin")){
-      fetch(`${baseURL}/admin/unregister`, {
-        method : "GET",
-        headers: {
-          "Authorization" : `Bearer ${token}`
-        }
-    })
+      axios.get( `${baseURL}/admin/unregistered`,{
+        withCredentials: true,
+      })
     .then((response) => {
         if (!response.ok) {
             throw new Error(response.error)
         }
+        console.log(response.data)
         setDonorData(response.data);
     })}
 
     else{
       axios.get(`${baseURL}/user/profile`,{
         headers: {
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${decodedToken}`
         }
       }).then((response) => {
           setUserData(response.data);

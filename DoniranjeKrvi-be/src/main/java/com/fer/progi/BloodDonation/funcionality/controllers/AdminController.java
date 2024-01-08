@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('admin')")
-@CrossOrigin("*")
 public class AdminController {
 
     @Autowired

@@ -9,7 +9,8 @@ const User = () => {
   const decodedToken = jwtDecode(token);
   const roles = decodedToken.roles;
 
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
+  const [donorData, setDonorData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,12 +23,18 @@ const User = () => {
           });
           setUserData(response.data);
         } else {
-            const response = await axios.get(`${baseURL}/user/profile`, {
+
+          const response = await axios.get(
+            `${baseURL}/user/profile`, decodedToken.username,
+            {
                 headers: {
-                  Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
-            });
-            setUserData(response.data);
+            }
+        );
+        
+            console.log(response.data)
+            setDonorData(response.data);
           }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -37,13 +44,22 @@ const User = () => {
     fetchData();
   }, [token, roles]);
 
+
   const approveUser = (username) => {
-    axios.post(`${baseURL}/admin/approveDonor`, { username })
+
+
+    axios.post(`${baseURL}/admin/approveDonor`,{username : username},{
+      headers: {
+        Authorization: `Bearer ${token}`,
+    },
+  })
       .then(() => {
-        console.log("User approved successfully");
+        console.log(`User ${username} approved successfully`);
+        setUserData((prevUserData) => prevUserData.filter((user) => user.username !== username));
       })
       .catch((error) => {
-        console.error("Error approving user:", error);
+        
+        console.error(`Error approving user ${username}:`, error);
       });
   };
 
@@ -57,30 +73,28 @@ const User = () => {
       });
   };
 
+
   return (
     <div>
-      <h1>Pozdrav {decodedToken.username}</h1>
+      
 
       {roles.includes("admin") ? (
         <div>
-            <h2>Vaši podaci</h2>
-            <p>Korisničko ime: {decodedToken.username}</p>
+            <h1>Pozdrav admin</h1>
+            <br></br>
             <h1>Svi neverificirani korisnici</h1>
+            <br></br>
             <ul>
-                {userData.map((user) => (
-                <li key={user.username}>
-                    <p>Korisničko ime: {user.username}</p>
-                    <p>Ime: {user.firstName}</p>
-                    <p>Prezime: {user.lastName}</p>
-                    <p>Broj mobitela: {user.phoneNumber}</p>
-                    <p>Datum rođenja: {user.dateOfBirth}</p>
-                    <p>Mjesto: {user.city}</p>
-                    <p>Adresa: {user.address}</p>
-                    <p>Krvna grupa: {user.bloodType}</p>
-                    <button onClick={() => approveUser(user.username)}>Potvrdi</button>
-                    <button onClick={() => rejectUser(user.username)}>Reject</button>
-                </li>
-                ))}
+            {userData.map((user) => (
+              <li key={user.donorID}>
+                <p>Username: {user.username}</p>
+                <p>Blood Type: {user.bloodType}</p>
+                <p>Donor ID: {user.donorID}</p>
+                <p>Town: {user.town}</p>
+                <button onClick={() => rejectUser(user.username)}>Reject</button>{' '}
+                <button onClick={() => approveUser(user.username)}>Approve</button>
+              </li>
+            ))}
             </ul>
         
         </div>

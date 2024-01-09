@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("*")
 @PreAuthorize("hasRole('user')")
+@CrossOrigin("*")
 public class DonorController {
     @Autowired
     private final DonorService donorService;

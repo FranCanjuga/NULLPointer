@@ -1,65 +1,106 @@
-/*    -> ovo niš ne radi
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}*/   
-
-#header_h {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: gray; 
-    padding: 20px; 
-    border-bottom: 5px solid red;
-}
-
-#logo, #logo2 {
+/* .odjava_button {
     width: 100px;
     height: 100px;
+    text-align: center;
+    font-weight: bold;
+    background-color: white; 
+    border: 2px solid gray; 
+    margin: 5px; 
+}*/
+#logo, #logo2 {
+    width: 90px;
     background-color: white; 
     border: 2px solid gray; 
     margin: 5px; 
 }
-  
-#logo3 {
-    width: 100px;
-    height: 95px;
-    background-color: white; 
-    border: 2px solid gray; 
-    margin: 5px; 
+/*-------------------------------------------------*/
+body .head {
+    background: url('/public/images/main_page_bkg.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+#logo3{
+    width: 70px;
+    margin-left: 15px;
+}
+
+.hero {
+    width: 100%;
+    min-height: 100vh;
+    padding: 0px;
+    padding: 10px 10%;
+    overflow: hidden;
+}
+
+nav {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    /*border: #222 solid; */
+    width: 100%;
+    background-color: #9ba1e2;
+    height: 100px;
+}
+
+.logo {
+    width: 65px;
+}
+
+nav ul li {
+    display: inline-block;
+    list-style: none;
+    margin: 10px 15px;
+}
+
+nav ul li a{
+    text-decoration: none;
+    color: #333;
 }
 
 .gumbi {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-  
-.naslov {
-    background-color: white; 
-    border: 5px solid gray; 
-    margin: 5px; 
+    padding: 10px;
 }
 
-.login_button {
-    width: 100px;
-    height: 100px;
-    text-align: center;
-    font-weight: bold;
+.head-btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 40px;
+    border: hidden;
+    color: #fff;
+    background: linear-gradient(220deg,#dc60ec, #9ba1e2);
+    font-size: 17px;
+    border-radius: 30px;
+    border-top-right-radius: 0;
+    font-weight: 700;
 }
-  
-.odjava_button {
-    width: 100px;
-    height: 100px;
-    text-align: center;
-    font-weight: bold;
-    background-color: white; 
-    border: 2px solid gray; 
-    margin: 5px; 
+
+.head-btn:hover {
+    cursor: pointer; /* Optional: Change cursor on hover */
+    border: 1px solid #333;
+    margin-left: -2px;
+}
+
+.head-content{
+    margin-top: 12%;
+    max-width: 600px;
+    margin-left: 3%;
+}
+
+.head-content h1 {
+    font-size: 60px;
+    color: #222;
+}
+
+.head-content p {
+    margin: 10px 0 30px;
+    color: #333;
+}
+
+.head-content .head-btn{
+    padding: 15px 80px;
+    font-size: 16px;
 }

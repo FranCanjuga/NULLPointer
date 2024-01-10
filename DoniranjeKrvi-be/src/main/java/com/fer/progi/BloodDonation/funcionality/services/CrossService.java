@@ -50,6 +50,8 @@ public class CrossService {
         appointmentModel.setLocation(location);
         appointmentModel.setCriticalAction(appointment.isCriticalAction());
         appointmentModel.setDateAndTime(dateTime);
+        crossRepository.save(appointmentModel);
+
 
 
         //Connect appointment with bloodTypes if appointment is critical
@@ -65,6 +67,7 @@ public class CrossService {
             }
 
         }
+
     }
 
     public DonorDTO[] getRegisteredForAppointment(Long appointmentId) {
@@ -97,5 +100,13 @@ public class CrossService {
                 donationHistoryRepository.save(donationHistory);
             }
 
+    }
+
+    public Appointment[] getActiveAppointments() {
+
+        return crossRepository.findAll()
+                .stream()
+                .filter(appointment -> !appointment.isFinished())
+                .toArray(Appointment[]::new);
     }
 }

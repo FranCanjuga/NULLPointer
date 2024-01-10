@@ -24,18 +24,23 @@ const User = () => {
           setUserData(response.data);
         } else {
 
+          
           const response = await axios.get(
-            `${baseURL}/user/profile`, decodedToken.username,
+            `${baseURL}/user/profile`,
             {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
+              params: {
+                user: decodedToken.sub
+              },
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              }
+            },
+          );
         
-            console.log(response.data)
-            setDonorData(response.data);
-          }
+        console.log(response.data)
+        setDonorData(response.data);
+        }
+
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -101,14 +106,14 @@ const User = () => {
       ) : (
         <div>
           <h2>Vaši podaci</h2>
-          <p>Korisničko ime: {decodedToken.username}</p>
-          <p>Ime: {decodedToken.firstName}</p>
-          <p>Prezime: {decodedToken.lastName}</p>
-          <p>Broj mobitela: {decodedToken.phoneNumber}</p>
-          <p>Datum rođenja: {decodedToken.dateOfBirth}</p>
-          <p>Mjesto: {decodedToken.city}</p>
-          <p>Adresa: {decodedToken.address}</p>
-          <p>Krvna grupa: {decodedToken.bloodType}</p>
+          <p>Korisničko ime: {donorData.username}</p>
+          <p>Ime: {donorData.firstName}</p>
+          <p>Prezime: {donorData.lastName}</p>
+          <p>Broj mobitela: {donorData.phoneNumber}</p>
+          <p>Datum rođenja: {donorData.dateOfBirth}</p>
+          <p>Mjesto: {donorData.city}</p>
+          <p>Adresa: {donorData.address}</p>
+          <p>Krvna grupa: {donorData.bloodType}</p>
         </div>
       )}
     </div>

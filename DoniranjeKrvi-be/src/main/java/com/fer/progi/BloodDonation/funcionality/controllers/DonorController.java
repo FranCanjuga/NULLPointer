@@ -24,10 +24,10 @@ public class DonorController {
 
 
     @GetMapping("/profile")
-    public ResponseEntity<DonorDTO> getDonorData(@RequestBody UserDto user) {
+    public ResponseEntity<DonorDTO> getDonorData(@RequestBody String user) {
 
 
-        DonorDTO donorData = donorService.getDonorDataByUsername(user.getUsername());
+        DonorDTO donorData = donorService.getDonorDataByUsername(user);
 
         if (donorData != null) {
             return ResponseEntity.ok(donorData);

@@ -2,6 +2,7 @@ package com.fer.progi.BloodDonation.funcionality.controllers;
 
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.UserDto;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,10 @@ public class DonorController {
 
 
     @GetMapping("/profile")
-    public ResponseEntity<DonorDTO> getDonorData(@RequestBody String username) {
+    public ResponseEntity<DonorDTO> getDonorData(@RequestBody UserDto user) {
 
 
-        DonorDTO donorData = donorService.getDonorDataByUsername(username);
+        DonorDTO donorData = donorService.getDonorDataByUsername(user.getUsername());
 
         if (donorData != null) {
             return ResponseEntity.ok(donorData);

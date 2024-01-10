@@ -2,7 +2,9 @@ package com.fer.progi.BloodDonation.funcionality.controllers;
 
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentFinishedDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.models.Appointment;
 import com.fer.progi.BloodDonation.funcionality.models.Location;
 import com.fer.progi.BloodDonation.funcionality.services.CrossService;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
@@ -25,9 +27,52 @@ public class CrossControler {
         this.crossService = crossService;
     }
 
-    @GetMapping("/addAppointment")
-    public ResponseEntity<Object> addAppointment(@RequestBody ApointmentDTO apointment) {
 
+
+    /**
+     * Returns all registered donors for given appointment.
+     * @param appointmentId id of appointment in body
+     * @return array of donors in DonorDTO format
+     */
+    @GetMapping("/RegisteredForAppointment")
+    public DonorDTO[] getRegisteredForAppointment(@RequestBody Long appointmentId ) {
+       DonorDTO[] data;
+
+       try{
+           data= crossService.getRegisteredForAppointment(appointmentId);
+       }catch (Exception e) {
+        return null;
+       }
+
+        return data;
+    }
+
+
+    /**
+     * Returns all active appointments.
+     * @return array active appointments
+     */
+    @GetMapping("/ActiveAppointments")
+    public Appointment[] getActiveAppointments() {
+        Appointment[] data;
+
+        try{
+            data= crossService.getActiveAppointments();
+        }catch (Exception e) {
+            return null;
+        }
+
+        return data;
+    }
+
+
+
+    /**
+     * Returns all active appointments.
+     * @return array of active appointments
+     */
+    @PostMapping("/addAppointment")
+    public ResponseEntity<Object> addAppointment(@RequestBody ApointmentDTO apointment) {
 
      try{
             crossService.addAppointment(apointment);
@@ -37,6 +82,30 @@ public class CrossControler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
         }
+
+    }
+
+
+
+
+    /**
+     * Demands appointment id and list of usernames of donors that came to the appointment.
+     * Used to finish appointment and update donor's donation history and give
+     * donors that came nesesary potvrde and awards .
+     * @return response
+     */
+    @PostMapping("/AppointmentFinished")
+    public ResponseEntity<Object> AppointmentFinished(@RequestBody AppointmentFinishedDTO request) {
+
+        try{
+            crossService.finishAppointment( request.getAppointmentID() , request.getUsernames() ) ;
+            return ResponseEntity.ok(null);
+        } catch (Exception e) {
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+        }
+
 
     }
 

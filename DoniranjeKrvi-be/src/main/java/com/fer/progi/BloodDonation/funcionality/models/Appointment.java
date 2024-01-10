@@ -38,5 +38,7 @@ import java.util.Set;
 
     private LocalDateTime dateAndTime;
 
+    private boolean finished;
+
 
 }

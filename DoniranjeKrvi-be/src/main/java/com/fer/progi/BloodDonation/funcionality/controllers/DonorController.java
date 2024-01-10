@@ -3,6 +3,7 @@ package com.fer.progi.BloodDonation.funcionality.controllers;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
 import com.fer.progi.BloodDonation.funcionality.models.Appointment;
 import com.fer.progi.BloodDonation.funcionality.models.DonationHistory;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
@@ -13,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/user")
@@ -45,13 +49,13 @@ public class DonorController {
 
     //Stvaranje nove rezervacije
     @PostMapping("/create")
-    public ResponseEntity<String> createDonationReservation(@RequestBody String username,@RequestBody Appointment appointment) {
+    public ResponseEntity<String> createDonationReservation(@RequestBody DonationHistoryDTO historyDTO) {
 
         /*gleda broj rezerviranih mjesta za
         Integer ReservationData = donorService.canReserve();*/
 
         //stvara novu instancu DonationHistory
-        DonationHistory history = donorService.createNewReservation(username, appointment );
+        DonationHistory history = donorService.createNewReservation(historyDTO);
         if(history != null){
             return ResponseEntity.ok("Donation reservation created successfully.");
         }
@@ -62,22 +66,6 @@ public class DonorController {
 
     }
 
-
-    //Get metoda za novu rezervaciju
-    @GetMapping("/ActiveReservations/{id}")
-    public ResponseEntity<DonationHistoryDTO> getDonationReservationById(@PathVariable Long id) {
-
-        DonationHistoryDTO historyData = donorService.getDonationReservationById(id);
-
-        if (historyData != null) {
-            return ResponseEntity.ok(historyData);
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
-
-    }
 
     //Get metoda za dohvacanje aktivnih rezervacija preko username-a
     @GetMapping("/ActiveReservations/{username}")
@@ -94,5 +82,19 @@ public class DonorController {
         }
 
     }
+
+    @GetMapping("/AllActiveDates")
+    public ResponseEntity<List<Appointment>> getAllActiveDates(@PathVariable ApointmentDTO apointmentDTO) {
+        List<Appointment> activeDates = donorService.getListOfActiveDonationDates(apointmentDTO);
+
+        if (activeDates != null && !activeDates.isEmpty()) {
+            return ResponseEntity.ok(activeDates);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
+
 
 }

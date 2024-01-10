@@ -4,14 +4,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
 import com.fer.progi.BloodDonation.funcionality.models.Appointment;
 import com.fer.progi.BloodDonation.funcionality.models.DonationHistory;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonationHistoryRepository;
+import com.fer.progi.BloodDonation.funcionality.repositorys.AppointmentRepository;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.services.Exceptions.DonationReservationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,14 @@ public class DonorService {
 
     private final DonorRepository donorRepository;
     private final DonationHistoryRepository historyRepository;
+    private final AppointmentRepository appointmentRepository;
 
     @Autowired
-    public DonorService(DonorRepository donorRepository, DonationHistoryRepository historyRepository) {
+    public DonorService(DonorRepository donorRepository, DonationHistoryRepository historyRepository, AppointmentRepository appointmentRepository) {
 
         this.donorRepository = donorRepository;
         this.historyRepository = historyRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
 
@@ -46,20 +51,17 @@ public class DonorService {
                 donor.getAppUser().getFirstName(), donor.getAppUser().getLastName(), donor.getAppUser().getPhoneNumber());
     }
 
-    public DonationHistory createNewReservation(String username, Appointment appointment){
-        Optional<Donor> opt  =  donorRepository.findDonorByUsername(username);
+
+    public DonationHistory createNewReservation(DonationHistoryDTO historyDTO) {
+        Optional<Donor> opt  =  donorRepository.findDonorByUsername(historyDTO.getUsername());
         if(opt.isEmpty()){
             return null;
         }
         Donor donor = opt.get();
+        DonationHistory history = new DonationHistory(donor, historyDTO.getAppointment(), false);
 
-        return new DonationHistory(donor, appointment, false);
-    }
-
-    public DonationHistoryDTO getDonationReservationById(Long id) {
-        //donorRepository.findById(id);
-        //return donationReservationRepository.findById(id).orElse(null);
-        return null;
+        historyRepository.save(history);
+        return history;
     }
 
     public DonationHistoryDTO getDonationReservationByUsername(String username) {
@@ -86,5 +88,11 @@ public class DonorService {
         else{
             throw new DonationReservationException("Donation reservation is not completed or has an error.");
         }
+    }
+
+
+    public List<Appointment> getListOfActiveDonationDates(ApointmentDTO apointmentDTO) {
+
+        return appointmentRepository.findAll();
     }
 }

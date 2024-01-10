@@ -65,6 +65,7 @@ public class SecurityConfig {
                 headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
         http    .csrf(csrf -> csrf.disable())
+                .cors(cors-> cors.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.anyRequest().permitAll();
                 });

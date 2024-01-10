@@ -1,5 +1,6 @@
-import './App.css';
+import './css/App.css';
 import { Routes, Route } from 'react-router-dom';
+import 'boxicons'
 
 import Main from './components/main'
 import SignIn from './components/signin';

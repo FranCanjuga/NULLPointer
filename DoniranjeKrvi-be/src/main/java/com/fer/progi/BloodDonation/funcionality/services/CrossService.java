@@ -1,24 +1,18 @@
 package com.fer.progi.BloodDonation.funcionality.services;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
-import com.fer.progi.BloodDonation.funcionality.models.AkcijaKrv;
-import com.fer.progi.BloodDonation.funcionality.models.Appointment;
-import com.fer.progi.BloodDonation.funcionality.models.BloodType;
-import com.fer.progi.BloodDonation.funcionality.models.Location;
-import com.fer.progi.BloodDonation.funcionality.repositorys.AkcijaKrvRepository;
-import com.fer.progi.BloodDonation.funcionality.repositorys.BloodTypeRepository;
-import com.fer.progi.BloodDonation.funcionality.repositorys.CrossRepository;
-import com.fer.progi.BloodDonation.funcionality.repositorys.LocationRepository;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.models.*;
+import com.fer.progi.BloodDonation.funcionality.repositorys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class CrossService {
@@ -31,6 +25,9 @@ public class CrossService {
 
     @Autowired
     private BloodTypeRepository bloodTypeRepository;
+
+    @Autowired
+    private DonationHistoryRepository donationHistoryRepository;
 
     @Autowired
     private AkcijaKrvRepository akcijaKrvRepository;
@@ -68,5 +65,37 @@ public class CrossService {
             }
 
         }
+    }
+
+    public DonorDTO[] getRegisteredForAppointment(Long appointmentId) {
+       var appointments = crossRepository.findById(appointmentId).
+                  orElseThrow(() -> new IllegalArgumentException("Appointment with given ID does not exist"));
+       var donors = donationHistoryRepository.findAll()
+               .stream()
+               .filter(donationHistory -> Objects.equals(donationHistory.getAppointment().getAppointmentID(), appointmentId))
+               .map(donationHistory ->
+                       new DonorDTO(donationHistory.getDonor())).toList();
+
+       return donors.toArray(DonorDTO[]::new);
+
+    }
+
+    public void finishAppointment(Long appointmentId, String[] usernames) {
+
+            var donationHistories = donationHistoryRepository.findAll()
+                    .stream()
+                    .filter(donationHistory -> Objects.equals(donationHistory.getAppointment().getAppointmentID(), appointmentId)).toList();
+
+            for (String username : usernames) {
+                var donationHistory = donationHistories.stream()
+                        .filter(donationHistory1 -> donationHistory1.getDonor().getUsername().equals(username))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("Donor with given username is not registered for this appointment"));
+    //TO DOO - dodati davanje priznanja i potvrda donoru
+
+                donationHistory.setCame(true);
+                donationHistoryRepository.save(donationHistory);
+            }
+
     }
 }

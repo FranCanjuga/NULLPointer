@@ -2,6 +2,7 @@ package com.fer.progi.BloodDonation.funcionality.controllers;
 
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentFinishedDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.models.Location;
 import com.fer.progi.BloodDonation.funcionality.services.CrossService;
@@ -25,9 +26,21 @@ public class CrossControler {
         this.crossService = crossService;
     }
 
+    @GetMapping("/RegisteredForAppointment")
+    public DonorDTO[] getRegisteredForAppointment(@RequestBody Long appointmentId ) {
+       DonorDTO[] data;
+
+       try{
+           data= crossService.getRegisteredForAppointment(appointmentId);
+       }catch (Exception e) {
+        return null;
+       }
+
+        return data;
+    }
+
     @GetMapping("/addAppointment")
     public ResponseEntity<Object> addAppointment(@RequestBody ApointmentDTO apointment) {
-
 
      try{
             crossService.addAppointment(apointment);
@@ -37,6 +50,24 @@ public class CrossControler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
         }
+
+    }
+
+
+
+
+    @GetMapping("/AppointmentFinished")
+    public ResponseEntity<Object> AppointmentFinished(@RequestBody AppointmentFinishedDTO request) {
+
+        try{
+            crossService.finishAppointment( request.getAppointmentID() , request.getUsernames() ) ;
+            return ResponseEntity.ok(null);
+        } catch (Exception e) {
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+        }
+
 
     }
 

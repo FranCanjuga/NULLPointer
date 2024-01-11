@@ -1,5 +1,6 @@
 package com.fer.progi.BloodDonation.funcionality.controllers.dto;
 
+import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -45,6 +46,19 @@ public class DonorDTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public DonorDTO(Donor donor){
+        this.username = donor.getUsername();
+        this.dateOfBirth = donor.getDateOfBirth();
+        this.gender = donor.getGender();
+        this.bloodType = donor.getBloodType();
+        this.town = donor.getTown();
+        this.address = donor.getStreet();
+        this.verified = donor.isVerified();
+        this.firstName = donor.getAppUser().getFirstName();
+        this.lastName = donor.getAppUser().getLastName();
+        this.phoneNumber = donor.getAppUser().getPhoneNumber();
     }
 
 }

@@ -5,29 +5,49 @@ const naClick = (e) => {
     localStorage.removeItem("token")
     window.location.href = '/'
 }
-
+ 
 
 const Header = () => {
     return (
         
-        <header id="header_h">
-            <img id="logo" src="/images/red_drop.png" alt=""></img>
-            <h1 className="naslov">STRANICA ZA DONACIJU KRVI</h1>
-            <img id="logo2" src="/images/bell.jpg" alt=""></img>
-            {
-            (localStorage.token) ?
-            <div className="gumbi">
-                <button className="odjava_button" onClick={naClick}>Odjavi se</button><br></br>
-                <a href="./user">
-                    <img id="logo3" src="/images/user_icon.png" alt=""></img>
-                </a>
+        <body className="head">
+            <nav>
+                <img src="/images/red_drop.png" className="logo"></img>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy</a></li>
+                </ul>
+                <div>
+                    {
+                    (localStorage.token) ?
+                    <div className="gumbi">
+                        <button className="head-btn" onClick={naClick}>Odjavi se</button>
+                        <a href="./user">
+                            <img id="logo3" src="/images/user_icon.png" alt=""></img>
+                        </a>
+                    </div>
+                    : 
+                    <a href="./prijava">
+                        <button className="head-btn">PRIJAVA</button>
+                    </a>
+                    }
+                </div>
+            </nav>
+
+            <div className="hero">          
+                <div className="head-content">
+                        <h1>DARIVANJE KRVI</h1>
+                        <p>Hrvatski Crveni križ – utemeljitelj dobrovoljnog davanja krvi u Republici Hrvatskoj, promiče
+                        dobrovoljno davanje krvi, organizira i provodi akcije davanja krvi.</p>
+                        <a href="#" className="head-btn">Pridruži se</a>
+                </div>
             </div>
-            : 
-            <a href="./prijava">
-                <button className="login_button">PRIJAVA</button>
-            </a>
-            }
-        </header>
+    
+        </body>
+        
+        
+        
     )
 }
 

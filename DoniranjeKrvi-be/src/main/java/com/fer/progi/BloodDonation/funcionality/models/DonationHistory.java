@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Entity(name = "donation_history")
 @Setter
 @Getter
 @AllArgsConstructor

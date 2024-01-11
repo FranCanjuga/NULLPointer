@@ -23,12 +23,12 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255)
     );
 
-CREATE TABLE IF NOT EXISTS bloodType (
+CREATE TABLE IF NOT EXISTS blood_type (
                                          blood_type_id SERIAL PRIMARY KEY,
                                          type VARCHAR(255)
     );
 
-CREATE TABLE IF NOT EXISTS donationLocation (
+CREATE TABLE IF NOT EXISTS donation_location (
                                                 locationID SERIAL PRIMARY KEY,
                                                 location_name VARCHAR(255) UNIQUE,
     longitude DOUBLE PRECISION,
@@ -55,11 +55,11 @@ CREATE TABLE IF NOT EXISTS appointment (
                                            FOREIGN KEY (location_id) REFERENCES donationLocation(locationID)
     );
 
-CREATE TABLE IF NOT EXISTS AkcijaKrv (
+CREATE TABLE IF NOT EXISTS akcija_krv (
                                           id SERIAL PRIMARY KEY,
                                           blood_type_id INT,
                                           appointment_id INT,
-                                          FOREIGN KEY (blood_type_id) REFERENCES blood_type(blood_type_id),
+                                          FOREIGN KEY (blood_type_id) REFERENCES bloodType(blood_type_id),
                                           FOREIGN KEY (appointment_id) REFERENCES appointment(appointmentID)
     );
 

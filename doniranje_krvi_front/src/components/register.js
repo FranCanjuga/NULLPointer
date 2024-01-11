@@ -14,7 +14,6 @@ const Register = () => {
     const [phoneNumber, setPhoneNumber] = useState('')
     const [dateOfBirth, setDateOfBirth] = useState('')
     const [city, setCity] = useState('')
-    const [address,setAddress] = useState('')
     const [bloodType,setBloodType] = useState('')
 
     useEffect(() => {
@@ -34,7 +33,7 @@ const Register = () => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        const korisnik = { username, password, firstName, lastName, phoneNumber, dateOfBirth, city, address, bloodType };
+        const korisnik = { username, password, firstName, lastName, phoneNumber, dateOfBirth, city, bloodType };
         console.log(korisnik);
     
         axios.post(`${baseURL}/auth/register`, korisnik,
@@ -53,6 +52,10 @@ const Register = () => {
                 delete axios.defaults.headers.common["Authorization"];
             window.location.href = '/'
         });
+    }
+
+    const povratakLogin = () =>{
+        window.location.href = '/prijava';
     }
 
     return (
@@ -109,11 +112,9 @@ const Register = () => {
                         </select>
 
                     </div>
-                    <div className="reg-input-box">
-                        <label htmlFor="add"><b>Adresa</b></label>
-                        <input type="text" placeholder="Upišite adresu" name="add" 
-                        required value={address} onChange={(e)=>setAddress(e.target.value)}></input>
-                    </div>   
+                    <div>
+                        <button onClick={() => povratakLogin()}>Vrati se na prijavu</button>
+                    </div> 
                 </div>
 
                 <div className="column">

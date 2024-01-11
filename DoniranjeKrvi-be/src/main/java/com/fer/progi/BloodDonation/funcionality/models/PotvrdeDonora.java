@@ -16,7 +16,7 @@ import java.util.Optional;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"potvrdaId", "donationHistoryId"})
 })
-@Entity
+@Entity(name = "potvrde_donora")
 public class PotvrdeDonora {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

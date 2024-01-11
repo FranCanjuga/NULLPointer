@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "AkcijaKrv")
+@Entity(name = "akcija_krv")
 @Setter
 @Getter
 @AllArgsConstructor

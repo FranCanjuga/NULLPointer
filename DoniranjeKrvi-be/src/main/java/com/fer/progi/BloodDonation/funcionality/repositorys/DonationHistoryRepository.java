@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface DonationHistoryRepository extends JpaRepository<DonationHistory, Long> {
 
-    Optional<DonationHistory> findDonationHistoryByUsername(String username);
+    Optional<DonationHistory> findDonationHistoryByDonorUsername(String username);
     //Optional<DonationHistory> findDonationHistoryById(Long id);
 
-    DonationHistory findByUsername(String username);
+    DonationHistory findByDonorUsername(String username);
     //DonationHistory findById(Long id);
 }

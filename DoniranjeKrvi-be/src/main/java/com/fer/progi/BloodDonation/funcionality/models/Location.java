@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
-@Entity(name = "donationLocation")
+@Entity(name = "donation_location")
 @Setter
 @Getter
 @NoArgsConstructor

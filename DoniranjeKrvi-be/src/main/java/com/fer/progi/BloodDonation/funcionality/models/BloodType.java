@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@Entity(name = "bloodType")
+@Entity(name = "blood_type")
 @Setter
 @Getter
 @AllArgsConstructor

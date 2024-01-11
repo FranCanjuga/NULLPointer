@@ -73,7 +73,7 @@ public class DonorService {
         }
         Donor donor = opt.get();
 
-        Optional<DonationHistory> opt2 =historyRepository.findDonationHistoryByUsername(username);
+        Optional<DonationHistory> opt2 =historyRepository.findDonationHistoryByDonorUsername(username);
         if(opt2.isEmpty()){
             return null;
         }

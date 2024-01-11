@@ -11,6 +11,7 @@ const User = () => {
 
   const [userData, setUserData] = useState([]);
   const [donorData, setDonorData] = useState([]);
+  const [allusersData,setAllUsers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,20 +23,24 @@ const User = () => {
               },
           });
           setUserData(response.data);
+          const response2 = await axios.get(`${baseURL}/admin/allDonors`,{
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setAllUsers(response2.data);
+
         } 
         else if (roles.includes("user")) {
-          console.log(decodedToken.sub)
-          const userParam = `${decodedToken.sub}`;
-
           const response = await axios.get(
             `${baseURL}/user/profile`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-              body: {
-                user: userParam,
-              },
+              body:{
+                username : decodedToken.sub,
+              }
             }
           );
             
@@ -52,10 +57,13 @@ const User = () => {
 
 
   const approveUser = (username) => {
-    const response = axios.get(`${baseURL}/admin/approveDonor`,{
+    const response = axios.post(`${baseURL}/admin/approveDonor`,{
       headers: {
           Authorization: `Bearer ${token}`,
         },
+      params:{
+        username : username,
+      },
     })
       .then(() => {
         console.log(response.data);
@@ -120,7 +128,23 @@ const User = () => {
       <br />
       <button onClick={() => povratak()}>Vrati se</button>
       <br></br>
-      <h1>Svi neverificirani korisnici</h1>
+      <br></br>
+      <h2>Svi donori</h2>
+      <ul>
+        {allusersData.map((user) => (
+          <li key ={user.donorID}>
+            <p>Username: {user.username}</p>
+            <p>Blood Type: {user.bloodType}</p>
+            <p>Donor ID: {user.donorID}</p>
+            <p>Town: {user.town}</p>
+            <br></br>
+          </li>
+        ))
+
+        }
+      </ul>
+      <br></br>
+      <h2>Svi neverificirani korisnici</h2>
       <br />
       <ul>
         {userData.map((user) => (
@@ -131,6 +155,8 @@ const User = () => {
             <p>Town: {user.town}</p>
             <button onClick={() => rejectUser(user.username)}>Reject</button>{' '}
             <button onClick={() => approveUser(user.username)}>Approve</button>
+            <br></br>
+            <br></br>
           </li>
         ))}
       </ul>
@@ -138,22 +164,23 @@ const User = () => {
   ) : roles.includes("user") ? (
     <div>
       <h2>Vaši podaci</h2>
-      <p>Korisničko ime: {decodedToken.username}</p>
-      <p>Ime: {decodedToken.firstName}</p>
-      <p>Prezime: {decodedToken.lastName}</p>
-      <p>Broj mobitela: {decodedToken.phoneNumber}</p>
-      <p>Datum rođenja: {decodedToken.dateOfBirth}</p>
-      <p>Mjesto: {decodedToken.city}</p>
-      <p>Adresa: {decodedToken.address}</p>
-      <p>Krvna grupa: {decodedToken.bloodType}</p>
+      <br></br>
+      <p>Korisničko ime: {donorData.username}</p>
+      <p>Ime: {donorData.firstName}</p>
+      <p>Prezime: {donorData.lastName}</p>
+      <p>Broj mobitela: {donorData.phoneNumber}</p>
+      <p>Datum rođenja: {donorData.dateOfBirth}</p>
+      <p>Mjesto: {donorData.city}</p>
+      <p>Krvna grupa: {donorData.bloodType}</p>
     </div>
   ) : roles.includes("institution") ? (
     <div>
-      {/* Render content for institution role */}
-      {/* Add your institution-specific content here */}
+      <h1>Korisnicka stranica bolnice</h1>
+
     </div>
   ) : (
     <div>
+      <h1>{console.log(donorData)}</h1>
       <h1>Pozdrav Crveni križ</h1>
       <br></br>
       <button onClick={() => addAppointment()}>Dodaj sastanak donacija</button>

@@ -28,4 +28,7 @@ public interface BloodTypeRepository extends JpaRepository<BloodType, Long>{
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    List<BloodType> findAll();
 }

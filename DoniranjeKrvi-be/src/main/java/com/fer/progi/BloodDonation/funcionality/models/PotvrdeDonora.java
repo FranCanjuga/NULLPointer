@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
+import java.util.Optional;
 
 @Setter
 @Getter
@@ -36,4 +37,10 @@ public class PotvrdeDonora {
 
     private boolean given;
 
+    public PotvrdeDonora(Potvrda potvrda, DonationHistory donationHistory, Date expiers, boolean given) {
+        this.potvrda = potvrda;
+        this.donationHistory = donationHistory;
+        this.expiers = expiers;
+        this.given = given;
+    }
 }

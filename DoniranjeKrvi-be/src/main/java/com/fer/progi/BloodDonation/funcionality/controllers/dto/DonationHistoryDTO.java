@@ -13,13 +13,19 @@ public class DonationHistoryDTO {
 
     private String username;
 
-    private Appointment appointment;
+    //private Appointment appointment;
+    private Long appointmentID;
 
     private boolean came;
 
-    public DonationHistoryDTO(String username, Appointment appointment, boolean came) {
+    public DonationHistoryDTO(String username, Long appointmentID, boolean came) {
         this.username = username;
-        this.appointment = appointment;
+        this.appointmentID = appointmentID;
         this.came = came;
+    }
+
+    public DonationHistoryDTO(String username, Long appointmentID) {
+        this.username = username;
+        this.appointmentID = appointmentID;
     }
 }

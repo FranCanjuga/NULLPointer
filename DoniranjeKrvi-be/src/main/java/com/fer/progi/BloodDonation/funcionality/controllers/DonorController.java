@@ -83,9 +83,9 @@ public class DonorController {
 
     }
 
-    @GetMapping("/AllActiveDates")
-    public ResponseEntity<List<Appointment>> getAllActiveDates(@PathVariable ApointmentDTO apointmentDTO) {
-        List<Appointment> activeDates = donorService.getListOfActiveDonationDates(apointmentDTO);
+    @GetMapping("/AllActiveDates/{username}")
+    public ResponseEntity<List<Appointment>> getAllActiveDates(@PathVariable String username) {
+        List<Appointment> activeDates = donorService.getListOfActiveDonationDates(username);
 
         if (activeDates != null && !activeDates.isEmpty()) {
             return ResponseEntity.ok(activeDates);

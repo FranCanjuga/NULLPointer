@@ -59,7 +59,14 @@ public class DonorService {
             return null;
         }
         Donor donor = opt.get();
-        DonationHistory history = new DonationHistory(donor, historyDTO.getAppointment(), false);
+
+        Optional<Appointment> opt2  =  appointmentRepository.findAppointmentByAppointmentID(historyDTO.getAppointmentID());
+        if(opt2.isEmpty()){
+            return null;
+        }
+        Appointment appointment= opt2.get();
+
+        DonationHistory history = new DonationHistory(donor, appointment, false);
 
         historyRepository.save(history);
         return history;
@@ -79,12 +86,18 @@ public class DonorService {
         }
         DonationHistory donationHistory = opt2.get();
 
+        Optional<Appointment> opt3  =  appointmentRepository.findAppointmentByAppointmentID(donationHistory.getAppointment().getAppointmentID());
+        if(opt3.isEmpty()){
+            return null;
+        }
+        Appointment appointment= opt3.get();
+
         //vraca sve rezervacije bez filtera
-        DonationHistoryDTO allReservations =  new DonationHistoryDTO(username, donationHistory.getAppointment(), false);
+        DonationHistoryDTO allReservations =  new DonationHistoryDTO(username, appointment.getAppointmentID(), false);
 
         if(allReservations.getUsername().equals(username)
-                && allReservations.getAppointment().getDateAndTime().isAfter(LocalDateTime.now())) {
-            return new DonationHistoryDTO(username, opt2.get().getAppointment(), false);
+                && appointment.getDateAndTime().isAfter(LocalDateTime.now())) {
+            return new DonationHistoryDTO(username, opt2.get().getAppointment().getAppointmentID());
         }
         else{
             throw new DonationReservationException("Donation reservation is not completed or has an error.");
@@ -92,7 +105,7 @@ public class DonorService {
     }
 
 
-    public List<Appointment> getListOfActiveDonationDates(ApointmentDTO apointmentDTO) {
+    public List<Appointment> getListOfActiveDonationDates(String username) {
 
         return appointmentRepository.findAll();
     }

@@ -58,7 +58,7 @@ public class Donor {
         private Set<DonationHistory> donationHistory = new HashSet<>();
 
 
-
+/*
         @Column(unique = true)
         @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(
@@ -67,7 +67,7 @@ public class Donor {
                 inverseJoinColumns = {@JoinColumn(name = "priznanjeId")}
         )
         private Set<Priznanje> recognitions;
-
+*/
 
 
 

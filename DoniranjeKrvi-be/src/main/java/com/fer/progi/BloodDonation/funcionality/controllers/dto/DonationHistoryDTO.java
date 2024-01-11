@@ -13,10 +13,34 @@ public class DonationHistoryDTO {
 
     private String username;
 
-    //private Appointment appointment;
     private Long appointmentID;
 
     private boolean came;
+
+    private Long[] potvrdeID;
+
+
+    private Donor donor;
+    private  Appointment appointment;
+
+    public DonationHistoryDTO(boolean came, Donor donor, Appointment appointment) {
+        this.came = came;
+        this.donor = donor;
+        this.appointment = appointment;
+    }
+
+    public DonationHistoryDTO(String username, Long appointmentID, boolean came, Long[] potvrdeID) {
+        this.username = username;
+        this.appointmentID = appointmentID;
+        this.came = came;
+        this.potvrdeID = potvrdeID;
+    }
+
+    public DonationHistoryDTO(String username, Long appointmentID, Long[] potvrdeID) {
+        this.username = username;
+        this.appointmentID = appointmentID;
+        this.potvrdeID = potvrdeID;
+    }
 
     public DonationHistoryDTO(String username, Long appointmentID, boolean came) {
         this.username = username;

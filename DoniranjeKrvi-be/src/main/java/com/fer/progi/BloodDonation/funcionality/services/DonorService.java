@@ -27,7 +27,8 @@ public class DonorService {
             return null;
         }
         Donor donor = opt.get();
-        return  new DonorDTO(donor.getUsername() , donor.getDateOfBirth(), donor.getGender(), donor.getBloodType(), donor.getTown(), donor.getStreet(), donor.isVerified(),
+
+        return  new DonorDTO(donor.getUsername() , donor.getDateOfBirth(), donor.getGender(), donor.getBloodType(), donor.getLocation().getLocationName(), donor.isVerified(),
                 donor.getAppUser().getFirstName(), donor.getAppUser().getLastName(), donor.getAppUser().getPhoneNumber());
     }
 }

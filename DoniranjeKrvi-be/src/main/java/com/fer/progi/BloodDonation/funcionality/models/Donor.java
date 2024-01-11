@@ -31,9 +31,9 @@ public class Donor {
 
         private String bloodType;
 
-        private String town;
-
-        private String street;
+        @ManyToOne
+        @JoinColumn(name = "location_id")
+        private Location location;
 
         private boolean verified;
 
@@ -71,19 +71,18 @@ public class Donor {
 
 
 
-        public Donor( String username, Date dateOfBirth, String gender, String bloodType, String town, String street, boolean verified) {
+        public Donor( String username, Date dateOfBirth, String gender, String bloodType, Location location, boolean verified) {
                 this.username = username;
                 this.dateOfBirth = dateOfBirth;
                 this.gender = gender;
                 this.bloodType = bloodType;
-                this.town = town;
-                this.street = street;
+                this.location = location;
                 this.verified = verified;
                 donationHistory = new HashSet<>();
         }
 
-        public Donor(String username, Date dateOfBirth, String gender, String bloodType, String town, String street) {
-               this(username, dateOfBirth, gender, bloodType, town, street, false);
+        public Donor(String username, Date dateOfBirth, String gender, String bloodType, Location location) {
+               this(username, dateOfBirth, gender, bloodType, location, false);
         }
 
 

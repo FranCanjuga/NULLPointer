@@ -24,9 +24,7 @@ public class DonorDTO {
 
     private String bloodType;
 
-    private String town;
-
-    private String address;
+    private String city;
 
     private boolean verified;
 
@@ -37,13 +35,12 @@ public class DonorDTO {
     private String phoneNumber;
 
 
-    public DonorDTO(String username, Date dateOfBirth, String gender, String bloodType, String town, String address, boolean verified, String firstName, String lastName, String phoneNumber) {
+    public DonorDTO(String username, Date dateOfBirth, String gender, String bloodType, String city, boolean verified, String firstName, String lastName, String phoneNumber) {
         this.username = username;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.bloodType = bloodType;
-        this.town = town;
-        this.address = address;
+        this.city = city;
         this.verified = verified;
         this.firstName = firstName;
         this.lastName = lastName;

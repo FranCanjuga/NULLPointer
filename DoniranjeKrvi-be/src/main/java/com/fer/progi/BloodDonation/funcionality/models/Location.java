@@ -8,7 +8,6 @@ import lombok.*;
 @Entity(name = "donationLocation")
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Location {
 
@@ -16,35 +15,17 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long locationID;
 
+    @Column(unique = true)
     private String locationName;
 
-    private String town;
+    private double longitude;
 
-    private String street;
+    private double latitude;
 
-    private String phoneNumber;
-
-    private boolean active;
-
-    public Location(String locationName, String town, String street, String phoneNumber, boolean active) {
+    public Location(Long locationID, String locationName, double longitude, double latitude) {
+        this.locationID = locationID;
         this.locationName = locationName;
-        this.town = town;
-        this.street = street;
-        this.phoneNumber = phoneNumber;
-        this.active = active;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
-
-    public Location(String locationName, String town, String street, boolean active) {
-        this(locationName,town,street,null,active);
-    }
-
-    public Location(String locationName, String town, String street) {
-        this(locationName, town, street,null,true);
-    }
-
-    public Location( String town, String street) {
-        this(null, town, street,null,true);
-    }
-
-
 }

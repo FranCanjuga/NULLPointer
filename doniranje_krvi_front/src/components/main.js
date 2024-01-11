@@ -1,5 +1,5 @@
 import Header from './header';
-import Map from './map';
+import MapSection from './map';
 import Footer from './footer';
 
 
@@ -7,7 +7,7 @@ const Main = () => {
     return (
         <div className="App">
           <Header/>
-          <Map/>
+          <MapSection/>
           <Footer/>
         </div>
     );

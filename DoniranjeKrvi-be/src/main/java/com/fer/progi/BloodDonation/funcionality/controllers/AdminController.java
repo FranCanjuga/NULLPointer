@@ -35,8 +35,8 @@ public class AdminController {
         return adminService.getUnregisteredDonors();
     }
 
-    @PostMapping("/approveDonor")
-    public ResponseEntity<Object> approveDonor(@RequestBody String username) {
+    @PostMapping("/approveDonor/{username}")
+    public ResponseEntity<Object> approveDonor(@PathVariable String username) {
         boolean bool = adminService.approveDonor(username);
 
         if (bool) {
@@ -47,8 +47,8 @@ public class AdminController {
                 .body(null);
     }
 
-    @PostMapping("/rejectDonor")
-    public ResponseEntity<Object> rejectDonor(@RequestBody String username) {
+    @PostMapping("/rejectDonor/{username}")
+    public ResponseEntity<Object> rejectDonor(@PathVariable String username) {
         boolean bool = adminService.rejectDonor(username);
 
         if (bool) {

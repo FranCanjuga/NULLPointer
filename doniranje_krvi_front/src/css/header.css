@@ -18,6 +18,7 @@ body .head {
     background: url('/public/images/main_page_bkg.jpg') no-repeat;
     background-position: center;
     background-size: cover;
+    height: 100vh;;
 }
 #logo3{
     width: 70px;

@@ -5,7 +5,6 @@ const naClick = (e) => {
     localStorage.removeItem("token")
     window.location.href = '/'
 }
- 
 
 const Header = () => {
     return (

@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS donor (
     location_id INT,
     verified BOOLEAN,
     user_username VARCHAR(255) UNIQUE,
-    FOREIGN KEY (location_id) REFERENCES donationLocation(locationID)
+    FOREIGN KEY (location_id) REFERENCES donation_location(locationID)
     );
 
 CREATE TABLE IF NOT EXISTS appointment (
@@ -52,14 +52,14 @@ CREATE TABLE IF NOT EXISTS appointment (
                                            location_id INT,
                                            critical_action BOOLEAN,
                                            date_and_time TIMESTAMP,
-                                           FOREIGN KEY (location_id) REFERENCES donationLocation(locationID)
+                                           FOREIGN KEY (location_id) REFERENCES donation_location(locationID)
     );
 
 CREATE TABLE IF NOT EXISTS akcija_krv (
                                           id SERIAL PRIMARY KEY,
                                           blood_type_id INT,
                                           appointment_id INT,
-                                          FOREIGN KEY (blood_type_id) REFERENCES bloodType(blood_type_id),
+                                          FOREIGN KEY (blood_type_id) REFERENCES blood_type(blood_type_id),
                                           FOREIGN KEY (appointment_id) REFERENCES appointment(appointmentID)
     );
 

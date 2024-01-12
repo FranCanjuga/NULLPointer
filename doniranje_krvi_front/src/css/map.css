@@ -1,16 +1,59 @@
-.map{
+
+.body-map{
   display: flex;
-  background-color: gray;
+  background-color: rgb(244, 238, 246);
 }
-  
-#karta{
-  border: 5px solid gray; 
-  margin: 5px; 
+
+.map_div {
+  width: 60%;
+  height: 600px;
+  padding: 10px;
+  padding-inline: 7px;
 }
   
 #popis_mjesta {
+  width: 30%;
+  min-width: 500px;
+  height: 600px;
   flex: 1;
-  background-color: white; 
-  border: 5px solid gray; 
-  margin: 5px; 
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.map-btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px 45px;
+  margin-bottom: 10px;
+  border: hidden;
+  color: #fff;
+  background: linear-gradient(220deg,#dc60ec, #9ba1e2);
+  font-size: 20px;
+  border-radius: 30px;
+  border-top-right-radius: 0;
+  font-weight: 700;
+
+}
+
+.map-btn:hover {
+  cursor: pointer; /* Optional: Change cursor on hover */
+  border: 1px solid #3333337f;
+  margin-left: -2px;
+  margin-bottom: 9px;
+}
+
+.dark-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+  margin-inline: 0px;
+  background: linear-gradient(340deg,#d6d9ff,#f3f3f3);
+  border-radius: 10px;
 }

@@ -91,7 +91,7 @@ public class DonorController {
         }
     }
 
-    @GetMapping("/getLocations")
+    @GetMapping("/getLocations/{username}")
     public ResponseEntity<List<Location>> getAllLocations(@PathVariable String username) {
         List<Location> locationList = donorService.getListOfLocations(username);
 
@@ -104,12 +104,25 @@ public class DonorController {
         }
     }
 
-    @GetMapping("/getBloodTypes")
+    @GetMapping("/getBloodTypes/{username}")
     public ResponseEntity<List<BloodType>> getAllBloodTypes(@PathVariable String username) {
         List<BloodType> bloodTypeListList = donorService.getListOfBloodTypes(username);
 
         if (bloodTypeListList != null && !bloodTypeListList.isEmpty()) {
             return ResponseEntity.ok(bloodTypeListList);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
+
+    @GetMapping("/getPotvrdeDonora")
+    public ResponseEntity<List<Potvrda>> getAllBloodTypes(@PathVariable Long[] potvrdeID) {
+        List<Potvrda> listPotvrda = donorService.getListOfPotvrda(potvrdeID);
+
+        if (listPotvrda != null && !listPotvrda.isEmpty()) {
+            return ResponseEntity.ok(listPotvrda);
         } else {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)

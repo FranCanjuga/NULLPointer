@@ -159,4 +159,13 @@ public class DonorService {
     public List<BloodType> getListOfBloodTypes(String username) {
         return bloodTypeRepository.findAll();
     }
+
+    public List<Potvrda> getListOfPotvrda(Long[] potvrdaId) {
+        List<Potvrda> lista = new ArrayList<>();
+        for (Long id: potvrdaId){
+            lista.add(potvrdaRepository.findPotvrdaByPotvrdaId(id));
+        }
+        return lista;
+    }
+
 }

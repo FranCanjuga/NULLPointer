@@ -52,7 +52,7 @@ public class DonorDTO {
         this.username = donor.getUsername();
         this.dateOfBirth = donor.getDateOfBirth();
         this.gender = donor.getGender();
-        this.bloodType = donor.getBloodType();
+        this.bloodType = donor.getBloodType().getType();
         this.city = donor.getLocation().getLocationName();
         this.verified = donor.isVerified();
         this.firstName = donor.getAppUser().getFirstName();

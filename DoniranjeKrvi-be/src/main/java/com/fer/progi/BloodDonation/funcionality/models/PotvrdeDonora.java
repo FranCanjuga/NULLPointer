@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"potvrdaId", "donationHistoryId"})
+        @UniqueConstraint(columnNames = {"potvrda_id", "donationHistory_id"})
 })
 @Entity(name = "potvrde_donora")
 public class PotvrdeDonora {
@@ -26,11 +26,11 @@ public class PotvrdeDonora {
 
 
     @ManyToOne
-    @JoinColumn(name = "potvrdaId")
+    @JoinColumn(name = "potvrda_id")
     private Potvrda potvrda;
 
     @ManyToOne
-    @JoinColumn(name = "donationHistoryId")
+    @JoinColumn(name = "donationHistory_id")
     private DonationHistory donationHistory;
 
     private Date expiers;

@@ -1,11 +1,9 @@
 package com.fer.progi.BloodDonation.security.services;
 
-import com.fer.progi.BloodDonation.funcionality.models.Donor;
-import com.fer.progi.BloodDonation.funcionality.models.Location;
+import com.fer.progi.BloodDonation.funcionality.models.*;
+import com.fer.progi.BloodDonation.funcionality.repositorys.BloodTypeRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
-import com.fer.progi.BloodDonation.funcionality.models.AppUser;
 import com.fer.progi.BloodDonation.funcionality.models.DTO.LoginResponseDTO;
-import com.fer.progi.BloodDonation.funcionality.models.Role;
 import com.fer.progi.BloodDonation.funcionality.repositorys.LocationRepository;
 import com.fer.progi.BloodDonation.security.repository.AppUserRepository;
 import com.fer.progi.BloodDonation.security.repository.RoleRepository;
@@ -39,11 +37,14 @@ public class AuthenticationService {
 
     private LocationRepository locationRepository;
 
+    private BloodTypeRepository bloodTypeRepository;
+
 
 
     public AuthenticationService(AppUserRepository userRepository, RoleRepository roleRepository,
                                  PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager,
-                                 TokenService tokenService, DonorRepository donorRepository, LocationRepository locationRepository) {
+                                 TokenService tokenService, DonorRepository donorRepository,
+                                 LocationRepository locationRepository, BloodTypeRepository bloodTypeRepository){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -51,6 +52,7 @@ public class AuthenticationService {
         this.tokenService = tokenService;
         this.donorRepository = donorRepository;
         this.locationRepository = locationRepository;
+        this.bloodTypeRepository = bloodTypeRepository;
     }
 
     public AppUser registerUser(String username, String password, String firstName, String lastName, String phoneNumber, Date dateOfBirth, String city, String bloodType,String gender){
@@ -62,7 +64,8 @@ public class AuthenticationService {
 
         var user = userRepository.save(new AppUser(username, firstName, lastName, phoneNumber, encodedPassword, authorities));
         Location location = locationRepository.findLocationByLocationName(city);
-       Donor donor =  new Donor(username, dateOfBirth, gender, bloodType, location);
+        BloodType bloodType1 = bloodTypeRepository.findByType(bloodType);
+       Donor donor =  new Donor(username, dateOfBirth, gender, bloodType1, location);
         donor.setAppUser(user);
         donorRepository.save(donor);
         return user;

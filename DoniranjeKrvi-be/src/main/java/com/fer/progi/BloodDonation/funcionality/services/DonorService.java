@@ -1,14 +1,13 @@
 package com.fer.progi.BloodDonation.funcionality.services;
 
 import com.fer.progi.BloodDonation.funcionality.models.*;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonationHistoryRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.AppointmentRepository;
@@ -16,7 +15,6 @@ import com.fer.progi.BloodDonation.funcionality.repositorys.LocationRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.BloodTypeRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.PotvrdaRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.PotvrdeDonoraRepository;
-import com.fer.progi.BloodDonation.funcionality.services.Exceptions.DonationReservationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +52,7 @@ public class DonorService {
         }
         Donor donor = opt.get();
 
-        return  new DonorDTO(donor.getUsername() , donor.getDateOfBirth(), donor.getGender(), donor.getBloodType(), donor.getLocation().getLocationName(), donor.isVerified(),
+        return  new DonorDTO(donor.getUsername() , donor.getDateOfBirth(), donor.getGender(), donor.getBloodType().getType(), donor.getLocation().getLocationName(), donor.isVerified(),
                 donor.getAppUser().getFirstName(), donor.getAppUser().getLastName(), donor.getAppUser().getPhoneNumber());
     }
 
@@ -129,14 +127,14 @@ public class DonorService {
         }
         DonationHistory donationHistory = opt2.get();
 
-        Optional<Appointment> opt3  =  appointmentRepository.findAppointmentByAppointmentID(donationHistory.getAppointment().getAppointmentID());
+        Optional<Appointment> opt3  =  appointmentRepository.findAppointmentByAppointmentID(donationHistory.getAppointment().getAppointment_id());
         if(opt3.isEmpty()){
             return null;
         }
         Appointment appointment= opt3.get();
 
         //vraca sve rezervacije bez filtera
-        DonationHistoryDTO allReservations =  new DonationHistoryDTO(username, appointment.getAppointmentID(), false);
+        DonationHistoryDTO allReservations =  new DonationHistoryDTO(username, appointment.getAppointment_id(), false);
 
         if(allReservations.getUsername().equals(username)
                 && appointment.getDateAndTime().isAfter(LocalDateTime.now())) {
@@ -160,12 +158,23 @@ public class DonorService {
         return bloodTypeRepository.findAll();
     }
 
-    public List<Potvrda> getListOfPotvrda(Long[] potvrdaId) {
-        List<Potvrda> lista = new ArrayList<>();
-        for (Long id: potvrdaId){
-            lista.add(potvrdaRepository.findPotvrdaByPotvrdaId(id));
-        }
-        return lista;
+    /**
+     * Method for getting list of all potvrde for user that are not expired and are given
+     * @param usename - username of user
+     * @return list of potvrde
+     */
+    public List<Potvrda> getListOfPotvrda(String usename) {
+        List<PotvrdeDonora> lista = potvrdeDonoraRepository.findAll();
+        return lista.stream().filter(
+                potvrdeDonora -> potvrdeDonora.getDonationHistory().getDonor().getUsername().equals(usename))
+        .filter(
+                potvrdeDonora -> potvrdeDonora.isGiven() && potvrdeDonora.getExpiers().after(Date.from(Instant.from(LocalDateTime.now()))))
+        .map(
+                PotvrdeDonora::getPotvrda)
+        .toList();
     }
 
+    public List<Potvrda> getLAllPotvrde() {
+        return potvrdaRepository.findAll();
+    }
 }

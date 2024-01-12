@@ -13,7 +13,7 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long locationID;
+    private Long location_id;
 
     @Column(unique = true)
     private String locationName;
@@ -23,7 +23,7 @@ public class Location {
     private double latitude;
 
     public Location(Long locationID, String locationName, double longitude, double latitude) {
-        this.locationID = locationID;
+        this.location_id = locationID;
         this.locationName = locationName;
         this.longitude = longitude;
         this.latitude = latitude;

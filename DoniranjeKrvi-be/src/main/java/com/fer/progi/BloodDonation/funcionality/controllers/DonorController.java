@@ -116,9 +116,27 @@ public class DonorController {
         }
     }
 
-    @GetMapping("/getPotvrdeDonora")
-    public ResponseEntity<List<Potvrda>> getAllBloodTypes(@PathVariable Long[] potvrdeID) {
-        List<Potvrda> listPotvrda = donorService.getListOfPotvrda(potvrdeID);
+    @GetMapping("/getPotvrdeDonora/{username}")
+    public ResponseEntity<List<Potvrda>> getPotvrde(@PathVariable String username) {
+        List<Potvrda> listPotvrda = donorService.getListOfPotvrda(username);
+
+        if (listPotvrda != null && !listPotvrda.isEmpty()) {
+            return ResponseEntity.ok(listPotvrda);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
+
+
+    /**
+     * Method for getting list of all potvrde that donor can chose wen creating new reservation
+     * @return list of potvrde
+     */
+    @GetMapping("/getPotvrde")
+    public ResponseEntity<List<Potvrda>> getPotvrde() {
+        List<Potvrda> listPotvrda = donorService.getLAllPotvrde();
 
         if (listPotvrda != null && !listPotvrda.isEmpty()) {
             return ResponseEntity.ok(listPotvrda);

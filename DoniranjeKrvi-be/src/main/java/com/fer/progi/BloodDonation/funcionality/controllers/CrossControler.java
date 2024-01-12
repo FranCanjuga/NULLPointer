@@ -66,8 +66,11 @@ public class CrossControler {
     }
 
 
-
-
+    /**
+     * Methos for adding adding appointment.
+     * @param apointment appointment data in ApointmentDTO format in body
+     * @return response
+     */
     @PostMapping("/addAppointment")
     public ResponseEntity<Object> addAppointment(@RequestBody ApointmentDTO apointment) {
 

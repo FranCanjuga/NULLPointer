@@ -29,6 +29,13 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -36,13 +43,27 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig {
+public class SecurityConfig   {
 
     private final RSAKeyProperties keys;
 
     public SecurityConfig(RSAKeyProperties keys){
         this.keys = keys;
     }
+/*
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS"); // Include OPTIONS
+    }
+
+ */
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -59,13 +80,29 @@ public class SecurityConfig {
         return new ProviderManager(daoProvider);
     }
 
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("*"); // Allow all origins
+        config.addAllowedMethod("*"); // Allow all methods
+        config.addAllowedHeader("*"); // Allow all headers
+        config.setAllowCredentials(true); // Allow credentials (e.g., cookies)
+
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.headers(headersConfigurer ->
-                headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+
+       http.headers(headersConfigurer ->
+               headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+
 
         http    .csrf(csrf -> csrf.disable())
-                .cors(cors-> cors.disable())
+                //.cors(cors-> cors.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.anyRequest().permitAll();
                 });

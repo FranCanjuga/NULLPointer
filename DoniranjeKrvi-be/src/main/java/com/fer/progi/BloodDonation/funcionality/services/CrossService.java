@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class CrossService {
@@ -65,7 +62,7 @@ public class CrossService {
         //Connect appointment with bloodTypes if appointment is critical
         if(appointment.isCriticalAction()){
 
-            List<BloodType> bloodTypes =bloodTypeRepository.findByType(appointment.getBloodTypes());
+            List<BloodType> bloodTypes =bloodTypeRepository.findByTypes(appointment.getBloodTypes());
 
             for (BloodType bloodType : bloodTypes) {
                 AkcijaKrv akcijaKrv = new AkcijaKrv();
@@ -89,7 +86,7 @@ public class CrossService {
                   orElseThrow(() -> new IllegalArgumentException("Appointment with given ID does not exist"));
        var donors = donationHistoryRepository.findAll()
                .stream()
-               .filter(donationHistory -> Objects.equals(donationHistory.getAppointment().getAppointmentID(), appointmentId))
+               .filter(donationHistory -> Objects.equals(donationHistory.getAppointment().getAppointment_id(), appointmentId))
                .map(donationHistory ->
                        new DonorDTO(donationHistory.getDonor())).toList();
 
@@ -107,7 +104,7 @@ public class CrossService {
 
             var donationHistories = donationHistoryRepository.findAll()
                     .stream()
-                    .filter(donationHistory -> Objects.equals(donationHistory.getAppointment().getAppointmentID(), appointmentId)).toList();
+                    .filter(donationHistory -> Objects.equals(donationHistory.getAppointment().getAppointment_id(), appointmentId)).toList();
 
             for (String username : usernames) {
                 var donationHistory = donationHistories.stream()

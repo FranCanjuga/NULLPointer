@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/cross")
-@PreAuthorize("hasRole('CROSS')")
+@PreAuthorize("hasRole('cross')")
 public class CrossControler {
 
     @Autowired
@@ -34,8 +34,8 @@ public class CrossControler {
      * @param appointmentId id of appointment in body
      * @return array of donors in DonorDTO format
      */
-    @GetMapping("/RegisteredForAppointment")
-    public DonorDTO[] getRegisteredForAppointment(@RequestBody Long appointmentId ) {
+    @GetMapping("/RegisteredForAppointment/{appointmentId}")
+    public DonorDTO[] getRegisteredForAppointment(@PathVariable Long appointmentId ) {
        DonorDTO[] data;
 
        try{

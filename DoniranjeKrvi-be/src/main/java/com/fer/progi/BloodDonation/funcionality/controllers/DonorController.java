@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/user")
-@PreAuthorize("hasRole('CROSS')")
+@PreAuthorize("hasRole('user')")
 public class DonorController {
     @Autowired
     private final DonorService donorService;
@@ -30,9 +30,8 @@ public class DonorController {
     }
 
 
-    @GetMapping("/profile")
-    public ResponseEntity<DonorDTO> getDonorData(@RequestBody String username) {
-
+    @GetMapping("/profile/{username}")
+    public ResponseEntity<DonorDTO> getDonorData(@PathVariable String username) {
 
         DonorDTO donorData = donorService.getDonorDataByUsername(username);
 

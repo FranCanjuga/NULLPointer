@@ -32,7 +32,7 @@ public class Donor {
         private String bloodType;
 
         @ManyToOne
-        @JoinColumn(name = "location_id")
+        @JoinColumn(name = "locationID")
         private Location location;
 
         private boolean verified;

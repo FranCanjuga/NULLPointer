@@ -43,9 +43,22 @@ const YourComponent = () => {
           </Map>
         </div>
       </APIProvider>
+
       <div id="popis_mjesta">
-        {clickedMarkerName ? `Clicked Marker: ${clickedMarkerName}` : 'Popis mjesta'}
+        {
+        (localStorage.token) ? (
+          <>{clickedMarkerName ? `${clickedMarkerName}` : 'Popis mjesta'}</>
+        ) : (
+          <div className="dark-background">
+            <a href="./prijava">
+            <button className="map-btn">Prijavi se <br></br>za odabir termina</button>
+            </a>
+            <>{clickedMarkerName ? `${clickedMarkerName}` : 'Popis mjesta'}</>
+          </div>
+        )
+        }
       </div>
+
     </div>
   );
 };

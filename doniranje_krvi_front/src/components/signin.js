@@ -60,10 +60,6 @@ const SignIn = () => {
                 <div className="register-link">
                     <p>Nemaš račun? <a href="./registracija">Registriraj se</a></p>
                 </div>
-
-                <div>
-                <button onClick={() => povratak()}>Vrati se</button>
-                </div>
         </form>
         </div>
 

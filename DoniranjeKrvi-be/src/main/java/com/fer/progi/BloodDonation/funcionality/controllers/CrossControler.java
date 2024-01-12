@@ -67,10 +67,7 @@ public class CrossControler {
 
 
 
-    /**
-     * Returns all active appointments.
-     * @return array of active appointments
-     */
+
     @PostMapping("/addAppointment")
     public ResponseEntity<Object> addAppointment(@RequestBody ApointmentDTO apointment) {
 
@@ -104,6 +101,26 @@ public class CrossControler {
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
+        }
+
+
+    }
+
+    /**
+     * Demands appointment id .
+     * Used to delete appointment
+     * @return response
+     */
+    @PostMapping("/AppointmentDelete")
+    public ResponseEntity<Object> DeleteAppointment(@RequestBody Long appointmentID) {
+
+        try{
+            crossService.deleteAppointment(appointmentID) ;
+            return ResponseEntity.ok(null);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
 
 

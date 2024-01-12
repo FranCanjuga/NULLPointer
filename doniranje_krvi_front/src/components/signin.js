@@ -28,6 +28,9 @@ const SignIn = () => {
         });
     }
 
+    const povratak =() =>{
+        window.location.href = '/';
+      }
 
     return (
     <body className="signin">
@@ -56,6 +59,10 @@ const SignIn = () => {
                 
                 <div className="register-link">
                     <p>Nemaš račun? <a href="./registracija">Registriraj se</a></p>
+                </div>
+
+                <div>
+                <button onClick={() => povratak()}>Vrati se</button>
                 </div>
         </form>
         </div>

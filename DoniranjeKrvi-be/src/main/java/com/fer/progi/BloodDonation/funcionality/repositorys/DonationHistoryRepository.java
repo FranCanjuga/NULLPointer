@@ -6,6 +6,7 @@ import com.fer.progi.BloodDonation.funcionality.models.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,4 +17,6 @@ public interface DonationHistoryRepository extends JpaRepository<DonationHistory
 
     DonationHistory findByDonorUsername(String username);
     //DonationHistory findById(Long id);
+    @Override
+    List<DonationHistory> findAll();
 }

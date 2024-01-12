@@ -4,9 +4,7 @@ package com.fer.progi.BloodDonation.funcionality.controllers;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
-import com.fer.progi.BloodDonation.funcionality.models.Appointment;
-import com.fer.progi.BloodDonation.funcionality.models.DonationHistory;
-import com.fer.progi.BloodDonation.funcionality.models.Donor;
+import com.fer.progi.BloodDonation.funcionality.models.*;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -50,9 +48,6 @@ public class DonorController {
     @PostMapping("/create")
     public ResponseEntity<String> createDonationReservation(@RequestBody DonationHistoryDTO historyDTO) {
 
-        /*gleda broj rezerviranih mjesta za
-        Integer ReservationData = donorService.canReserve();*/
-
         //stvara novu instancu DonationHistory
         DonationHistory history = donorService.createNewReservation(historyDTO);
         if(history != null){
@@ -95,5 +90,30 @@ public class DonorController {
         }
     }
 
+    @GetMapping("/getLocations")
+    public ResponseEntity<List<Location>> getAllLocations(@PathVariable String username) {
+        List<Location> locationList = donorService.getListOfLocations(username);
+
+        if (locationList != null && !locationList.isEmpty()) {
+            return ResponseEntity.ok(locationList);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
+
+    @GetMapping("/getBloodTypes")
+    public ResponseEntity<List<BloodType>> getAllBloodTypes(@PathVariable String username) {
+        List<BloodType> bloodTypeListList = donorService.getListOfBloodTypes(username);
+
+        if (bloodTypeListList != null && !bloodTypeListList.isEmpty()) {
+            return ResponseEntity.ok(bloodTypeListList);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
 
 }

@@ -50,19 +50,6 @@ public class SecurityConfig   {
     public SecurityConfig(RSAKeyProperties keys){
         this.keys = keys;
     }
-/*
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("*")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS"); // Include OPTIONS
-    }
-
- */
-
 
 
     @Bean
@@ -81,18 +68,7 @@ public class SecurityConfig   {
     }
 
 
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*"); // Allow all origins
-        config.addAllowedMethod("*"); // Allow all methods
-        config.addAllowedHeader("*"); // Allow all headers
-        config.setAllowCredentials(true); // Allow credentials (e.g., cookies)
 
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -102,7 +78,7 @@ public class SecurityConfig   {
 
 
         http    .csrf(csrf -> csrf.disable())
-                //.cors(cors-> cors.disable())
+                .cors(cors-> cors.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.anyRequest().permitAll();
                 });

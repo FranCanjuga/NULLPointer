@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface PotvrdaRepository extends JpaRepository<Potvrda, Long> {
 
-    Potvrda findPotvrdaByPotvrdaId(Long potvrdaId);
+    //Potvrda findPotvrdaByPotvrdaId(Long potvrdaId);
 
 
 }

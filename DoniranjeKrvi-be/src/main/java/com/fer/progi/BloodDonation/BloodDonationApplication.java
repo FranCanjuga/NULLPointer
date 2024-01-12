@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.fer.progi.BloodDonation.security.config")
 public class BloodDonationApplication {
 
 	public static void main(String[] args) {

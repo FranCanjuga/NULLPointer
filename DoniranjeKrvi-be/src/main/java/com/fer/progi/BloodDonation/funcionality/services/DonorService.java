@@ -64,7 +64,7 @@ public class DonorService {
         }
         Donor donor = opt.get();
 
-        Optional<Appointment> opt2  =  appointmentRepository.findAppointmentByAppointmentID(historyDTO.getAppointmentID());
+        Optional<Appointment> opt2  =  appointmentRepository.findById(historyDTO.getAppointmentID());
         if(opt2.isEmpty()){
             return null;
         }
@@ -102,7 +102,7 @@ public class DonorService {
             Long[] longPotvrda = historyDTO.getPotvrdeID();
 
             for(Long l: longPotvrda){
-                PotvrdeDonora potvrdeDonora = new PotvrdeDonora(potvrdaRepository.findPotvrdaByPotvrdaId(l),history,null,false);
+                PotvrdeDonora potvrdeDonora = new PotvrdeDonora(potvrdaRepository.findById(l).get(),history,null,false);
                 potvrdeDonoraRepository.save(potvrdeDonora);
             }
 
@@ -127,7 +127,7 @@ public class DonorService {
         }
         DonationHistory donationHistory = opt2.get();
 
-        Optional<Appointment> opt3  =  appointmentRepository.findAppointmentByAppointmentID(donationHistory.getAppointment().getAppointment_id());
+        Optional<Appointment> opt3  =  appointmentRepository.findById(donationHistory.getAppointment().getAppointment_id());
         if(opt3.isEmpty()){
             return null;
         }

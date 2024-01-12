@@ -31,7 +31,7 @@ public class Donor {
         private String gender;
 
         @ManyToOne
-        @Column(name = "blood_type_id")
+        @JoinColumn(name = "blood_type_id")
         private BloodType bloodType;
 
         @ManyToOne

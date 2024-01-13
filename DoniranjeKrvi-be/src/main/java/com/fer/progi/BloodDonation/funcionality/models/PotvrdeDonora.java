@@ -30,7 +30,7 @@ public class PotvrdeDonora {
     private Potvrda potvrda;
 
     @ManyToOne
-    @JoinColumn(name = "donationHistory_id")
+    @JoinColumn(name = "donation_history_id")
     private DonationHistory donationHistory;
 
     private Date expiers;

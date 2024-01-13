@@ -20,7 +20,7 @@ import jakarta.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"priznanje_id", "donationHistory_id"})
+        @UniqueConstraint(columnNames = {"priznanje_id", "donation_history_id"})
 })
 @Entity(name = "priznanje_donora")
 public class PriznanjaDonora {
@@ -34,7 +34,7 @@ public class PriznanjaDonora {
     private Priznanje priznanje;
 
     @ManyToOne
-    @JoinColumn(name = "donationHistory_id")
+    @JoinColumn(name = "donation_history_id")
     private DonationHistory donationHistory;
 
 }

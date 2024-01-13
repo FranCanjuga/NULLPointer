@@ -35,7 +35,7 @@ public class Donor {
         private BloodType bloodType;
 
         @ManyToOne
-        @JoinColumn(name = "locationID")
+        @JoinColumn(name = "location_id")
         private Location location;
 
         private boolean verified;
@@ -44,16 +44,6 @@ public class Donor {
         @JoinColumn(name = "user_username")
         private AppUser appUser;
 
-
-        @Column(unique = true)
-        @ManyToMany(fetch = FetchType.EAGER)
-        @JoinTable(
-                name = "PriznanjaDonora",
-                joinColumns = {@JoinColumn(name = "donor_id")},
-                inverseJoinColumns = {@JoinColumn(name = "priznanje_id")},
-                uniqueConstraints = @UniqueConstraint(columnNames = {"donor_id", "priznanje_id"})
-        )
-        private Set<Priznanje> priznanja;
 
 
 

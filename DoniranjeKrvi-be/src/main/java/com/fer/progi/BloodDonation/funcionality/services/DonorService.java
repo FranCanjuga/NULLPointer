@@ -5,6 +5,8 @@ import com.fer.progi.BloodDonation.funcionality.models.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
@@ -71,6 +73,7 @@ public class DonorService {
         Appointment appointment= opt2.get();
 
 
+        /* Sav kod u komentarim sluzi za ispitivanje zadnjeg davanja krvi
         Set<DonationHistory> donationHistorySet = donor.getDonationHistory();
         Appointment lastAppointment = null;
         for(DonationHistory d: donationHistorySet){
@@ -79,17 +82,6 @@ public class DonorService {
                 lastAppointment = d.getAppointment();
             }
         }
-
-        /*List<Appointment> appointmentList = appointmentRepository.findAll();
-        //Nalazi zadnje napravljeni appointment
-        for (Appointment a : appointmentList) {
-            if ((lastAppointment == null || a.getDateAndTime().isAfter(lastAppointment.getDateAndTime()))) {
-               DonationHistory donationHistory = (DonationHistory) a.getDonationHistory();
-               if(donationHistory.getDonor() == donor){
-                   lastAppointment = a;
-               }
-            }
-        }*/
 
         LocalDateTime appointmentDateTime = lastAppointment.getDateAndTime();
         LocalDateTime threeMonthsAgo = LocalDateTime.now().minusMonths(3);
@@ -100,41 +92,60 @@ public class DonorService {
         else{
             DonationHistory history = new DonationHistory(donor, appointment, false);
             Long[] longPotvrda = historyDTO.getPotvrdeID();
+            List<Potvrda> svePotvrde = potvrdaRepository.findAllById(Arrays.stream(longPotvrda).toList());
 
-            for(Long l: longPotvrda){
-                PotvrdeDonora potvrdeDonora = new PotvrdeDonora(potvrdaRepository.findById(l).get(),history,null,false);
+            for(Potvrda p: svePotvrde){
+                PotvrdeDonora potvrdeDonora = new PotvrdeDonora(p,history,null,false);
                 potvrdeDonoraRepository.save(potvrdeDonora);
             }
 
 
             historyRepository.save(history);
             return history;
+        }*/
+        DonationHistory history = new DonationHistory(donor, appointment, false);
+
+        Long[] longPotvrda = historyDTO.getPotvrdeID();
+        List<Potvrda> svePotvrde = new ArrayList<>();
+        for(Long p: longPotvrda){
+            svePotvrde.add(potvrdaRepository.findById(p).get());
         }
+
+        for(Potvrda p: svePotvrde){
+            PotvrdeDonora potvrdeDonora = new PotvrdeDonora(p,history,null,false);
+            potvrdeDonoraRepository.save(potvrdeDonora);
+        }
+        historyRepository.save(history);
+
+        return history;
 
     }
 
     public DonationHistoryDTO getDonationReservationByUsername(String username) {
 
         Optional<Donor> opt =  donorRepository.findDonorByUsername(username);
+        //System.out.println("1111111111111111111111");
         if(opt.isEmpty()){
             return null;
         }
         Donor donor = opt.get();
 
         Optional<DonationHistory> opt2 =historyRepository.findDonationHistoryByDonorUsername(username);
+        System.out.println("222222222222222");
         if(opt2.isEmpty()){
             return null;
         }
         DonationHistory donationHistory = opt2.get();
 
         Optional<Appointment> opt3  =  appointmentRepository.findById(donationHistory.getAppointment().getAppointment_id());
+        System.out.println("3333333333333333333");
         if(opt3.isEmpty()){
             return null;
         }
         Appointment appointment= opt3.get();
 
         //vraca sve rezervacije bez filtera
-        DonationHistoryDTO allReservations =  new DonationHistoryDTO(username, appointment.getAppointment_id(), false);
+        DonationHistoryDTO allReservations =  new DonationHistoryDTO(false,donor, appointment);
 
         if(allReservations.getUsername().equals(username)
                 && appointment.getDateAndTime().isAfter(LocalDateTime.now())) {

@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"potvrda_id", "donationHistory_id"})
+        @UniqueConstraint(columnNames = {"potvrda_id", "donation_history_id"})
 })
 @Entity(name = "potvrde_donora")
 public class PotvrdeDonora {

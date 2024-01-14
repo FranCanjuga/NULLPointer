@@ -1,6 +1,7 @@
 package com.fer.progi.BloodDonation.funcionality.services;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentFinishedDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentsResponseDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.models.*;
@@ -8,7 +9,11 @@ import com.fer.progi.BloodDonation.funcionality.repositorys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +34,15 @@ public class CrossService {
 
     @Autowired
     private AkcijaKrvRepository akcijaKrvRepository;
+
+    @Autowired
+    private PriznajeRepository priznajeRepository;
+
+    @Autowired
+    PriznanjaDonorRepository priznanjaDonorRepository;
+
+    @Autowired
+    PotvrdeDonoraRepository potvrdeDonoraRepository;
 
 
     /**
@@ -109,31 +123,60 @@ public class CrossService {
                     .stream()
                     .filter(donationHistory -> Objects.equals(donationHistory.getAppointment().getAppointment_id(), appointmentId)).toList();
 
+
+        Appointment app  =  crossRepository.findById(appointmentId).orElse(null);
+        if(app == null ){
+            throw new IllegalArgumentException("Appointment with given ID does not exist");
+        } else if (app.isFinished() || (app.getDateAndTime().isAfter(LocalDateTime.now())) ){
+            throw new IllegalArgumentException("Appointment is already finished or is in the future");
+        } else if (usernames.length > donationHistories.size()) {
+            throw new IllegalArgumentException("Number of usernames is greater than number of registered donors");
+        }
+
+
+        app.setFinished(true);
+
+        List<Priznanje>  priznanja = priznajeRepository.findAll();
+
             for (String username : usernames) {
                 var donationHistory = donationHistories.stream()
-                        .filter(donationHistory1 -> donationHistory1.getDonor().getUsername().equals(username))
+                        .filter(donationHistory1 -> donationHistory1.getDonor().getUsername().equals(username)
+                                && donationHistory1.getAppointment().getAppointment_id().equals(appointmentId))
                         .findFirst()
                         .orElseThrow(() -> new IllegalArgumentException("Donor with given username is not registered for this appointment"));
 
-//TO DOO - dodati davanje priznanja i potvrda donoru
-                int numberOfDonations = countDonorDonations(username);
 
-                switch (numberOfDonations){
-                    case 10 -> {
-                        //dodaj  Broncano priznanje
-                    }
-                    case 20 -> {
-                        //dodaj priznanje Srebrno priznanje
-                    }
-                    case 30 -> {
-                        //dodaj priznanje Zlatno priznanje
+                int numberOfDonations = countDonorDonations(username);
+                for(var priznanje : priznanja){
+                    if(numberOfDonations == priznanje.getCondition()){
+                        PriznanjaDonora priznanjaDonora = new PriznanjaDonora();
+                        priznanjaDonora.setDonationHistory(donationHistory);
+                        priznanjaDonora.setPriznanje(priznanje);
+                        priznanjaDonorRepository.save(priznanjaDonora);
                     }
                 }
+                potvrdeDonoraRepository.findByDontionHistoryId(donationHistory.getDonationHistory_id())
+                          .forEach(potvrdeDonora -> {
 
-//TO DOO - dodati potvrdu donoru
+                              // Get the current date and time and add 2 days
+                              LocalDateTime localDateTime = LocalDateTime.now().plusDays(2);
+
+                              // Convert LocalDateTime to Instant
+                              Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+
+                              // Convert Instant to Date
+                              Date date = Date.from(instant);
+                              potvrdeDonora.setGiven(true);
+                              //Date date = Date.from(Instant.from(LocalDateTime.now().plusDays(2)));
+                              potvrdeDonora.setExpiers(date);
+                              potvrdeDonoraRepository.save(potvrdeDonora);
+                          });
 
                 donationHistory.setCame(true);
                 donationHistoryRepository.save(donationHistory);
+                crossRepository.save(app);
+
+
             }
 
     }
@@ -174,6 +217,30 @@ public class CrossService {
             throw new IllegalArgumentException("Appointment is already finished");
         }
 
+        //delete potvrdaDonor
+
+        List<PotvrdeDonora> potvrdeDonora = potvrdeDonoraRepository.findAll()
+                .stream()
+                .filter(potvrdaD -> Objects.equals(potvrdaD.getDonationHistory().getAppointment().getAppointment_id(), appointmentID))
+                .toList();
+        potvrdeDonoraRepository.deleteAll(potvrdeDonora);
+
+        //delete akcija krv
+
+        List<AkcijaKrv> akcijeKrvi = akcijaKrvRepository.findAll()
+                .stream()
+                .filter(akcijaKrv -> Objects.equals(akcijaKrv.getAppointment().getAppointment_id(), appointmentID))
+                .toList();
+        akcijaKrvRepository.deleteAll(akcijeKrvi);
+
+        //delete donation history
+        List<DonationHistory> donationHistories = donationHistoryRepository.findAll()
+                .stream()
+                .filter(donationHistory -> Objects.equals(donationHistory.getAppointment().getAppointment_id(), appointmentID))
+                .toList();
+        donationHistoryRepository.deleteAll(donationHistories);
+
+        //delete appointment
         crossRepository.delete(appointment);
 
     }

@@ -20,19 +20,22 @@ public class Donor {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long donorID;
+        private Long donor_id;
 
         @Column(unique = true)
         private String username;
 
+        @Column(name = "date_of_birth")
         private Date dateOfBirth;
 
         private String gender;
 
-        private String bloodType;
+        @ManyToOne
+        @JoinColumn(name = "blood_type_id")
+        private BloodType bloodType;
 
         @ManyToOne
-        @JoinColumn(name = "locationID")
+        @JoinColumn(name = "location_id")
         private Location location;
 
         private boolean verified;
@@ -41,16 +44,6 @@ public class Donor {
         @JoinColumn(name = "user_username")
         private AppUser appUser;
 
-
-        @Column(unique = true)
-        @ManyToMany(fetch = FetchType.EAGER)
-        @JoinTable(
-                name = "DonoroPriznanje",
-                joinColumns = {@JoinColumn(name = "donorId")},
-                inverseJoinColumns = {@JoinColumn(name = "priznanjeId")},
-                uniqueConstraints = @UniqueConstraint(columnNames = {"donorId", "priznanjeId"})
-        )
-        private Set<Priznanje> priznanja;
 
 
 
@@ -71,7 +64,7 @@ public class Donor {
 
 
 
-        public Donor( String username, Date dateOfBirth, String gender, String bloodType, Location location, boolean verified) {
+        public Donor( String username, Date dateOfBirth, String gender, BloodType bloodType, Location location, boolean verified) {
                 this.username = username;
                 this.dateOfBirth = dateOfBirth;
                 this.gender = gender;
@@ -81,7 +74,7 @@ public class Donor {
                 donationHistory = new HashSet<>();
         }
 
-        public Donor(String username, Date dateOfBirth, String gender, String bloodType, Location location) {
+        public Donor(String username, Date dateOfBirth, String gender, BloodType bloodType, Location location) {
                this(username, dateOfBirth, gender, bloodType, location, false);
         }
 

@@ -35,6 +35,11 @@ public class AdminController {
         return adminService.getUnregisteredDonors();
     }
 
+    /**
+     * Approves donor registration.Donor will be marked as verified.
+     * @param username username of donor that passed vertification process
+     * @return response entity with status 200 if donor was successfully approved, 400 otherwise
+     */
     @PostMapping("/approveDonor/{username}")
     public ResponseEntity<Object> approveDonor(@PathVariable String username) {
         boolean bool = adminService.approveDonor(username);
@@ -47,6 +52,11 @@ public class AdminController {
                 .body(null);
     }
 
+    /**
+     * Rejects donor registration.Donor will be deleted from database.
+     * @param username username of donor that failed in vertification process
+     * @return response entity with status 200 if donor was successfully deleted, 400 otherwise
+     */
     @PostMapping("/rejectDonor/{username}")
     public ResponseEntity<Object> rejectDonor(@PathVariable String username) {
         boolean bool = adminService.rejectDonor(username);

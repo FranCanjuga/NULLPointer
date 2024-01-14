@@ -19,11 +19,11 @@ public class Potvrda {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int potvrdaId;
+    private int potvrda_id;
 
 
-
-    String namePotvrda;
+    @Column(name = "name_potvrda")
+    private String namePotvrda;
 
     @OneToMany(mappedBy = "potvrda", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PotvrdeDonora> confirmationHistory = new HashSet<>();

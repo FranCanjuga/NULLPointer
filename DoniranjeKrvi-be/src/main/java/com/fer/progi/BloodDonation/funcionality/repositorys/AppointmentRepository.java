@@ -15,6 +15,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Override
     List<Appointment> findAll();
 
-    Optional<Appointment> findAppointmentByAppointmentID(Long appointmentID);
+    //Optional<Appointment> findAppointmentByAppointmentID(Long appointmentID);
 
 }

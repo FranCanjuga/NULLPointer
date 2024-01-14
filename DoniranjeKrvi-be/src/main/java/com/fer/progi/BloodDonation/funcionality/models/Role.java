@@ -16,8 +16,8 @@ public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "roleId")
-    private Integer roleId;
+    @Column(name = "role_id")
+    private Integer role_id;
 
     private String authority;
 
@@ -30,16 +30,16 @@ public class Role implements GrantedAuthority {
     }
 
     public Role(int roleId, String authority) {
-        this.roleId = roleId;
+        this.role_id = roleId;
         this.authority = authority;
     }
 
     public int getRoleId() {
-        return roleId;
+        return role_id;
     }
 
     public void setRoleId(int roleId) {
-        this.roleId = roleId;
+        this.role_id = roleId;
     }
 
     @Override

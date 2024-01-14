@@ -1,9 +1,9 @@
 package com.fer.progi.BloodDonation.funcionality.controllers;
 
 
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentGetDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
 import com.fer.progi.BloodDonation.funcionality.models.*;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
 import org.springframework.beans.factory.annotation.*;
@@ -57,15 +57,14 @@ public class DonorController {
             return ResponseEntity.badRequest().body("ERROR: Unable to create Donation reservation");
         }
 
-
     }
 
 
     //Get metoda za dohvacanje aktivnih rezervacija preko username-a
     @GetMapping("/ActiveReservations/{username}")
-    public ResponseEntity<DonationHistoryDTO> getDonationReservationByUsername(@PathVariable String username) {
+    public ResponseEntity<List<DonationHistoryDTO>> getActiveDonationReservationByUsername(@PathVariable String username) {
 
-        DonationHistoryDTO historyData = donorService.getDonationReservationByUsername(username);
+        List<DonationHistoryDTO> historyData = donorService.getDonationReservationByUsername(username);
 
         if (historyData != null) {
             return ResponseEntity.ok(historyData);
@@ -77,20 +76,44 @@ public class DonorController {
 
     }
 
+    /**
+     * Method for getting list of all  appointments for donor (even finished ones)
+     * @param username username of donor
+     * @return list of all active appointments for donor
+     */
+    @GetMapping("/AllDonorReservations/{username}")
+    public ResponseEntity<List<DonationHistoryDTO>> getAllDonationReservationByUsername(@PathVariable String username) {
+
+        try {
+            List<DonationHistoryDTO> historyData = donorService.getAllDonationReservationByUsername(username);
+            return ResponseEntity.ok(historyData);
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+
+    }
+    /**
+     * Method for getting list of all  active appointments donor can sing in for (even finished ones)
+     * @param username username of donor
+     * @return list of all active appointments for donor
+     */
     @GetMapping("/AllActiveDates/{username}")
-    public ResponseEntity<List<Appointment>> getAllActiveDates(@PathVariable String username) {
-        List<Appointment> activeDates = donorService.getListOfActiveDonationDates(username);
+    public ResponseEntity<List<AppointmentGetDTO>> getAllActiveDates(@PathVariable String username) {
+        List<AppointmentGetDTO> activeDates = donorService.getListOfActiveDonationDates(username);
 
         if (activeDates != null && !activeDates.isEmpty()) {
             return ResponseEntity.ok(activeDates);
-        } else {
+        }
+        else {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(null);
         }
     }
 
-    @GetMapping("/getLocations")
+    @GetMapping("/getLocations/{username}")
     public ResponseEntity<List<Location>> getAllLocations(@PathVariable String username) {
         List<Location> locationList = donorService.getListOfLocations(username);
 
@@ -103,12 +126,43 @@ public class DonorController {
         }
     }
 
-    @GetMapping("/getBloodTypes")
+    @GetMapping("/getBloodTypes/{username}")
     public ResponseEntity<List<BloodType>> getAllBloodTypes(@PathVariable String username) {
         List<BloodType> bloodTypeListList = donorService.getListOfBloodTypes(username);
 
         if (bloodTypeListList != null && !bloodTypeListList.isEmpty()) {
             return ResponseEntity.ok(bloodTypeListList);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
+
+    @GetMapping("/getPotvrdeDonora/{username}")
+    public ResponseEntity<List<Potvrda>> getPotvrde(@PathVariable String username) {
+        List<Potvrda> listPotvrda = donorService.getListOfPotvrda(username);
+
+        if (listPotvrda != null && !listPotvrda.isEmpty()) {
+            return ResponseEntity.ok(listPotvrda);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
+
+
+    /**
+     * Method for getting list of all potvrde that donor can chose wen creating new reservation
+     * @return list of potvrde
+     */
+    @GetMapping("/getPotvrde")
+    public ResponseEntity<List<Potvrda>> getPotvrde() {
+        List<Potvrda> listPotvrda = donorService.getLAllPotvrde();
+
+        if (listPotvrda != null && !listPotvrda.isEmpty()) {
+            return ResponseEntity.ok(listPotvrda);
         } else {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)

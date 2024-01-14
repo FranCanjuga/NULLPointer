@@ -6,15 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.Optional;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"potvrdaId", "donationHistoryId"})
+        @UniqueConstraint(columnNames = {"potvrda_id", "donation_history_id"})
 })
 @Entity(name = "potvrde_donora")
 public class PotvrdeDonora {
@@ -26,16 +27,16 @@ public class PotvrdeDonora {
 
 
     @ManyToOne
-    @JoinColumn(name = "potvrdaId")
+    @JoinColumn(name = "potvrda_id")
     private Potvrda potvrda;
 
     @ManyToOne
-    @JoinColumn(name = "donationHistoryId")
+    @JoinColumn(name = "donation_history_id")
     private DonationHistory donationHistory;
 
     private Date expiers;
 
-    private boolean given;
+    private Boolean given;
 
     public PotvrdeDonora(Potvrda potvrda, DonationHistory donationHistory, Date expiers, boolean given) {
         this.potvrda = potvrda;

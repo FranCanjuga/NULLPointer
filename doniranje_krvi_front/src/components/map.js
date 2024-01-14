@@ -15,6 +15,7 @@ const YourComponent = () => {
   };
 
   return (
+
     <div id="map" className="body-map">
       <APIProvider apiKey="AIzaSyDJlArc7yrXyc4EoDU2Yaq9wJ7EttzrjJg">
         <div className="map_div">

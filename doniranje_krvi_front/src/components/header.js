@@ -40,13 +40,8 @@ const Header = () => {
                         <p>Hrvatski Crveni križ je nacionalno društvo Crvenog križa u Hrvatskoj.</p>
                         <p>Utemeljitelj dobrovoljnog davanja krvi u Republici Hrvatskoj, promiče
                         dobrovoljno davanje krvi, organizira i provodi akcije davanja krvi.</p>
-                        <a href="https://www.hck.hr/" className="head-btn">Pridruži se</a>
-                        <br></br>
-                        <br></br>
                         <p>Organizacija ima više od 370.000 članova volontera, kao i 550 profesionalaca. U Hrvatskoj je aktivan od 1878. godine.</p>
-                        <p>U Hrvatskoj Crveni križ djeluje preko nacionalnog društva Hrvatski Crveni križ,
-                        čije je rad reguliran Zakonom o Hrvatskom Crvenom križu
-                        i statutom Hrvatskog Crvenog križa</p>
+                        <a href="#map" className="head-btn">Pridruži se</a>
                 </div>
             </div>
     

@@ -90,6 +90,9 @@ nav ul li a{
     max-width: 600px;
     margin-left: 3%;
 }
+.head-content .head-btn{
+    margin-top: 10px
+}
 
 .head-content h1 {
     font-size: 60px;
@@ -97,7 +100,7 @@ nav ul li a{
 }
 
 .head-content p {
-    margin: 10px 0 30px;
+    margin: 15px 0 25px;
     color: #333;
 }
 

@@ -1,18 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { APIProvider, Map, Marker, InfoWindow } from '@vis.gl/react-google-maps';
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 const YourComponent = () => {
   const position = { lat: 45.3272, lng: 14.4411 };
+  const token = localStorage.getItem("token");
+  const decodedToken = jwtDecode(token);
+  const roles = decodedToken.roles;
+
+  const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
 
   const [open, setOpen] = useState(false);
   const [infoWindowPosition, setInfoWindowPosition] = useState(null);
   const [clickedMarkerName, setClickedMarkerName] = useState(null);
+  const [locations,setLocations] = useState([]);
 
   const handleMarkerClick = (markerPosition, markerName) => {
     setInfoWindowPosition(markerPosition);
     setClickedMarkerName(markerName);
     setOpen(true);
   };
+
+  useEffect(() =>{
+    if(roles.includes("user")){
+      const fetchLocations = async () => {
+        try {
+          if (roles.includes("user")) {
+            const response = await axios.get(`${baseURL}/user/getLocations/${decodedToken.sub}`,{
+              headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+            });
+            setLocations(response.data);
+            console.log(response.data);
+          }
+        }catch(error){
+        
+        }
+      }
+      fetchLocations();
+  }},[token, roles, decodedToken.sub,baseURL]);
 
   return (
 

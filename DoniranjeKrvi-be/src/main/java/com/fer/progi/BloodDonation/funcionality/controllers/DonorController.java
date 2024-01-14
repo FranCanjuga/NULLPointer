@@ -1,9 +1,9 @@
 package com.fer.progi.BloodDonation.funcionality.controllers;
 
 
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentGetDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
 import com.fer.progi.BloodDonation.funcionality.models.*;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
 import org.springframework.beans.factory.annotation.*;
@@ -100,12 +100,13 @@ public class DonorController {
      * @return list of all active appointments for donor
      */
     @GetMapping("/AllActiveDates/{username}")
-    public ResponseEntity<List<Appointment>> getAllActiveDates(@PathVariable String username) {
-        List<Appointment> activeDates = donorService.getListOfActiveDonationDates(username);
+    public ResponseEntity<List<AppointmentGetDTO>> getAllActiveDates(@PathVariable String username) {
+        List<AppointmentGetDTO> activeDates = donorService.getListOfActiveDonationDates(username);
 
         if (activeDates != null && !activeDates.isEmpty()) {
             return ResponseEntity.ok(activeDates);
-        } else {
+        }
+        else {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(null);

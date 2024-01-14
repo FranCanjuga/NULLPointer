@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentGetDTO;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonationHistoryRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.AppointmentRepository;
@@ -57,7 +58,6 @@ public class DonorService {
         return  new DonorDTO(donor.getUsername() , donor.getDateOfBirth(), donor.getGender(), donor.getBloodType().getType(), donor.getLocation().getLocationName(), donor.isVerified(),
                 donor.getAppUser().getFirstName(), donor.getAppUser().getLastName(), donor.getAppUser().getPhoneNumber());
     }
-
 
     public DonationHistory createNewReservation(DonationHistoryDTO historyDTO) {
         Donor donor  =  donorRepository.findByUsername(historyDTO.getUsername());
@@ -118,7 +118,6 @@ public class DonorService {
 
     }
 
-
     /**
      * Method for getting list of all active donation reservations for user
      * @param username - username of user
@@ -137,6 +136,7 @@ public class DonorService {
 
         return donationHistoryDTOList;
     }
+
     /**
      * Method for getting list of all  donation reservations for user (even finished ones)
      * @param username - username of user
@@ -178,10 +178,29 @@ public class DonorService {
      * @param username - username of user (usless)
      * @return list of active donation dates
      */
-    public List<Appointment> getListOfActiveDonationDates(String username) {
+    public List<AppointmentGetDTO> getListOfActiveDonationDates(String username) {
 
-        //TODO prepraviti
-        return appointmentRepository.findAll();
+        List<Appointment> allAppointments = appointmentRepository.findAll();
+        if(allAppointments.isEmpty()){return null;}
+        List<AppointmentGetDTO> activeAppointments = new ArrayList<>();
+
+        for(Appointment a: allAppointments){
+            if(a.getDateAndTime().isAfter(LocalDateTime.now())){
+                //activeAppointments.add(a);
+                AppointmentGetDTO appDTO = new AppointmentGetDTO(a.getAppointment_id(),a.getLocation(),a.getDateAndTime());
+                activeAppointments.add(appDTO);
+            }
+            /*else{
+                //pass
+            }*/
+        }
+        if(activeAppointments.isEmpty()){
+            return null;
+        }
+        else{
+            return activeAppointments;
+        }
+
     }
 
     public List<Location> getListOfLocations(String username) {

@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { APIProvider, Map, Marker, InfoWindow } from '@vis.gl/react-google-maps';
-import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode"
+
+const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
 
 const YourComponent = () => {
   const position = { lat: 45.3272, lng: 14.4411 };
-  const token = localStorage.getItem("token");
-  const decodedToken = jwtDecode(token);
-  const roles = decodedToken.roles;
-
-  const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
 
   const [open, setOpen] = useState(false);
   const [infoWindowPosition, setInfoWindowPosition] = useState(null);
@@ -22,25 +19,24 @@ const YourComponent = () => {
     setOpen(true);
   };
 
-  useEffect(() =>{
-    if(roles.includes("user")){
-      const fetchLocations = async () => {
-        try {
-          if (roles.includes("user")) {
-            const response = await axios.get(`${baseURL}/user/getLocations/${decodedToken.sub}`,{
-              headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-            });
-            setLocations(response.data);
-            console.log(response.data);
-          }
-        }catch(error){
-        
-        }
+  
+  const pretrazivanje = async() =>{
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
+
+      try{
+        const response = await axios.get(`${baseURL}/user/getLocations/${decodedToken.sub}`,{
+          headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        });
+        setLocations(response.data);
+        console.log(response.data);
+      }catch(error){
+
       }
-      fetchLocations();
-  }},[token, roles, decodedToken.sub,baseURL]);
+  };
+
 
   return (
 
@@ -76,7 +72,9 @@ const YourComponent = () => {
       <div id="popis_mjesta">
         {
         (localStorage.token) ? (
-          <>{clickedMarkerName ? `${clickedMarkerName}` : 'Popis mjesta'}</>
+          <a>
+            <button className="map-btn" onClick={pretrazivanje}>Pretraži</button>
+            </a>
         ) : (
           <div className="dark-background">
             <a href="./prijava">

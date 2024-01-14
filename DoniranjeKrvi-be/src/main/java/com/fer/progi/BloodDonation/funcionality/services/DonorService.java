@@ -221,7 +221,7 @@ public class DonorService {
         return lista.stream().filter(
                 potvrdeDonora -> potvrdeDonora.getDonationHistory().getDonor().getUsername().equals(usename))
         .filter(
-                potvrdeDonora -> potvrdeDonora.isGiven() && potvrdeDonora.getExpiers().after(Date.from(Instant.from(LocalDateTime.now()))))
+                potvrdeDonora -> potvrdeDonora.getGiven() && potvrdeDonora.getExpiers().after(Date.from(Instant.from(LocalDateTime.now()))))
         .map(
                 PotvrdeDonora::getPotvrda)
         .toList();

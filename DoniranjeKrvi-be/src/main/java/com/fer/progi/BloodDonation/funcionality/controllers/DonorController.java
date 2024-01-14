@@ -60,7 +60,7 @@ public class DonorController {
     }
 
 
-    //Get metoda za dohvacanje aktivnih rezervacija donora preko username-a
+    //Get metoda za dohvacanje aktivnih rezervacija preko username-a
     @GetMapping("/ActiveReservations/{username}")
     public ResponseEntity<List<DonationHistoryDTO>> getActiveDonationReservationByUsername(@PathVariable String username) {
 
@@ -95,7 +95,7 @@ public class DonorController {
 
     }
     /**
-     * Method for getting list of all  active appointments donor can sing in for
+     * Method for getting list of all  active appointments donor can sing in for (even finished ones)
      * @param username username of donor
      * @return list of all active appointments for donor
      */

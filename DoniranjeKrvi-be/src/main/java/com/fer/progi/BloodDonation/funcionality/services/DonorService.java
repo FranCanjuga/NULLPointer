@@ -137,6 +137,11 @@ public class DonorService {
         }
         DonationHistory donationHistory = opt2.get();
 
+        //get all appointments
+        //ili promijeni funkciju dolje da bude list
+        //filter
+        //vratin listu rezervacija
+    
         Optional<Appointment> opt3  =  appointmentRepository.findById(donationHistory.getAppointment().getAppointment_id());
         System.out.println("3333333333333333333");
         if(opt3.isEmpty()){

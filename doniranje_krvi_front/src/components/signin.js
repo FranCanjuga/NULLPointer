@@ -6,6 +6,7 @@ const SignIn = () => {
 
     const[username,setUsername] = useState('')
     const[password,setLozinka]=useState('')
+    const [message, setMessage] = useState('');
     const handleClick = (e) => {
         e.preventDefault();
         const korisnik = { username, password};
@@ -25,16 +26,34 @@ const SignIn = () => {
             else
                 delete axios.defaults.headers.common["Authorization"];
             window.location.href = '/'
-        });
+        }).catch((error) => {
+            if (error.response && error.response.status === 500) {
+              console.error("Error 500 - Dodan appointment");
+                setMessage('Error 500');
+            } else {
+              console.error(error);
+            }
+          });
     }
 
     const povratak =() =>{
         window.location.href = '/';
       }
 
+    const Reg = () =>{
+        window.location.href='/registracija';
+    }
+
+
     return (
     <body className="signin">
-
+         {message ? (
+        <div className="wrapper">
+            <h2>Korisničko ime ili lozinka su pogrešni</h2>
+            <br></br>
+            <button type="button" className="btn2" onClick={() => Reg()}>Registriraj se</button>
+        </div>
+      ) : (
     <div className="wrapper">   
         <form action="" method="post">
             <h1>Login</h1>
@@ -60,9 +79,11 @@ const SignIn = () => {
                 <div className="register-link">
                     <p>Nemaš račun? <a href="./registracija">Registriraj se</a></p>
                 </div>
+                
+                <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>
         </form>
         </div>
-
+      )}
     </body>
     )
 }

@@ -11,7 +11,9 @@ const User = () => {
 
   const [userData, setUserData] = useState([]);
   const [donorData, setDonorData] = useState([]);
-  const [allusersData,setAllUsers] = useState([]);
+  const [activeApps,setActiveApp] = useState([]);
+  const [locReg, setLocationReg] = useState('');
+ // const [allusersData,setAllUsers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,30 +25,36 @@ const User = () => {
               },
           });
           setUserData(response.data);
-          const response2 = await axios.get(`${baseURL}/admin/allDonors`,{
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setAllUsers(response2.data);
+       //   const response2 = await axios.get(`${baseURL}/admin/allDonors`,{
+         //   headers: {
+           //   Authorization: `Bearer ${token}`,
+           // },
+        //  });
+        //  setAllUsers(response2.data); 
 
         } 
         else if (roles.includes("user")) {
           const response = await axios.get(
-            `${baseURL}/user/profile`,
+            `${baseURL}/user/profile/${decodedToken.sub}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-              body:{
-                username : decodedToken.sub,
-              }
             }
           );
             
             console.log(response.data)
             setDonorData(response.data);
           }
+
+        else if(roles.includes("cross")){
+          const response = await axios.get(`${baseURL}/cross/ActiveAppointments`,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+              },
+          });
+          setActiveApp(response.data);
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -57,35 +65,31 @@ const User = () => {
 
 
   const approveUser = (username) => {
-    const response = axios.post(`${baseURL}/admin/approveDonor`,{
+    axios.post(`${baseURL}/admin/approveDonor/${username}`, null, {
       headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      params:{
-        username : username,
+        Authorization: `Bearer ${token}`,
       },
     })
-      .then(() => {
+      .then((response) => {
         console.log(response.data);
-        setUserData((prevUserData) => prevUserData.filter((user) => user.username !== username));
+        if (response.status === 200) {
+          setUserData((prevUserData) => prevUserData.filter((user) => user.username !== username));
+        } else {
+          console.error(`Error approving user ${username}: Unexpected response status ${response.status}`);
+        }
       })
       .catch((error) => {
-        
         console.error(`Error approving user ${username}:`, error);
       });
   };
 
   const rejectUser = (username) => {
-    const response = axios.post(`${baseURL}/admin/rejectDonor`,{
+     axios.post(`${baseURL}/admin/rejectDonor/${username}`,null,{
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      body :{
-        username : username
-      },
     })
       .then(() => {
-        console.log(response.data);
         setUserData((prevUserData) => prevUserData.filter((user) => user.username !== username));
       })
       .catch((error) => {
@@ -93,103 +97,216 @@ const User = () => {
       });
   };
 
-  const addAppointment =() => {
-    const response =  axios.post(`${baseURL}/cross/addAppointment`,{
-      headers: {
-          Authorization: `Bearer ${token}`,
-        }
+  //ovo dolje je za cross
+  const [bloodTypes,setBloodTypes] = useState([]);
+  const [locationID, setLocationID] = useState('');
+  const [criticalAction,setCritical] = useState(Boolean);
+  const [dateAndTime, setDateAndTime] = useState('');
 
-    }).then(()=>{
-      console.log(response.data)
-      
+  const addAppointment = () => {
+    // Correct property names to match the backend DTO
+    const appointment = {
+      bloodTypes,
+      locationID: parseInt(locationID),
+      criticalAction,
+      dateAndTime,
+    };
+    console.log(appointment);
+    const response = axios.post(`${baseURL}/cross/addAppointment`, appointment, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(() => {
+      console.log(response.data);
     }).catch((error) => {
-        
       console.error(error);
     });
   };
 
-  const activeApp = async() => {
 
-  };
-
-  const registeredForApp =async() => {
-
+  const registeredForApp = (locReg) => {
+    const app = parseInt(locReg)
+    const response = axios.get(`${baseURL}/cross/RegisteredForAppointment/${app}`,null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(() => {
+      console.log(response.data);
+    }).catch((error) => {
+      console.error(error);
+    });
   };
 
   const povratak =() =>{
     window.location.href = '/';
   }
 
-  return (
-    <div>
-  {roles.includes("admin") ? (
-    <div>
-      <h1>Pozdrav admin</h1>
-      <br />
-      <button onClick={() => povratak()}>Vrati se</button>
-      <br></br>
-      <br></br>
-      <h2>Svi donori</h2>
-      <ul>
-        {allusersData.map((user) => (
-          <li key ={user.donorID}>
-            <p>Username: {user.username}</p>
-            <p>Blood Type: {user.bloodType}</p>
-            <p>Donor ID: {user.donorID}</p>
-            <p>Town: {user.town}</p>
-            <br></br>
-          </li>
-        ))
+  // funkcija koja datum ljepse ispise 
+  function napisiDatum(dateOfBirth) {
+    if (typeof dateOfBirth !== 'undefined' && typeof dateOfBirth === 'string') {
+        var datum  = dateOfBirth.split("-");
+        
+        if (datum.length === 3) {
+            var mj = datum[2].split("T");
+            
+            if (mj.length === 2) {
+                var vrijeme = mj[0] + "." + datum[1] + "." + datum[0] + ".";
+                return vrijeme;
+            } 
+         }      
+    }
+}
 
-        }
-      </ul>
+  return (
+    <div className="user">
+  {roles.includes("admin") ? (
+    <div className="reg-wrapper">
+      <h1 className="naslov">Pozdrav admin</h1>
+      <br />
       <br></br>
       <h2>Svi neverificirani korisnici</h2>
       <br />
-      <ul>
-        {userData.map((user) => (
-          <li key={user.donorID}>
-            <p>Username: {user.username}</p>
-            <p>Blood Type: {user.bloodType}</p>
-            <p>Donor ID: {user.donorID}</p>
-            <p>Town: {user.town}</p>
-            <button onClick={() => rejectUser(user.username)}>Reject</button>{' '}
-            <button onClick={() => approveUser(user.username)}>Approve</button>
-            <br></br>
-            <br></br>
-          </li>
-        ))}
-      </ul>
+      <ul className="user-list">
+  {userData.map((user) => (
+    <li key={user.donorID} className="user-item">
+      <div className="user-info">
+        <p className="username">Username : {user.username}</p>
+        {user.bloodType && user.bloodType.type && (
+          <p className="blood-type">Blood Type : {user.bloodType.type}</p>
+        )}
+        {user.donor_id && (
+          <p className="donor-id">Donor ID : {user.donor_id}</p>
+        )}
+        {user.location && user.location.locationName && (
+          <p className="location">Location : {user.location.locationName}</p>
+        )}
+      </div>
+      <div className="buttons">
+      <button
+        className="reject-button"
+        onClick={() => rejectUser(user.username)}
+      >
+        Reject
+      </button>
+      <button
+        className="approve-button"
+        onClick={() => approveUser(user.username)}
+      >
+        Approve
+      </button>
+      </div>
+    </li>
+  ))}
+</ul>
+        <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>
+        <br></br>
+      
     </div>
   ) : roles.includes("user") ? (
-    <div>
-      <h2>Vaši podaci</h2>
+    <div className="reg-wrapper">
+      <h1 className="naslov">Vaši podaci</h1>
       <br></br>
-      <p>Korisničko ime: {donorData.username}</p>
-      <p>Ime: {donorData.firstName}</p>
-      <p>Prezime: {donorData.lastName}</p>
-      <p>Broj mobitela: {donorData.phoneNumber}</p>
-      <p>Datum rođenja: {donorData.dateOfBirth}</p>
-      <p>Mjesto: {donorData.city}</p>
-      <p>Krvna grupa: {donorData.bloodType}</p>
+      <p className="podaci">Korisničko ime : {donorData.username}</p>
+      <br></br>
+      <p className="podaci">Ime : {donorData.firstName}</p>
+      <br></br>
+      <p className="podaci">Prezime : {donorData.lastName}</p>
+      <br></br>
+      <p className="podaci">Broj mobitela : {donorData.phoneNumber}</p>
+      <br></br>
+      <p className="podaci">Datum rođenja : {napisiDatum(donorData.dateOfBirth)}</p>
+      <br></br>
+      <p className="podaci">Mjesto : {donorData.city}</p>
+      <br></br>
+      <p className="podaci">Krvna grupa : {donorData.bloodType}</p>
+      <br></br>
+      <p className="podaci">Spol : {donorData.gender}</p>
+      <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>
     </div>
   ) : roles.includes("institution") ? (
-    <div>
+    <div className="reg-wrapper">
       <h1>Korisnicka stranica bolnice</h1>
 
     </div>
   ) : (
-    <div>
-      <h1>{console.log(donorData)}</h1>
-      <h1>Pozdrav Crveni križ</h1>
+    <div className="reg-wrapper">
+      <h1 className="naslov">Pozdrav Crveni križ</h1>
       <br></br>
-      <button onClick={() => addAppointment()}>Dodaj sastanak donacija</button>
-      <br></br>
-      <button onClick={() => activeApp()}>Aktivni sastanci donacija</button>
-      <br></br>
-      <button onClick={() => registeredForApp()}>Registrirani za sastanke</button>
-      <br></br>
+            <section className="reg-wrapper">
+              <header className="naslov2">Dodaj appointment</header>
+              <form className="reg-form" action="" method="post">
+                <div className="column">
+                  <div className="reg-input-box">
+                    <label htmlFor="bloodTypes"><b>Vrste krvi</b></label>
+                    <select className="bloodTypes" required value={bloodTypes} onChange={(e) => setBloodTypes(e.target.value)}>
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="AB">AB</option>
+                      <option value="0">0</option>
+                    </select>
+                  </div>
+                  <div className="reg-input-box">
+                    <label htmlFor="locationID"><b>ID lokacije</b></label>
+                    <input type="text" placeholder="Upišite ID lokacije" name="locationID"
+                      required value={locationID} onChange={(e) => setLocationID(e.target.value)}></input>
+                  </div>
+                </div>
 
+                <div className="column">
+                  <div className="reg-input-box">
+                    <label htmlFor="criticalAction"><b>Kritična akcija</b></label>
+                    <select className="bloodTypes" required value={criticalAction ? 'DA' : 'NE'} onChange={(e) => setCritical(e.target.value === 'DA')}>
+                      <option value="DA">DA</option>
+                      <option value="NE">NE</option>
+                    </select>
+                  </div>
+                  <div className="reg-input-box">
+                    <label htmlFor="dateAndTime"><b>Datum</b></label>
+                    <input type="date" placeholder="Upišite datum" name="dateAndTime"
+                      required value={dateAndTime} onChange={(e) => setDateAndTime(e.target.value)}></input>
+                  </div>
+                </div>
+
+                <button type="button" className="btn2" onClick={() => addAppointment()}>Dodaj appointment</button>
+              </form>
+            </section>
+      <br></br>
+      <br></br>
+      <h2>Aktivni sastanci</h2>
+      <br></br>
+      <ul className="user-item">
+            {activeApps.map((app) => (
+          <li key={app.locationID} className="user-item">
+            <div className="user-info">
+              <p className="username">Vrste krvi : {app.bloodTypes}</p>
+              {app.locationID && (
+                <p className="lokacija">ID Lokacije : {app.locationID}</p>
+              )}
+              {app.dateAndTime && (
+                <p className="datum">Datum : {napisiDatum(app.dateAndTime)}</p>
+              )}
+              {app.criticalAction  && (
+                <p className="critical">Kritična akcija : {app.criticalAction}</p>
+              )}
+            </div>
+            </li>))}
+      </ul>
+      <br></br>
+      <section className="reg-wrapper">
+            <header>Registrirani za termin</header>
+            <form className="reg-form" action="" method="post">
+                <div className="column">
+                      <div className="reg-input-box">
+                        <label htmlFor="uname"><b>ID Lokacije</b></label>
+                        <input type="text" placeholder="Upišite ID lokacije" name="uname" 
+                        required value={locReg} onChange={(e)=>setLocationReg(e.target.value)}></input>
+                      </div>
+                    </div>
+            </form>
+            <button className="btn2" type="button" onClick={() => registeredForApp(locReg)}>Pregledaj termin</button>
+        </section>
+      <br></br>
+      <button type="button" className="btn3" onClick={() => povratak()}>Vrati se</button>
     </div>
   )}
 </div>

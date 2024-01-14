@@ -19,4 +19,11 @@ public interface DonationHistoryRepository extends JpaRepository<DonationHistory
     //DonationHistory findById(Long id);
     @Override
     List<DonationHistory> findAll();
+
+    default List<DonationHistory> findByDonor_id(Long donor_id){
+       return this.findAll()
+               .stream()
+               .filter(donationHistory -> donationHistory.getDonor().getDonor_id().equals(donor_id))
+               .toList();
+    }
 }

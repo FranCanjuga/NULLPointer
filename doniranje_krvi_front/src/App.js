@@ -6,6 +6,7 @@ import Main from './components/main'
 import SignIn from './components/signin';
 import Register from './components/register';
 import User from './components/user';
+import Contact from './components/contact';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/prijava" element={<SignIn/>} />
         <Route path='/registracija' element={<Register/>}/>
         <Route path='/user' element={<User/>}/>
+        <Route path='/contact' element={<Contact/>}/>
      </Routes>
   );
 }

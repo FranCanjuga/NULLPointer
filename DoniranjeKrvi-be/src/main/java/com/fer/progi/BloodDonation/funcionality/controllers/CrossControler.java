@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @RequestMapping("/cross")
 @PreAuthorize("hasRole('cross')")
+@CrossOrigin("*")
 public class CrossControler {
 
     @Autowired

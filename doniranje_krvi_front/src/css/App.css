@@ -3,6 +3,8 @@
 @import 'register.css';
 @import 'map.css';
 @import 'footer.css';
+@import 'user.css';
+@import 'contact.css';
 
 * {
   margin: 0;

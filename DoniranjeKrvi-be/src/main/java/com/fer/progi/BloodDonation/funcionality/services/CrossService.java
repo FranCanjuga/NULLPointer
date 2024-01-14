@@ -1,6 +1,7 @@
 package com.fer.progi.BloodDonation.funcionality.services;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentsResponseDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.models.*;
 import com.fer.progi.BloodDonation.funcionality.repositorys.*;
@@ -49,6 +50,8 @@ public class CrossService {
         }
 
 //TOO DOO - provjeriti da li je datum u buducnosti
+
+
 //        -provjeri da nema konflikta u datumima na toj lokaciji
 
         Appointment appointmentModel = new Appointment();
@@ -147,12 +150,13 @@ public class CrossService {
      * Returns all active appointments.
      * @return array active appointments
      */
-    public Appointment[] getActiveAppointments() {
+    public AppointmentsResponseDTO[] getActiveAppointments() {
 
         return crossRepository.findAll()
                 .stream()
                 .filter(appointment -> !appointment.isFinished())
-                .toArray(Appointment[]::new);
+                .map(AppointmentsResponseDTO::new).toList()
+                .toArray(AppointmentsResponseDTO[]::new);
     }
 
     /**

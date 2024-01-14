@@ -21,32 +21,27 @@ public class DonationHistoryDTO {
 
 
     private Donor donor;
+
     private  Appointment appointment;
 
-    public DonationHistoryDTO(boolean came, Donor donor, Appointment appointment) {
+    private String locationName;
+    private String dateAndTime;
+    private boolean finished;
+
+    /**
+     * Constructor for DonationHistoryDTO in method getDonationReservationByUsername in DonorService
+     * for request GET /donor/donationReservation/{username}
+     */
+    public DonationHistoryDTO( Appointment appointment, boolean came,boolean finished){
+        this.appointmentID = appointment.getAppointment_id();
         this.came = came;
-        this.donor = donor;
-        this.appointment = appointment;
+        this.dateAndTime = appointment.getDateAndTime().toString();
+        this.locationName = appointment.getLocation().getLocationName();
+        this.finished = finished;
     }
 
-    public DonationHistoryDTO(String username, Long appointmentID, boolean came, Long[] potvrdeID) {
-        this.username = username;
-        this.appointmentID = appointmentID;
-        this.came = came;
-        this.potvrdeID = potvrdeID;
-    }
 
-    public DonationHistoryDTO(String username, Long appointmentID, Long[] potvrdeID) {
-        this.username = username;
-        this.appointmentID = appointmentID;
-        this.potvrdeID = potvrdeID;
-    }
 
-    public DonationHistoryDTO(String username, Long appointmentID, boolean came) {
-        this.username = username;
-        this.appointmentID = appointmentID;
-        this.came = came;
-    }
 
     public DonationHistoryDTO(String username, Long appointmentID) {
         this.username = username;

@@ -60,11 +60,8 @@ public class DonorService {
 
 
     public DonationHistory createNewReservation(DonationHistoryDTO historyDTO) {
-        Optional<Donor> opt  =  donorRepository.findDonorByUsername(historyDTO.getUsername());
-        if(opt.isEmpty()){
-            return null;
-        }
-        Donor donor = opt.get();
+        Donor donor  =  donorRepository.findByUsername(historyDTO.getUsername());
+
 
         Optional<Appointment> opt2  =  appointmentRepository.findById(historyDTO.getAppointmentID());
         if(opt2.isEmpty()){
@@ -121,7 +118,31 @@ public class DonorService {
 
     }
 
-    public DonationHistoryDTO getDonationReservationByUsername(String username) {
+
+    /**
+     * Method for getting list of all active donation reservations for user
+     * @param username - username of user
+     * @return list of active donation reservations
+     */
+    public List<DonationHistoryDTO> getDonationReservationByUsername(String username) {
+
+        List<DonationHistoryDTO> donationHistoryDTOList = getAllDonationReservationByUsername(username);
+
+        for (DonationHistoryDTO donationHistory : donationHistoryDTOList) {
+
+            if(donationHistory.isFinished() )
+                donationHistoryDTOList.remove(donationHistory);
+        }
+
+
+        return donationHistoryDTOList;
+    }
+    /**
+     * Method for getting list of all  donation reservations for user (even finished ones)
+     * @param username - username of user
+     * @return list of active donation reservations
+     */
+    public List<DonationHistoryDTO> getAllDonationReservationByUsername(String username) {
 
         Optional<Donor> opt =  donorRepository.findDonorByUsername(username);
         //System.out.println("1111111111111111111111");
@@ -130,34 +151,35 @@ public class DonorService {
         }
         Donor donor = opt.get();
 
-        Optional<DonationHistory> opt2 =historyRepository.findDonationHistoryByDonorUsername(username);
-        System.out.println("222222222222222");
-        if(opt2.isEmpty()){
+        List<DonationHistory> donationHistoryList =historyRepository.findByDonor_id(donor.getDonor_id());
+        //System.out.println("222222222222222");
+        if(donationHistoryList.isEmpty()){
             return null;
         }
-        DonationHistory donationHistory = opt2.get();
 
-        Optional<Appointment> opt3  =  appointmentRepository.findById(donationHistory.getAppointment().getAppointment_id());
-        System.out.println("3333333333333333333");
-        if(opt3.isEmpty()){
-            return null;
-        }
-        Appointment appointment= opt3.get();
+        List<DonationHistoryDTO> donationHistoryDTOList = new ArrayList<>();
+        for (DonationHistory donationHistory : donationHistoryList) {
+            Appointment appointment  =  appointmentRepository.findById(donationHistory.getAppointment().getAppointment_id()).orElse(null);
+            if(appointment == null){
+                throw new IllegalArgumentException("Appointment not found");
+            }
 
-        //vraca sve rezervacije bez filtera
-        DonationHistoryDTO allReservations =  new DonationHistoryDTO(false,donor, appointment);
+            donationHistoryDTOList.add(new DonationHistoryDTO(appointment, donationHistory.isCame() , appointment.isFinished()));
+        }
 
-        if(allReservations.getUsername().equals(username)
-                && appointment.getDateAndTime().isAfter(LocalDateTime.now())) {
-            return new DonationHistoryDTO(false, donor, opt2.get().getAppointment());
-        }
-        else{
-            return null;
-        }
+
+        return donationHistoryDTOList;
     }
 
+    /**
+     * Metoda traži sve aktivne akcije za doniranje krvi i vraća ih u listi
+     * metoda selektira aktivne akcije preko datuma!
+     * @param username - username of user (usless)
+     * @return list of active donation dates
+     */
     public List<Appointment> getListOfActiveDonationDates(String username) {
 
+        //TODO prepraviti
         return appointmentRepository.findAll();
     }
 

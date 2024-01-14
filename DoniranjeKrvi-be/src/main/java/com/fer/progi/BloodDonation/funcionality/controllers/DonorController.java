@@ -60,11 +60,11 @@ public class DonorController {
     }
 
 
-    //Get metoda za dohvacanje aktivnih rezervacija preko username-a
+    //Get metoda za dohvacanje aktivnih rezervacija donora preko username-a
     @GetMapping("/ActiveReservations/{username}")
-    public ResponseEntity<DonationHistoryDTO> getDonationReservationByUsername(@PathVariable String username) {
+    public ResponseEntity<List<DonationHistoryDTO>> getActiveDonationReservationByUsername(@PathVariable String username) {
 
-        DonationHistoryDTO historyData = donorService.getDonationReservationByUsername(username);
+        List<DonationHistoryDTO> historyData = donorService.getDonationReservationByUsername(username);
 
         if (historyData != null) {
             return ResponseEntity.ok(historyData);
@@ -76,6 +76,29 @@ public class DonorController {
 
     }
 
+    /**
+     * Method for getting list of all  appointments for donor (even finished ones)
+     * @param username username of donor
+     * @return list of all active appointments for donor
+     */
+    @GetMapping("/AllDonorReservations/{username}")
+    public ResponseEntity<List<DonationHistoryDTO>> getAllDonationReservationByUsername(@PathVariable String username) {
+
+        try {
+            List<DonationHistoryDTO> historyData = donorService.getAllDonationReservationByUsername(username);
+            return ResponseEntity.ok(historyData);
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+
+    }
+    /**
+     * Method for getting list of all  active appointments donor can sing in for
+     * @param username username of donor
+     * @return list of all active appointments for donor
+     */
     @GetMapping("/AllActiveDates/{username}")
     public ResponseEntity<List<Appointment>> getAllActiveDates(@PathVariable String username) {
         List<Appointment> activeDates = donorService.getListOfActiveDonationDates(username);

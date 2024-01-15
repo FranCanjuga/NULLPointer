@@ -196,7 +196,7 @@ const deleteAppointment = () =>{
       <h2>Svi neverificirani korisnici</h2>
       <br />
       <ul className="user-list">
-  {userData.map((user) => (
+  { userData.map((user) => (
     <li key={user.donorID} className="user-item">
       <div className="user-info">
         <p className="username">Username : {user.username}</p>
@@ -349,7 +349,7 @@ const deleteAppointment = () =>{
        
       <br></br>
       <h2> Svi registrirani</h2>
-      <ul className="user-list">
+      {(registrirani) && <ul className="user-list">
         {registrirani.map((user) => (
           <li key={registrirani.username} className="user-item">
             <div className="user-info">
@@ -366,7 +366,7 @@ const deleteAppointment = () =>{
             </div>
           </li>
         ))}
-      </ul>
+      </ul>}
       <br></br>
       <br></br>
       <br></br>

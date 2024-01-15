@@ -54,7 +54,7 @@ const YourComponent = () => {
             ></Marker>
             <Marker
               position={{ lat: 45.8167, lng: 15.9833 }}
-              onClick={() => handleMarkerClick({ lat: 45.8167, lng: 15.9833 }, 'Zagreb')}
+              onClick={() => handleMarkerClick({ lat: 45.8167, lng: 15.9833 }, 'KBC Zagreb')}
             ></Marker>
 
             {open && (
@@ -80,7 +80,6 @@ const YourComponent = () => {
             <a href="./prijava">
             <button className="map-btn">Prijavi se <br></br>za odabir termina</button>
             </a>
-            <>{clickedMarkerName ? `${clickedMarkerName}` : 'Popis mjesta'}</>
           </div>
         )
         }

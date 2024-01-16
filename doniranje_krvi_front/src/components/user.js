@@ -16,8 +16,52 @@ const User = () => {
   const [vrijeme, setTime] = useState('');
   const [registrirani, setRegistered] = useState([]);
   const [appDel, setAppDel] = useState('');
+  const [appFin, setAppFin] = useState('');
+  const [popisGradova, setPopisGradova] = useState([]);
 
  // const [allusersData,setAllUsers] = useState([]);
+
+ useEffect(() => {
+
+  const fetchData = async () => {
+    try {
+      if (roles.includes('cross')) {
+        const response = await axios.get(`${baseURL}/cross/getLocations`,{
+          headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        });
+        setPopisGradova(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching location data:", error);
+    }
+  }
+  fetchData();
+}, [token]); 
+
+  useEffect(()=>{
+    const mjesto = document.getElementById('odabirMjesta');
+    const filterMjesto = document.getElementById('odabirMjestaFiltera');
+
+  // Check if the select element already has options
+  if (mjesto && mjesto.childNodes.length === 1) {
+      popisGradova.forEach((type) => {
+          const option = document.createElement('option');
+          option.value = type.location_id;
+          option.text = type.locationName;
+          mjesto.appendChild(option);
+      });
+    if (filterMjesto && filterMjesto.childNodes.length==1) {
+      popisGradova.forEach((type) => {
+        const option = document.createElement('option');
+        option.value = type.location_id;
+        option.text = type.locationName;
+        filterMjesto.appendChild(option)
+    });
+    }
+  }
+  }, [popisGradova])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -107,6 +151,8 @@ const User = () => {
   const [criticalAction,setCritical] = useState(Boolean);
   const [dateAndTime, setDateAndTime] = useState('');
 
+  const [filterLoc, setFilterLoc] = useState('');
+
   const addAppointment = () => {
     // Correct property names to match the backend DTO
     const appointment = {
@@ -123,10 +169,13 @@ const User = () => {
     }).catch((error) => {
       console.error(error);
     });
+    window.location = window.location.href
 };
 
 const deleteAppointment = () =>{
+  console.log(appDel)
   const number = parseInt(appDel);
+  console.log(number)
   const response = axios.post(`${baseURL}/cross/AppointmentDelete/${number}`,null, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -136,11 +185,11 @@ const deleteAppointment = () =>{
   }).catch((error) => {
     console.error(error);
   });
+  window.location = window.location.href
 };
 
   const registeredForApp = (locReg) => {
     const app = parseInt(locReg)
-    console.log(app);
     const response = axios.get(`${baseURL}/cross/RegisteredForAppointment/${app}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -152,6 +201,88 @@ const deleteAppointment = () =>{
       console.error(error);
     });
   };
+
+  const finishAppointment = (usernames, appId) => {
+    const response = axios.get(`${baseURL}/cross/AppointmentFinished`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        appointmentID: appId,
+        usernames: usernames
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  };
+
+  const makeListElementFromDonor = (donor) => {
+    const li = document.createElement('li');
+    
+    const inp = document.createElement('input')
+    inp.type = 'checkbox'
+    inp.value = donor.username
+    inp.classList.append("donor_check")
+
+    li.appendChild(document.createElement('label').appendChild(donor.username))
+    li.appendChild(inp) 
+  }
+
+  const dodajDolaske = async (app_id) => {
+    registeredForApp(app_id)
+    const list = document.getElementById("donor_list");
+    if (registrirani.length>0) {
+      registrirani.map(makeListElementFromDonor);
+      registrirani.forEach((li)=>{
+      list.appendChild(li)
+    });
+    } else {
+      list.appendChild(document.createTextNode("Nema dolazaka"))
+    }
+  }
+  
+  const createTableRow = (app) => 
+    (<tr>
+      <td>{app.appointment_id}</td>
+      <td>{sortBloodTypes(app.bloodTypes)}</td>
+      <td>{napisiDatum(app.dateAndTime)}</td>
+      <td>{app.locationName}</td>
+      <td>{app.criticalAction ? "YES" : "NO"}</td>
+      <td>
+        <button value={app.appointment_id} onClick={zavrsiButton}>Završi</button>
+      </td>
+      <td>
+        <button value={app.appointment_id} onClick={izbrisiButton}>Izbriši</button>
+      </td>
+    </tr>
+    )
+  
+
+  const deFade = () => {
+    document.getElementById('affirmDelete').style.display='none';
+    document.getElementById('affirmFinish').style.display='none';
+    document.getElementById('fade').style.display='none'
+  }
+
+  const izbrisiButton = (event) => {
+    setAppDel(event.target.value)
+    document.getElementById('affirmDelete').style.display = "block"
+    document.getElementById('fade').style.display="block"
+  }
+
+  const zavrsiButton = (event) => {
+    setAppFin(event.target.value)
+    document.getElementById('affirmFinish').style.display = "block"
+    document.getElementById('fade').style.display="block"
+    dodajDolaske(event.target.value)
+  }
+
+  const završiPotvrduDonora = (event) => {
+    let checks = document.getElementsByClassName('donor_check')
+    checks = checks.filter((el)=>el.checked)
+    checks = checks.map((ch)=>ch.value)
+    finishAppointment(checks, appFin);
+  }
 
   const povratak =() =>{
     window.location.href = '/';
@@ -256,6 +387,7 @@ const deleteAppointment = () =>{
 
     </div>
   ) : (
+    // cross
     <div className="reg-wrapper">
       <h1 className="naslov">Pozdrav Crveni križ</h1>
       <br></br>
@@ -273,11 +405,15 @@ const deleteAppointment = () =>{
                       <option value="0">0</option>
                     </select>
                   </div>
+                  
                   <div className="reg-input-box">
-                    <label htmlFor="locationID"><b>ID lokacije</b></label>
-                    <input type="text" placeholder="Upišite ID lokacije" name="locationID"
-                      required value={locationID} onChange={(e) => setLocationID(e.target.value)}></input>
-                  </div>
+                        <label htmlFor="locationID"><b>Mjesto</b></label><br></br>
+
+                        <select id="odabirMjesta" className="mjesto" required value={locationID} onChange={(e)=>setLocationID(e.target.value)}>
+                            <option value="">Odaberi mjesto</option>
+                        </select>
+
+                    </div>
                 </div>
 
                 <div className="column">
@@ -310,7 +446,26 @@ const deleteAppointment = () =>{
       <h2>Aktivni sastanci</h2>
       <br></br>
       <ul className="user-list">
-          {activeApps
+        <div className="reg-input-box">
+          <label htmlFor="locationID"><b>Mjesto</b></label><br></br>
+            <select id="odabirMjestaFiltera" className="mjesto_filtera" required value={filterLoc} onChange={(e)=>setFilterLoc(e.target.value)}>
+              <option value="">Odaberi mjesto</option>
+            </select>
+          </div>
+          <table>
+            <tr>
+              <th>Appointment ID</th>
+              <th>Blood Types</th>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Critical?</th>
+              <th></th>
+              <th></th>
+            </tr>
+            {console.log(filterLoc)}
+            {(filterLoc ? activeApps.filter((app)=>app.location_id===filterLoc).map(createTableRow) : activeApps).map(createTableRow)}
+          </table>
+          {/**activeApps
             .filter((app, index, array) => array.findIndex(a => a.locationID === app.locationID) === index)
             .map((app) => (
               <li key={app.locationID} className="user-item">
@@ -327,66 +482,36 @@ const deleteAppointment = () =>{
                   )}
                 </div>
               </li>
-            ))}
+                  )) */}
+            
       </ul>
       <br></br>
       <br></br>
-      <section className="reg-wrapper">
-            <header>Registrirani za termin</header>
-            <form className="reg-form" action="" method="post">
-                <div className="column">
-                      <div className="reg-input-box">
-                        <label htmlFor="uname"><b>ID Lokacije</b></label>
-                        <input type="text" placeholder="Upišite ID lokacije" name="uname" 
-                        required value={locReg} onChange={(e)=>setLocationReg(e.target.value)}></input>
-                      </div>
-                    </div>
-            </form>
-            <button className="btn2" type="button" onClick={() => registeredForApp(locReg)}>Pregledaj termin</button>
-        </section>
-        <br></br>
+      
        
-      <br></br>
-      <h2> Svi registrirani</h2>
-      {(registrirani) && <ul className="user-list">
-        {registrirani.map((user) => (
-          <li key={registrirani.username} className="user-item">
-            <div className="user-info">
-              <p className="username">Username : {registrirani.username}</p>
-              {registrirani.bloodType && (
-                <p className="blood-type">Krv : {registrirani.bloodType.type}</p>
-              )}
-              {registrirani.gender && (
-                <p className="donor-id">Spol : {registrirani.gender}</p>
-              )}
-              {registrirani.location && registrirani.location.locationName && (
-                <p className="location">Lokacija : {registrirani.location.locationName}</p>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>}
-      <br></br>
-      <br></br>
-      <br></br>
-      <section className="reg-wrapper">
-            <header>Izbrisi appointment</header>
-            <form className="reg-form" action="" method="post">
-                <div className="column">
-                      <div className="reg-input-box">
-                        <label htmlFor="uname"><b>ID Appintmenta</b></label>
-                        <input type="text" placeholder="Upišite ID appointmenta" name="uname" 
-                        required value={appDel} onChange={(e)=>setAppDel(e.target.value)}></input>
-                      </div>
-                    </div>
-            </form>
-            <button type="button" className="btn2" onClick={() =>deleteAppointment()}>Izbriši appointment</button>
-        </section>
+      
       <br></br>
       <button type="button" className="btn3" onClick={() => povratak()}>Vrati se</button>
     </div>
-  )}
-</div>
+  )} 
+
+    <div id="affirmDelete" class="white_content">
+      <label>Jeste li sigurni?</label>
+      <button onClick={deleteAppointment}>Da</button>
+      <button onClick={deFade}>Ne</button>
+    </div>
+
+    <div id="affirmFinish" class="white_content">
+        <button onClick={deFade}>X</button>
+        <label>Potvrdi dolaske</label>
+        <ul id="donor_list">
+        </ul>
+        <button onClick={završiPotvrduDonora}>Završi</button>
+    </div>
+
+    <div id="fade" class="black_overlay"></div>
+  </div>
+  
   );
 }
 

@@ -110,10 +110,10 @@ const User = () => {
   const addAppointment = () => {
     // Correct property names to match the backend DTO
     const appointment = {
-      bloodTypes, 
+      bloodTypes: Array.isArray(bloodTypes) ? bloodTypes : [bloodTypes], 
       locationID: parseInt(locationID),
       criticalAction: Boolean(criticalAction),
-      dateAndTime : dateAndTime + " "+vrijeme+":00",
+      dateAndTime : dateAndTime + "T" +vrijeme+":00"
     };
     console.log(appointment);
     const response = axios.post(`${baseURL}/cross/addAppointment`, appointment, {

@@ -155,6 +155,10 @@ const deleteAppointment = () =>{
     });
   };
 
+  const userdata2 =() =>{
+    window.location.href = '/userData';
+  }
+
   const povratak =() =>{
     window.location.href = '/';
   }
@@ -250,6 +254,7 @@ const deleteAppointment = () =>{
       <p className="podaci">Krvna grupa : {donorData.bloodType}</p>
       <br></br>
       <p className="podaci">Spol : {donorData.gender}</p>
+      <button type="button" className="btn3" onClick={() => userdata2()}>Prijave i rezervacije</button>
       <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>
     </div>
   ) : roles.includes("institution") ? (

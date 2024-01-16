@@ -25,8 +25,9 @@ public class DonorController {
     @Autowired
     private final CrossService crossService;
 
-    public DonorController(DonorService donorService) {
+    public DonorController(DonorService donorService, CrossService crossService) {
         this.donorService = donorService;
+        this.crossService = crossService;
     }
 
 

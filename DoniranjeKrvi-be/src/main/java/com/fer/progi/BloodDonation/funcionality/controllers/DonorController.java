@@ -1,11 +1,9 @@
 package com.fer.progi.BloodDonation.funcionality.controllers;
 
 
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentGetDTO;
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.DeleteAppointmentDTO;
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.*;
 import com.fer.progi.BloodDonation.funcionality.models.*;
+import com.fer.progi.BloodDonation.funcionality.services.CrossService;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -23,6 +21,9 @@ import java.util.List;
 public class DonorController {
     @Autowired
     private final DonorService donorService;
+
+    @Autowired
+    private final CrossService crossService;
 
     public DonorController(DonorService donorService) {
         this.donorService = donorService;
@@ -182,6 +183,16 @@ public class DonorController {
         }
     }
 
+    @GetMapping("/ActiveAppointments")
+    public AppointmentsResponseDTO[] getActiveAppointments() {
+        AppointmentsResponseDTO[] data;
 
+        try{
+            data= crossService.getActiveAppointments();
+        }catch (Exception e) {
+            return null;
+        }
 
+        return data;
+    }
 }

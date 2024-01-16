@@ -311,24 +311,25 @@ const deleteAppointment = () =>{
       <br></br>
       <h2>Aktivni sastanci</h2>
       <br></br>
-      <ul className="user-item">
-          {activeApps
-            .map((app) => (
-              <li key={app.locationID} className="user-item">
-                <div className="user-info">
-                  <p className="username">Vrste krvi : {sortBloodTypes(app.bloodTypes)}</p>
-                  {app.locationID && (
-                    <p className="donor-id">ID Lokacije : {app.locationID}</p>
-                  )}
-                  {app.dateAndTime && (
-                    <p className="blood-type">Datum : {napisiDatum(app.dateAndTime)}</p>
-                  )}
-                  {app.criticalAction && (
-                    <p className="location">Kritična akcija : {booleanToString(app.criticalAction)}</p>
-                  )}
-                </div>
-              </li>
-            ))}
+      <ul className="user-list">
+      {activeApps
+        .map((app) => (
+          <li key={app.locationID} className="user-item">
+            <div className="user-info">
+              {console.log(app)}
+              <p className="username">Vrste krvi : {sortBloodTypes(app.bloodTypes)}</p>
+              {app.appointment_id && (
+                <p className="donor-id">ID Lokacije : {app.appointment_id}</p>
+              )}
+              {app.dateAndTime && (
+                <p className="blood-type">Datum : {napisiDatum(app.dateAndTime)}</p>
+              )}
+              {app.criticalAction && (
+                <p className="location">Kritična akcija : {booleanToString(app.criticalAction)}</p>
+              )}
+            </div>
+    </li>
+  ))}
       </ul>
       <br></br>
       <br></br>

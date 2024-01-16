@@ -11,7 +11,7 @@
 }
 
 #popis_mjesta {
-  width: 30%;
+  width: 40%;
   min-width: 500px;
   max-height: 600px; /* Set max-height to enable scroll when content exceeds this height */
   overflow-y: auto; /* Enable vertical scroll when content overflows */
@@ -20,7 +20,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  margin-left: 80px;
+  margin-inline: 0px;
 }
 
 .map-btn {

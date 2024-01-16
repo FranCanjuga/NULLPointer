@@ -51,6 +51,27 @@ const YourComponent = () => {
     setOpen(true);
   };
 
+  
+  const pretrazivanje = async() =>{
+    const token = localStorage.getItem("token");
+    setPret(true)
+    console.log(pretrazeno)
+    const decodedToken = jwtDecode(token);
+
+      try{
+        const response = await axios.get(`${baseURL}/user/getLocations/${decodedToken.sub}`,{
+          headers: {
+              Authorization: `Bearer ${token}`,
+            },
+        });
+        setLocations(response.data);
+        console.log(response.data);
+      }catch(error){
+
+      }
+  };
+
+
   return (
 
     <div id="map" className="body-map">
@@ -67,7 +88,7 @@ const YourComponent = () => {
             ></Marker>
             <Marker
               position={{ lat: 45.8167, lng: 15.9833 }}
-              onClick={() => handleMarkerClick({ lat: 45.8167, lng: 15.9833 }, 'Zagreb')}
+              onClick={() => handleMarkerClick({ lat: 45.8167, lng: 15.9833 }, 'KBC Zagreb')}
             ></Marker>
 
             {open && (
@@ -84,14 +105,21 @@ const YourComponent = () => {
 
       <div id="popis_mjesta">
         {
-        (localStorage.token) ? (
-          <>{clickedMarkerName ? `${clickedMarkerName}` : 'Popis mjesta'}</>
-        ) : (
+        (localStorage.token && !pretrazeno) ? (
+          <a>
+            <button className="map-btn" onClick={pretrazivanje}>Pretraži</button>
+            </a>
+        ) : (localStorage.token && pretrazeno)? (
+          <div>
+            {locations.map((location) => (
+            <button className='map-btn' key={location.location_id}>{location.locationName}</button>
+          ))}
+          </div>
+        ) :(
           <div className="dark-background">
             <a href="./prijava">
             <button className="map-btn">Prijavi se <br></br>za odabir termina</button>
             </a>
-            <>{clickedMarkerName ? `${clickedMarkerName}` : 'Popis mjesta'}</>
           </div>
         )
         }

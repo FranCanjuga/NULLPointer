@@ -2,6 +2,7 @@ package com.fer.progi.BloodDonation.funcionality.controllers;
 
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentGetDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.DeleteAppointmentDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.models.*;
@@ -59,7 +60,6 @@ public class DonorController {
 
     }
 
-
     //Get metoda za dohvacanje aktivnih rezervacija preko username-a
     @GetMapping("/ActiveReservations/{username}")
     public ResponseEntity<List<DonationHistoryDTO>> getActiveDonationReservationByUsername(@PathVariable String username) {
@@ -74,6 +74,19 @@ public class DonorController {
                     .body(null);
         }
 
+    }
+
+    @DeleteMapping("/deleteReservation")
+    public ResponseEntity<String> deleteReservation(@PathVariable DeleteAppointmentDTO deleteAppointmentDTO) {
+        boolean deleteStatus = donorService.deleteReservationById(deleteAppointmentDTO);
+
+        if (deleteStatus) {
+            return ResponseEntity.ok("Reservation deleted successfully");
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("ERROR: Unable to delete Donation reservation");
+        }
     }
 
     /**
@@ -152,7 +165,6 @@ public class DonorController {
         }
     }
 
-
     /**
      * Method for getting list of all potvrde that donor can chose wen creating new reservation
      * @return list of potvrde
@@ -169,5 +181,7 @@ public class DonorController {
                     .body(null);
         }
     }
+
+
 
 }

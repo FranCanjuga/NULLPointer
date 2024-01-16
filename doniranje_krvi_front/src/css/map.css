@@ -1,5 +1,4 @@
-
-.body-map{
+.body-map {
   display: flex;
   background-color: rgb(244, 238, 246);
 }
@@ -10,17 +9,18 @@
   padding: 10px;
   padding-inline: 7px;
 }
-  
+
 #popis_mjesta {
   width: 30%;
   min-width: 500px;
-  height: 600px;
-  flex: 1;
+  max-height: 600px; /* Set max-height to enable scroll when content exceeds this height */
+  overflow-y: auto; /* Enable vertical scroll when content overflows */
   font-size: 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  margin-left: 80px;
 }
 
 .map-btn {
@@ -30,16 +30,15 @@
   margin-bottom: 10px;
   border: hidden;
   color: #fff;
-  background: linear-gradient(220deg,#dc60ec, #9ba1e2);
+  background: linear-gradient(220deg, #dc60ec, #9ba1e2);
   font-size: 20px;
   border-radius: 30px;
   border-top-right-radius: 0;
   font-weight: 700;
-
 }
 
 .map-btn:hover {
-  cursor: pointer; /* Optional: Change cursor on hover */
+  cursor: pointer;
   border: 1px solid #3333337f;
   margin-left: -2px;
   margin-bottom: 9px;
@@ -54,6 +53,6 @@
   height: 100%;
   margin: 10px;
   margin-inline: 0px;
-  background: linear-gradient(340deg,#d6d9ff,#f3f3f3);
+  background: linear-gradient(340deg, #d6d9ff, #f3f3f3);
   border-radius: 10px;
 }

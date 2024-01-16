@@ -12,6 +12,7 @@ const UserData = () =>{
     const [donorRezervations,setDonorRez] = useState([])
     const [appID, setAppId] = useState('')
     const [username,setUsername] = useState('')
+    const [message, setMessage] = useState('');
     const token = localStorage.getItem("token");
     const decodedToken = jwtDecode(token);
 
@@ -76,9 +77,29 @@ const UserData = () =>{
         dohvatiPriznja();
     },[token,decodedToken.sub]);
 
-    const izbrisiRez =() =>{
-
-    }
+    const izbrisiRez = () => {
+        const Appointment = {
+          appID: parseInt(appID),
+          username,
+        };
+        console.log(Appointment);
+      
+        axios
+          .delete(`${baseURL}/user/deleteReservation`, Appointment, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            if (error.response && error.response.status === 500) {
+              console.error("Error 500 - Dodan appointment");
+              setMessage('Error 500');
+            }
+          });
+      };
 
     const povratak =() =>{
         window.location.href = '/user';
@@ -88,107 +109,118 @@ const UserData = () =>{
         window.location.href = '/povijestDoniranja';
       }
 
+    const natragNaUserData =() =>{
+        window.location.href = '/userData';
+    }
+
     return(
         <div className="userdata">
-            <div className="reg-wrapper">
-                <h1 className="naslov">Potvrde i rezervacije</h1>
-                <br></br>
-                <h2>Potvrde</h2>
-                <br></br>
-                {priznanja==='' ? (
-                    <div className="reg-wrapper">
-                        <h2 className="nemanje">Nemate potvrdu o doniranju krvi</h2>
-                    </div>
-                ) :(
-                    <div>
-                        <ul className="user-list">
-                                {priznanja
-                                .map((priz) => (
-                                <li key={priz.potvrda_id} className="user-item">
-                                    <div className="user-info">
-                                    <p className="username">Potvrda : {priz.namePotvrda}</p>
-                                    
-                                    </div>
-                                </li>
-                                    ))}
-                        </ul>
-                    </div>
-                )}
-                <br></br>
-                <br></br>
-                <h2>Aktivni sastanci darivanja krvi</h2>
-                <br></br> 
-                {aktivniSastanci.length === 0 ? (
-                    <div className="reg-wrapper">
-                    <h2 className="nemanje">Nemate aktivnih sastanaka</h2>
-                </div>
-                ):(
-                    <div>
-                        <ul className="user-list">
-                        {aktivniSastanci.map((akSas) => (
-                                        akSas.bloodTypes && akSas.bloodTypes.length > 0 ? (
-                                            <li key={akSas.appointment_id} className="user-item">
-                                            <div className="user-info">
-                                                <p className="username">Vrste krvi : {akSas.bloodTypes.join(', ')}</p>
-                                                <p className="location">Kritična akcija : {booleanToString(akSas.criticalAction)}</p>
-                                                <p className="blood-type">Datum : {napisiDatum(akSas.dateAndTime)}</p>
-                                                <p className="donor-id">Lokacija : {akSas.location.locationName}</p>
-                                            </div>
-                                            </li>
-                                        ) : null
-                                        ))}
-                        </ul>
-                        <br></br>
-                        <h2>Tvoje aktivne rezervacije</h2>
-                        <br></br>
-                        {donorRezervations.length === 0 ? (
-                            <div className="reg-wrapper">
-                            <h2 className="nemanje">Nemate aktivnih rezervacija</h2>
-                        </div>
-                        ):(
-                            <div className="reg-wrapper">
-                                {donorRezervations.map((rez) => (
-                                            <li key={rez.appointment_id} className="user-item">
-                                            <div className="user-info">
-                                                <p className="username">Došao : {rez.came}</p>
-                                                <p className="blood-type">Datum : {napisiDatum(rez.dateAndTime)}</p>
-                                                <p className="donor-id">Lokacija : {rez.location.locationName}</p>
-                                            </div>
-                                            </li>
-                                        ))}
-                            </div>
-                        )}
-                        <br></br>
-                        <br></br>
-                        <section className="reg-wrapper">
-                                    <header className="naslov2">Brisanje rezervacije</header>
-                                    <form className="reg-form" action="" method="post">
-                                        <div className="column">
-                                        <div className="reg-input-box">
-                                                <label htmlFor="locationID"><b>Username</b></label>
-                                                <input type="text" placeholder="Upišite username" name="locationID"
-                                                required value={username} onChange={(e) => setUsername(e.target.value)}></input>
-                                            </div>
-                                            <div className="reg-input-box">
-                                                <label htmlFor="locationID"><b>Appointment ID</b></label>
-                                                <input type="text" placeholder="Upišite ID appointmenta" name="locationID"
-                                                required value={appID} onChange={(e) => setAppId(e.target.value)}></input>
-                                            </div>
-                                        </div>
-                                        <button type="button" className="btn2" onClick={() => izbrisiRez()}>Izbrisi rezervaciju</button>
-                                    </form>
-                        </section>
-                    </div>
-                    
-                )} 
-                <br></br>
-                <br></br>
-                <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>    
-                <button type="button" className="btn3" onClick={() => povijest()}>Povijest donacija</button>               
-            </div>
-            
-            
+  {message ? (
+    <div>
+        <div className="reg-wrapper">
+            <h2>Rezervacija koju brišete ne postoji</h2>
+            <br></br>
+            <button type="button" className="btn2" onClick={() => natragNaUserData()}>Vrati se</button>
         </div>
+    </div>
+  ) : (
+    <div className="reg-wrapper">
+      <h1 className="naslov">Potvrde i rezervacije</h1>
+      <br></br>
+      <h2>Potvrde</h2>
+      <br></br>
+      {priznanja === '' ? (
+        <div className="reg-wrapper">
+          <h2 className="nemanje">Nemate potvrdu o doniranju krvi</h2>
+        </div>
+      ) : (
+        <div>
+          <ul className="user-list">
+            {priznanja.map((priz) => (
+              <li key={priz.potvrda_id} className="user-item">
+                <div className="user-info">
+                  <p className="username">Potvrda : {priz.namePotvrda}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <br></br>
+      <br></br>
+      <h2>Aktivni sastanci darivanja krvi</h2>
+      <br></br>
+      {aktivniSastanci.length === 0 ? (
+        <div className="reg-wrapper">
+          <h2 className="nemanje">Nemate aktivnih sastanaka</h2>
+        </div>
+      ) : (
+        <div>
+          <ul className="user-list">
+            {aktivniSastanci.map((akSas) => (
+              akSas.bloodTypes && akSas.bloodTypes.length > 0 ? (
+                <li key={akSas.appointment_id} className="user-item">
+                  <div className="user-info">
+                    <p className="username">Vrste krvi : {akSas.bloodTypes.join(', ')}</p>
+                    <p className="location">Kritična akcija : {booleanToString(akSas.criticalAction)}</p>
+                    <p className="blood-type">Datum : {napisiDatum(akSas.dateAndTime)}</p>
+                    <p className="donor-id">Lokacija : {akSas.location.locationName}</p>
+                  </div>
+                </li>
+              ) : null
+            ))}
+          </ul>
+          <br></br>
+          <h2>Tvoje aktivne rezervacije</h2>
+          <br></br>
+          {donorRezervations.length === 0 ? (
+            <div className="reg-wrapper">
+              <h2 className="nemanje">Nemate aktivnih rezervacija</h2>
+            </div>
+          ) : (
+            <div className="reg-wrapper">
+                <ul className="user-list">
+              {donorRezervations.map((rez) => (
+                <li key={rez.appointment_id} className="user-item">
+                  <div className="user-info">
+                    <p className="username">Došao : {rez.came}</p>
+                    <p className="blood-type">Datum : {napisiDatum(rez.dateAndTime)}</p>
+                    <p className="donor-id">Lokacija : {rez.location.locationName}</p>
+                  </div>
+                </li>
+              ))}
+              </ul>
+            </div>
+          )}
+          <br></br>
+          <br></br>
+          <section className="reg-wrapper">
+            <header className="naslov2">Brisanje rezervacije</header>
+            <form className="reg-form" action="" method="post">
+              <div className="column">
+                <div className="reg-input-box">
+                  <label htmlFor="locationID"><b>Username</b></label>
+                  <input type="text" placeholder="Upišite username" name="locationID"
+                    required value={username} onChange={(e) => setUsername(e.target.value)}></input>
+                </div>
+                <div className="reg-input-box">
+                  <label htmlFor="locationID"><b>Appointment ID</b></label>
+                  <input type="text" placeholder="Upišite ID appointmenta" name="locationID"
+                    required value={appID} onChange={(e) => setAppId(e.target.value)}></input>
+                </div>
+              </div>
+              <button type="button" className="btn2" onClick={() => izbrisiRez()}>Izbrisi rezervaciju</button>
+            </form>
+          </section>
+        </div>
+      )}
+      <br></br>
+      <br></br>
+      <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>
+      <button type="button" className="btn3" onClick={() => povijest()}>Povijest donacija</button>
+    </div>
+  )}
+</div>
     )
 }
 

@@ -7,13 +7,16 @@ body .userdata{
     background: rgb(138, 106, 251); */
     background: url('/public/images/blood_donor.jpg') no-repeat;
     background-size: cover;
+    position: relative;
 }
 body .userdata::before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
+    background-size: cover;
     background-color: rgba(23, 25, 35, 0.7);
     opacity: 0.7; /* Adjust the opacity level to control darkness */
 }

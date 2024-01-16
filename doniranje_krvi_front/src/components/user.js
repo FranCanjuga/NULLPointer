@@ -317,7 +317,7 @@ const deleteAppointment = () =>{
       <h2>Aktivni sastanci</h2>
       <br></br>
       <div className="user-item-container">
-        <ul className="user-item">
+        <ul className="user-list">
             {activeApps.map((app) => (
                 <li key={app.locationID} className="user-item">
                     <div className="user-info">

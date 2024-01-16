@@ -20,6 +20,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  margin-left: 80px;
 }
 
 .map-btn {

@@ -5,6 +5,8 @@ import com.fer.progi.BloodDonation.funcionality.models.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import com.fer.progi.BloodDonation.funcionality.repositorys.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,13 +14,6 @@ import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryD
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DeleteAppointmentDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentGetDTO;
-import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
-import com.fer.progi.BloodDonation.funcionality.repositorys.DonationHistoryRepository;
-import com.fer.progi.BloodDonation.funcionality.repositorys.AppointmentRepository;
-import com.fer.progi.BloodDonation.funcionality.repositorys.LocationRepository;
-import com.fer.progi.BloodDonation.funcionality.repositorys.BloodTypeRepository;
-import com.fer.progi.BloodDonation.funcionality.repositorys.PotvrdaRepository;
-import com.fer.progi.BloodDonation.funcionality.repositorys.PotvrdeDonoraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +31,9 @@ public class DonorService {
     private final PotvrdeDonoraRepository potvrdeDonoraRepository;
 
     @Autowired
+    private PriznanjaDonoraRepository priznanjaDonoraRepository;
+
+    @Autowired
     public DonorService(DonorRepository donorRepository, DonationHistoryRepository historyRepository, AppointmentRepository appointmentRepository, LocationRepository locationRepository, BloodTypeRepository bloodTypeRepository, PotvrdaRepository potvrdaRepository, PotvrdeDonoraRepository potvrdeDonoraRepository) {
 
         this.donorRepository = donorRepository;
@@ -51,13 +49,27 @@ public class DonorService {
     public DonorDTO getDonorDataByUsername(String username) {
         Optional<Donor> opt =  donorRepository.findDonorByUsername(username);
 
+
+
         if(opt.isEmpty()){
             return null;
         }
         Donor donor = opt.get();
 
+
+        List<PriznanjaDonora> priznanjaDonora = priznanjaDonoraRepository.findAll();
+
+        Priznanje priznanje = priznanjaDonora.stream().filter(
+                priznanjaDonora1 -> priznanjaDonora1.getDonationHistory().getDonor().getUsername().equals(username))
+                .sorted( (p1 , p2) ->{
+                    return p1.getPriznanje().getCondition() - p2.getPriznanje().getCondition();
+                } )
+                .map(PriznanjaDonora::getPriznanje)
+                .findFirst()
+                .orElse(null);
+
         return  new DonorDTO(donor.getUsername() , donor.getDateOfBirth(), donor.getGender(), donor.getBloodType().getType(), donor.getLocation().getLocationName(), donor.isVerified(),
-                donor.getAppUser().getFirstName(), donor.getAppUser().getLastName(), donor.getAppUser().getPhoneNumber());
+                donor.getAppUser().getFirstName(), donor.getAppUser().getLastName(), donor.getAppUser().getPhoneNumber() , priznanje == null ? null : priznanje.getNamePriznanje());
     }
 
     public DonationHistory createNewReservation(DonationHistoryDTO historyDTO) {

@@ -35,8 +35,10 @@ public class DonorDTO {
 
     private String phoneNumber;
 
+    private String priznanje;
 
-    public DonorDTO(String username, Date dateOfBirth, String gender, String bloodType, String city, boolean verified, String firstName, String lastName, String phoneNumber) {
+
+    public DonorDTO(String username, Date dateOfBirth, String gender, String bloodType, String city, boolean verified, String firstName, String lastName, String phoneNumber, String priznanje) {
         this.username = username;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
@@ -46,6 +48,7 @@ public class DonorDTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.priznanje = priznanje;
     }
 
     public DonorDTO(Donor donor){

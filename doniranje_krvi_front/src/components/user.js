@@ -120,6 +120,8 @@ const User = () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    }).then(() => {
+      console.log(response.data);
     }).catch((error) => {
       console.error(error);
     });
@@ -309,9 +311,8 @@ const deleteAppointment = () =>{
       <br></br>
       <h2>Aktivni sastanci</h2>
       <br></br>
-      <ul className="user-list">
+      <ul className="user-item">
           {activeApps
-            .filter((app, index, array) => array.findIndex(a => a.locationID === app.locationID) === index)
             .map((app) => (
               <li key={app.locationID} className="user-item">
                 <div className="user-info">
@@ -380,7 +381,7 @@ const deleteAppointment = () =>{
                       </div>
                     </div>
             </form>
-            <button type="button" className="btn2" onClick={() =>deleteAppointment()}>Izbriši appointment</button>
+            <button type="button" className="btn2" onClick={() => deleteAppointment()}>Izbriši appointment</button>
         </section>
       <br></br>
       <button type="button" className="btn3" onClick={() => povratak()}>Vrati se</button>

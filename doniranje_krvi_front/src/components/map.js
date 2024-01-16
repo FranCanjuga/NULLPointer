@@ -20,25 +20,45 @@ const YourComponent = () => {
     setOpen(true);
   };
 
-  
-  const pretrazivanje = async() =>{
-    const token = localStorage.getItem("token");
-    setPret(true)
-    console.log(pretrazeno)
-    const decodedToken = jwtDecode(token);
+ const pretrazivanje = async () => {
+  const token = localStorage.getItem("token");
+  setPret(true);
+  console.log(pretrazeno);
 
-      try{
-        const response = await axios.get(`${baseURL}/user/getLocations/${decodedToken.sub}`,{
-          headers: {
-              Authorization: `Bearer ${token}`,
-            },
-        });
-        setLocations(response.data);
-        console.log(response.data);
-      }catch(error){
+  try {
+    const response = await axios.get(`${baseURL}/user/ActiveAppointments`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      }
-  };
+    /*
+    console.log(response.data)
+    // Izdvoji location_id iz svih appointmenta
+    const locationIds = response.data.map(appointment => appointment.location.location_id);
+    console.log(locationIds)
+    const uniqueLocationIds = Array.from(new Set(locationIds));
+    console.log(uniqueLocationIds)
+
+    const locations = response.data.map(appointment => appointment.location);
+    console.log("Bato"+locations);
+
+    const uniqueLocations = locations.filter(appointment => uniqueLocationIds.includes(appointment.location.location_id));
+    
+    setLocations(uniqueLocations);
+
+    console.log(uniqueLocations);
+    */
+    const locations = response.data.map(appointment => appointment.location);
+    setLocations(locations);
+    console.log(locations)
+
+
+  } catch (error) {
+    // Obrada greške
+  }
+};
+
 
 
   return (
@@ -47,6 +67,16 @@ const YourComponent = () => {
       <APIProvider apiKey="AIzaSyDJlArc7yrXyc4EoDU2Yaq9wJ7EttzrjJg">
         <div className="map_div">
           <Map zoom={9} center={position}>
+            {locations.map((location, index) => (
+              <Marker
+                key={index}
+                position={{ lat: location.latitude, lng: location.longitude }}
+                onClick={() => handleMarkerClick(
+                  { lat: location.latitude, lng: location.longitude },
+                  location.locationName
+                )}
+              ></Marker>
+            ))}
             <Marker
               position={position}
               onClick={() => handleMarkerClick(position, 'KBC Rijeka')}
@@ -57,13 +87,29 @@ const YourComponent = () => {
             ></Marker>
             <Marker
               position={{ lat: 45.8167, lng: 15.9833 }}
-              onClick={() => handleMarkerClick({ lat: 45.8167, lng: 15.9833 }, 'KBC Zagreb')}
+              onClick={() => handleMarkerClick({ lat: 45.8167, lng: 15.9833 }, 'Hrvatski zavod za transfuzijsku medicinu')}
             ></Marker>
+            <Marker
+              position={{ lat: 45.5556, lng: 18.6944 }}
+              onClick={() => handleMarkerClick({ lat: 45.5556, lng: 18.6944 }, 'KBC Osijek')}
+            ></Marker>
+            <Marker
+              position={{ lat: 42.6403, lng: 18.1083 }}
+              onClick={() => handleMarkerClick({ lat: 42.6403, lng: 18.1083 }, 'OB Dubrovnik')}
+            ></Marker>
+            <Marker
+              position={{ lat: 46.3081, lng: 16.3378}}
+              onClick={() => handleMarkerClick({ lat: 46.3081, lng: 16.3378}, 'OB Varaždin')}
+            ></Marker>
+            <Marker
+              position={{ lat: 44.1194, lng: 15.2319}}
+              onClick={() => handleMarkerClick({ lat: 44.1194, lng: 15.2319}, 'OB Zadar')}
+            ></Marker>
+            
 
             {open && (
               <InfoWindow
                 position={infoWindowPosition}
-                onCloseClick={() => setOpen(false)}
               >
                 <p>{clickedMarkerName}</p>
               </InfoWindow>
@@ -76,18 +122,22 @@ const YourComponent = () => {
         {
         (localStorage.token && !pretrazeno) ? (
           <a>
-            <button className="map-btn" onClick={pretrazivanje}>Pretraži</button>
-            </a>
-        ) : (localStorage.token && pretrazeno)? (
+            <button className="map-btn" onClick={pretrazivanje}>
+              Pretraži
+            </button>
+          </a>
+        ) : localStorage.token && pretrazeno ? (
           <div>
-            {locations.map((location) => (
-            <button className='map-btn' key={location.location_id}>{location.locationName}</button>
-          ))}
+            {Array.from(new Set(locations.map(location => location.location_id))).map(uniqueLocationId => (
+              <button className='map-btn' key={uniqueLocationId}>
+                {locations.find(location => location.location_id === uniqueLocationId).locationName}
+              </button>
+            ))}
           </div>
-        ) :(
+        ) : (
           <div className="dark-background">
             <a href="./prijava">
-            <button className="map-btn">Prijavi se <br></br>za odabir termina</button>
+              <button className="map-btn">Prijavi se <br></br>za odabir termina</button>
             </a>
           </div>
         )

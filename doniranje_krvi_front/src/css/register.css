@@ -1,16 +1,16 @@
 body .register{
     min-height: 100vh;
-    display: flex;
+    display: flex; 
     align-items: center;
     justify-content: center;
     /*padding: 20px;
-    background: rgb(138, 106, 251); */
+    background: rgb(138, 106, 251); */ 
     background: url('/public/images/blood_donor.jpg') no-repeat;
     background-size: cover;
 }
 body .register::before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;

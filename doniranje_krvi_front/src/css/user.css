@@ -1,22 +1,27 @@
-body .user{
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /*padding: 20px;
-    background: rgb(138, 106, 251); */
-    background: url('/public/images/blood_donor.jpg') no-repeat;
-    background-size: cover;
+body .user {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*padding: 20px;
+  background: rgb(138, 106, 251); */
+  background: url('/public/images/blood_donor.jpg') no-repeat;
+  background-size: cover;
+  position: relative; /* Set position to relative for z-index to work */
 }
+
 body .user::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 750px;
-    opacity: 0.7; /* Adjust the opacity level to control darkness */
+  content: '';
+  position: fixed; /* Set position to fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-color: rgb(23, 25, 35); /* Color for darkening */
+  opacity: 0.7; /* Adjust the opacity level to control darkness */
 }
+
 
 .reg-wrapper {
     position: relative;
@@ -86,12 +91,11 @@ body .user::before {
 .user-item {
     text-align: center;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
     outline: none;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: black;
     margin-top: 8px;
     border-radius: 40px;
@@ -101,8 +105,7 @@ body .user::before {
   }
   
   .user-info {
-    margin:10px;
-
+    margin:5px;
   }
   
   .blood-type {

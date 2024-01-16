@@ -166,6 +166,8 @@ const User = () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    }).then(() => {
+      console.log(response.data);
     }).catch((error) => {
       console.error(error);
     });
@@ -201,6 +203,10 @@ const deleteAppointment = () =>{
       console.error(error);
     });
   };
+
+  const userdata2 =() =>{
+    window.location.href = '/userData';
+  }
 
   const finishAppointment = (usernames, appId) => {
     const response = axios.get(`${baseURL}/cross/AppointmentFinished`, {
@@ -379,6 +385,7 @@ const deleteAppointment = () =>{
       <p className="podaci">Krvna grupa : {donorData.bloodType}</p>
       <br></br>
       <p className="podaci">Spol : {donorData.gender}</p>
+      <button type="button" className="btn3" onClick={() => userdata2()}>Potvrde i rezervacije</button>
       <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>
     </div>
   ) : roles.includes("institution") ? (

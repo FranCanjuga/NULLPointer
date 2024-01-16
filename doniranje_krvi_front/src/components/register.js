@@ -36,16 +36,15 @@ const Register = () => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        REG = true;
+        setREG(true)
         console.log(REG)
-        if (password.length< 8 || phoneNumber.length <9 || phoneNumber.length || username.length === 0){
-            setREG(true)
-            return 
-        }
         const korisnik = { username, password, firstName, lastName, phoneNumber, dateOfBirth, city, bloodType,gender };
         console.log(korisnik);
         if(korisnik == null){
             console.log("Prazno je sve")
+            return
+        }
+        if( username.length ===0 || password.length <8 || phoneNumber.length<9 || phoneNumber.length>10){
             return
         }
         axios.post(`${baseURL}/auth/register`, korisnik,

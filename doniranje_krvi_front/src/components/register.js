@@ -38,10 +38,6 @@ const Register = () => {
         e.preventDefault();
         REG = true;
         console.log(REG)
-        if (password.length< 8 || phoneNumber.length <9 || phoneNumber.length || username.length === 0){
-            setREG(true)
-            return 
-        }
         const korisnik = { username, password, firstName, lastName, phoneNumber, dateOfBirth, city, bloodType,gender };
         console.log(korisnik);
         if(korisnik == null){

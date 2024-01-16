@@ -4,7 +4,7 @@ body .register{
     align-items: center;
     justify-content: center;
     /*padding: 20px;
-    background: rgb(138, 106, 251); */
+    background: rgb(138, 106, 251); */ 
     background: url('/public/images/blood_donor.jpg') no-repeat;
     background-size: cover;
 }

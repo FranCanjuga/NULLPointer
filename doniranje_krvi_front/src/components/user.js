@@ -120,8 +120,6 @@ const User = () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then(() => {
-      console.log(response.data);
     }).catch((error) => {
       console.error(error);
     });
@@ -268,6 +266,7 @@ const deleteAppointment = () =>{
                   <div className="reg-input-box">
                     <label htmlFor="bloodTypes"><b>Vrste krvi</b></label>
                     <select className="bloodTypes" required value={bloodTypes} onChange={(e) => setBloodTypes(e.target.value)}>
+                      <option>/</option>
                       <option value="A">A</option>
                       <option value="B">B</option>
                       <option value="AB">AB</option>
@@ -310,7 +309,7 @@ const deleteAppointment = () =>{
       <br></br>
       <h2>Aktivni sastanci</h2>
       <br></br>
-      <ul className="user-item">
+      <ul className="user-list">
           {activeApps
             .filter((app, index, array) => array.findIndex(a => a.locationID === app.locationID) === index)
             .map((app) => (
@@ -381,7 +380,7 @@ const deleteAppointment = () =>{
                       </div>
                     </div>
             </form>
-            <button type="button" className="btn2" onClick={() => deleteAppointment()}>Izbriši appointment</button>
+            <button type="button" className="btn2" onClick={() =>deleteAppointment()}>Izbriši appointment</button>
         </section>
       <br></br>
       <button type="button" className="btn3" onClick={() => povratak()}>Vrati se</button>

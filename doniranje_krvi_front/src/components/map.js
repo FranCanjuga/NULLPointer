@@ -12,6 +12,7 @@ const YourComponent = () => {
   const [infoWindowPosition, setInfoWindowPosition] = useState(null);
   const [clickedMarkerName, setClickedMarkerName] = useState(null);
   const [locations,setLocations] = useState([]);
+  var [pretrazeno,setPret] = useState(false);
 
   const handleMarkerClick = (markerPosition, markerName) => {
     setInfoWindowPosition(markerPosition);
@@ -22,6 +23,8 @@ const YourComponent = () => {
   
   const pretrazivanje = async() =>{
     const token = localStorage.getItem("token");
+    setPret(true)
+    console.log(pretrazeno)
     const decodedToken = jwtDecode(token);
 
       try{
@@ -71,11 +74,17 @@ const YourComponent = () => {
 
       <div id="popis_mjesta">
         {
-        (localStorage.token) ? (
+        (localStorage.token && !pretrazeno) ? (
           <a>
             <button className="map-btn" onClick={pretrazivanje}>Pretraži</button>
             </a>
-        ) : (
+        ) : (localStorage.token && pretrazeno)? (
+          <div>
+            {locations.map((location) => (
+            <button className='map-btn' key={location.location_id}>{location.locationName}</button>
+          ))}
+          </div>
+        ) :(
           <div className="dark-background">
             <a href="./prijava">
             <button className="map-btn">Prijavi se <br></br>za odabir termina</button>

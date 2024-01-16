@@ -161,6 +161,7 @@ const UserData = () =>{
               akSas.bloodTypes && akSas.bloodTypes.length > 0 ? (
                 <li key={akSas.appointment_id} className="user-item">
                   <div className="user-info">
+                  <p className="donor-id">Appointment ID : {akSas.appointment_id}</p>
                     <p className="username">Vrste krvi : {akSas.bloodTypes.join(', ')}</p>
                     <p className="location">Kritična akcija : {booleanToString(akSas.criticalAction)}</p>
                     <p className="blood-type">Datum : {napisiDatum(akSas.dateAndTime)}</p>

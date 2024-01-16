@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS blood_type (
     );
 
 CREATE TABLE IF NOT EXISTS donation_location (
-                                                locationID SERIAL PRIMARY KEY,
+                                                location_id SERIAL PRIMARY KEY,
                                                 location_name VARCHAR(255) UNIQUE,
     longitude DOUBLE PRECISION,
     latitude DOUBLE PRECISION
@@ -41,37 +41,38 @@ CREATE TABLE IF NOT EXISTS donor (
     date_of_birth DATE,
     gender VARCHAR(10),
     blood_type VARCHAR(255),
-    location_id INT,
+    location_id BIGINT,
     verified BOOLEAN,
-    user_username VARCHAR(255) UNIQUE,
-    FOREIGN KEY (location_id) REFERENCES donation_location(locationID)
+    user_username VARCHAR(255),
+
+    FOREIGN KEY (location_id) REFERENCES donation_location(location_id)
     );
 
 CREATE TABLE IF NOT EXISTS appointment (
-                                           appointmentID SERIAL PRIMARY KEY,
-                                           location_id INT,
+                                           appointment_id SERIAL PRIMARY KEY,
+                                           location INT,
                                            critical_action BOOLEAN,
                                            date_and_time TIMESTAMP,
-                                           FOREIGN KEY (location_id) REFERENCES donation_location(locationID)
+                                           FOREIGN KEY (location) REFERENCES donation_location(location_id)
     );
 
 CREATE TABLE IF NOT EXISTS akcija_krv (
                                           id SERIAL PRIMARY KEY,
-                                          blood_type_id INT,
-                                          appointment_id INT,
-                                          FOREIGN KEY (blood_type_id) REFERENCES blood_type(blood_type_id),
-                                          FOREIGN KEY (appointment_id) REFERENCES appointment(appointmentID)
+                                          bloodType INT,
+                                          appointment INT,
+                                          FOREIGN KEY (bloodType) REFERENCES blood_type(blood_type_id),
+                                          FOREIGN KEY (appointment) REFERENCES appointment(appointment_id)
     );
 
 
 
 CREATE TABLE IF NOT EXISTS donation_history (
                                                 donation_history_id SERIAL PRIMARY KEY,
-                                                donor_id INT,
-                                                appointment_id INT,
+                                                donor INT,
+                                                appointment_id  BIGINT,
                                                 came BOOLEAN,
-                                                FOREIGN KEY (donor_id) REFERENCES donor(donor_id),
-                                                FOREIGN KEY (appointment_id) REFERENCES appointment(appointmentID)
+                                                FOREIGN KEY (donor) REFERENCES donor(donor_id),
+                                                FOREIGN KEY (appointment_id) REFERENCES appointment(appointment_id)
     );
 
 
@@ -81,11 +82,11 @@ CREATE TABLE IF NOT EXISTS potvrda (
     );
 CREATE TABLE IF NOT EXISTS potvrde_donora (
                                               id SERIAL PRIMARY KEY,
-                                              potvrda_id INT,
-                                              donation_history_id INT,
+                                              potvrda INT,
+                                              donation_history INT,
                                               expiers DATE,
                                               given BOOLEAN,
-                                              FOREIGN KEY (potvrda_id) REFERENCES potvrda(potvrda_id),
-                                              FOREIGN KEY (donation_history_id) REFERENCES donation_history(donation_history_id)
+                                              FOREIGN KEY (potvrda) REFERENCES potvrda(potvrda_id),
+                                              FOREIGN KEY (donation_history) REFERENCES donation_history(donation_history_id)
     );
 

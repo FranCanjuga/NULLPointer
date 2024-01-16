@@ -1,5 +1,6 @@
 package com.fer.progi.BloodDonation.funcionality.repositorys;
 
+import com.fer.progi.BloodDonation.funcionality.models.Appointment;
 import com.fer.progi.BloodDonation.funcionality.models.DonationHistory;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.models.Location;
@@ -16,9 +17,10 @@ public interface DonationHistoryRepository extends JpaRepository<DonationHistory
     //Optional<DonationHistory> findDonationHistoryById(Long id);
 
     DonationHistory findByDonorUsername(String username);
-    //DonationHistory findById(Long id);
     @Override
     List<DonationHistory> findAll();
+
+    DonationHistory findDonationHistoriesByAppointmentAndDonor(Appointment appointment, Donor donor);
 
     default List<DonationHistory> findByDonor_id(Long donor_id){
        return this.findAll()

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.DeleteAppointmentDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentGetDTO;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonationHistoryRepository;
@@ -137,6 +138,38 @@ public class DonorService {
         return donationHistoryDTOList;
     }
 
+    public boolean deleteReservationById(DeleteAppointmentDTO deleteAppointmentDTO) {
+        /*try {
+            historyRepository.delete(historyRepository.getById(donationHistoryId));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }*/
+
+        Optional<Donor> opt  =  donorRepository.findDonorByUsername(deleteAppointmentDTO.getUsername());
+        Donor donor= opt.get();
+
+        Optional<Appointment> opt2  =  appointmentRepository.findById(deleteAppointmentDTO.getAppointmentID());
+        Appointment appointment= opt2.get();
+
+        //TODO: brise sve potvrde za specificni DonationHistory
+        //find DonatoionHistoryId -> PotvrdeDonoraRepo
+        DonationHistory history = historyRepository.findDonationHistoriesByAppointmentAndDonor(appointment,donor);
+
+        List<PotvrdeDonora> potvrdeDonora = potvrdeDonoraRepository.findByDontionHistoryId(history.getDonationHistory_id());
+        for(PotvrdeDonora p : potvrdeDonora){
+            Potvrda potvrda = p.getPotvrda();
+            potvrdaRepository.delete(potvrda);
+        }
+        potvrdeDonoraRepository.deleteAll(potvrdeDonora);
+
+
+        //brise donation history za specificni appointment
+        historyRepository.delete(history);
+
+        return false;
+    }
+
     /**
      * Method for getting list of all  donation reservations for user (even finished ones)
      * @param username - username of user
@@ -230,4 +263,6 @@ public class DonorService {
     public List<Potvrda> getLAllPotvrde() {
         return potvrdaRepository.findAll();
     }
+
+
 }

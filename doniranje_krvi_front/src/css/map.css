@@ -35,6 +35,7 @@
   border-radius: 30px;
   border-top-right-radius: 0;
   font-weight: 700;
+  box-shadow: 5px 5px 10px rgba(1, 0, 0, 0.28);
 }
 
 .map-btn:hover {
@@ -69,4 +70,8 @@
   background: rgba(237, 37, 37, 0.745);
   font-weight: 600;
   font-style: italic;
+}
+
+.critical-action-button {
+  cursor: default;
 }

@@ -20,12 +20,20 @@ function formatTime(dateTime) {
 const YourComponent = () => {
   const position = { lat: 45.3272, lng: 14.4411 };
 
+ 
+
+
   const [open, setOpen] = useState(false);
   const [infoWindowPosition, setInfoWindowPosition] = useState(null);
   const [clickedMarkerName, setClickedMarkerName] = useState(null);
   const [locations,setLocations] = useState([]);
   var [pretrazeno,setPret] = useState(false);
   const [appointments,setAppointments] = useState([]);
+  var [REG, setREG] = useState(false);
+  const [selectedConfirmation, setSelectedConfirmation] = useState('');
+  const [username, setUsername] = useState('')
+  const [donorData, setDonorData] = useState([]);
+
 
   const handleMarkerClick = (markerPosition, markerName) => {
     setInfoWindowPosition(markerPosition);
@@ -37,7 +45,9 @@ const YourComponent = () => {
   const token = localStorage.getItem("token");
   setPret(true);
   console.log(pretrazeno);
-  
+
+  const decodedToken = jwtDecode(token);
+  setUsername(decodedToken.sub)
 
   try {
     const response = await axios.get(`${baseURL}/user/ActiveAppointments`, {
@@ -46,23 +56,7 @@ const YourComponent = () => {
       },
     });
     console.log(response.data)
-    /*
-    console.log(response.data)
-    // Izdvoji location_id iz svih appointmenta
-    const locationIds = response.data.map(appointment => appointment.location.location_id);
-    console.log(locationIds)
-    const uniqueLocationIds = Array.from(new Set(locationIds));
-    console.log(uniqueLocationIds)
 
-    const locations = response.data.map(appointment => appointment.location);
-    console.log("Bato"+locations);
-
-    const uniqueLocations = locations.filter(appointment => uniqueLocationIds.includes(appointment.location.location_id));
-    
-    setLocations(uniqueLocations);
-
-    console.log(uniqueLocations);
-    */
     const locations = response.data.map(appointment => appointment.location);
     setAppointments(response.data)
     setLocations(locations);
@@ -71,8 +65,42 @@ const YourComponent = () => {
   } catch (error) {
     // Obrada greške
   }
-};
+  };
 
+  const handleClick = (e, appointment_id, potvrda) => {
+    e.preventDefault();
+    setREG(true)
+    console.log(REG)
+
+    potvrda = [potvrda]
+
+    const rezervacija = {
+      username,
+      appointment_id,
+      key1: false,
+      potvrda,
+      key2: null,
+      key3: null,
+      key4: null,
+      key5: null,
+      key6: false,
+    };
+    
+    console.log(rezervacija)
+
+    if(REG) {
+      const token = localStorage.getItem("token");
+      axios.post(`${baseURL}/user/create`, rezervacija,
+        {headers: {
+          Authorization: `Bearer ${token}`,
+        }}
+    ).then((response) => {
+
+    }).catch((error) => {
+          console.error(error);
+      })
+    }
+    ;};
 
 
   return (
@@ -141,55 +169,55 @@ const YourComponent = () => {
             </button>
           </a>
         ) : localStorage.token && pretrazeno ? (
-          <div class="container">
-            {Array.from(new Set(appointments.map(appointments => appointments.appointment_id))).map(uniqueAppointmentsId => (
-              <div className={`box ${appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).criticalAction ? 'critical-action-box' : ''}`}>
-              <form>
-                <label for="city">Grad</label>
+          <div className="container">
+          {appointments.sort((a, b) => (b.criticalAction ? 1 : -1)).map((appointment) => (
+          <div className={`box ${appointment.criticalAction ? 'critical-action-box' : ''}`} key={appointment.appointment_id}>
+            <form method="post">
+            <label htmlFor="city">Grad</label>
+            <input
+              type="text" value={appointment.location.locationName} readOnly/>
+
+            {appointment.criticalAction && (
+              <button className="critical-action-button" disabled>Critical</button>
+            )}
+
+            <div className="datetime-row">
+              <div className="date-time-field">
+                <label htmlFor="date">Datum</label>
                 <input
                   type="text"
-                  value={appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).location.locationName}
+                  id="date"
+                  value={formatDate(appointment.dateAndTime)}
                   readOnly
                 />
-                            {appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).criticalAction && (
-                <button className="critical-action-button">Critical</button>
-              )}
-                <div class="datetime-row">
-                  <div class="date-time-field">
-                    <label for="date">Datum</label>
-                    <input
-                      type="text"
-                      id="date"
-                      value={formatDate(appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).dateAndTime)}
-                      readOnly
-                    />
-                  </div>
-            
-                  <div class="date-time-field">
-                    <label for="time">Vrijeme</label>
-                    <input
-                      type="time"
-                      id="time"
-                      value={formatTime(appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).dateAndTime)}
-                      readOnly
-                    />
-                  </div>
-                </div>
-            
-                <label for="confirmation">Odaberi potvrdu</label>
-                <select id="confirmation" name="confirmation">
-                  <option value="confirm1">Potvrda 1</option>
-                  <option value="confirm2">Potvrda 2</option>
-                  <option value="confirm3">Potvrda 3</option>
-                </select>
-            
-                <button type="submit">Prijavi se</button>
-              </form>
-            </div>
-            
-              
-            ))}
+              </div>
+
+              <div className="date-time-field">
+                <label htmlFor="time">Vrijeme</label>
+                <input
+                  type="time"
+                  id="time"
+                  value={formatTime(appointment.dateAndTime)}
+                  readOnly
+                />
+              </div>
+              </div>
+
+              <label htmlFor="confirmation">Odaberi potvrdu</label>
+              <select id="confirmation" name="confirmation" onChange={(e) => setSelectedConfirmation(e.target.value)}>
+                <option value="confirm1">-</option>
+                <option value="confirm1">Besplatni javni prijevoz</option>
+                <option value="confirm2">Besplatan obrok u menzi</option>
+                <option value="confirm3">Mjesečno članstvo u gymu</option>
+                <option value="confirm3">Besplatan proteinski napitak</option>
+              </select>
+
+              <button type="submit" onClick={(e) => handleClick(e, appointment.appointment_id, selectedConfirmation)}>Prijavi se</button>
+            </form>
           </div>
+        ))}
+      </div>
+
         ) : (
           <div className="dark-background">
             <a href="./prijava">

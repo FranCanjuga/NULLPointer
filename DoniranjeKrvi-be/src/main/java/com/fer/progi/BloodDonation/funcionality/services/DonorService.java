@@ -69,7 +69,7 @@ public class DonorService {
                 donor.getAppUser().getFirstName(), donor.getAppUser().getLastName(), donor.getAppUser().getPhoneNumber() , priznanje == null ? null : priznanje.getNamePriznanje());
     }
 
-    public DonationHistory createNewReservation(DonationHistoryDTO historyDTO) {
+    public DonationHistory createNewReservation(ReservationDTO historyDTO) {
         Donor donor  =  donorRepository.findByUsername(historyDTO.getUsername());
 
 

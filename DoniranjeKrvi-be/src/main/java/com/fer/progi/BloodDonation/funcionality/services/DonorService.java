@@ -145,29 +145,32 @@ public class DonorService {
     }
 
     public boolean deleteReservationById(DeleteAppointmentDTO deleteAppointmentDTO) {
+        try {
+            Optional<Donor> opt = donorRepository.findDonorByUsername(deleteAppointmentDTO.getUsername());
+            Donor donor = opt.get();
 
-        Optional<Donor> opt  =  donorRepository.findDonorByUsername(deleteAppointmentDTO.getUsername());
-        Donor donor= opt.get();
-
-        Optional<Appointment> opt2  =  appointmentRepository.findById(deleteAppointmentDTO.getAppointmentID());
-        Appointment appointment= opt2.get();
+            Optional<Appointment> opt2 = appointmentRepository.findById(deleteAppointmentDTO.getAppointmentID());
+            Appointment appointment = opt2.get();
 
 
-        //find DonatoionHistoryId -> PotvrdeDonoraRepo
-        DonationHistory history = historyRepository.findDonationHistoriesByAppointmentAndDonor(appointment,donor);
+            //find DonatoionHistoryId -> PotvrdeDonoraRepo
+            DonationHistory history = historyRepository.findDonationHistoriesByAppointmentAndDonor(appointment, donor);
 
-        List<PotvrdeDonora> potvrdeDonora = potvrdeDonoraRepository.findByDontionHistoryId(history.getDonationHistory_id());
-        for(PotvrdeDonora p : potvrdeDonora){
-            Potvrda potvrda = p.getPotvrda();
-            potvrdaRepository.delete(potvrda);
+            List<PotvrdeDonora> potvrdeDonora = potvrdeDonoraRepository.findByDontionHistoryId(history.getDonationHistory_id());
+            for (PotvrdeDonora p : potvrdeDonora) {
+                Potvrda potvrda = p.getPotvrda();
+                potvrdaRepository.delete(potvrda);
+            }
+            potvrdeDonoraRepository.deleteAll(potvrdeDonora);
+
+
+            //brise donation history za specificni appointment
+            historyRepository.delete(history);
+
+            return true;
+        }catch (Exception e){
+            return false;
         }
-        potvrdeDonoraRepository.deleteAll(potvrdeDonora);
-
-
-        //brise donation history za specificni appointment
-        historyRepository.delete(history);
-
-        return false;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.fer.progi.BloodDonation.funcionality.controllers;
 
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.services.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,13 @@ public class AdminController {
 
     //Dohvaca sve donore
     @GetMapping("/allDonors")
-    public List<Donor> listAll() {
+    public List<DonorDTO> listAll() {
         return adminService.getAllDonors();
     }
 
     //Dohvaca sve donore kojima je jos potrebna potvrda registracije
     @GetMapping("/unregistered")
-    public List<Donor> listUnregistered() {
+    public List<DonorDTO> listUnregistered() {
         return adminService.getUnregisteredDonors();
     }
 

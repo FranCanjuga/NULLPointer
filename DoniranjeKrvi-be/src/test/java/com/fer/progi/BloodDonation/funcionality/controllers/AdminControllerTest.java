@@ -1,6 +1,7 @@
 package com.fer.progi.BloodDonation.funcionality.controllers;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.AdminController;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.services.AdminService;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,11 +36,12 @@ class AdminControllerTest {
     @Test
     void listAll_ReturnsListOfDonors() {
         // Arrange
-        List<Donor> expectedDonors = Arrays.asList(new Donor(), new Donor());
+        List<DonorDTO> expectedDonors = Arrays.asList(new Donor(), new Donor()).stream().map(DonorDTO::new).toList();
         when(adminService.getAllDonors()).thenReturn(expectedDonors);
 
         // Act
-        List<Donor> result = adminController.listAll();
+        List<DonorDTO> result = adminController.listAll();
+
 
         // Assert
         assertEquals(expectedDonors, result);
@@ -49,11 +51,11 @@ class AdminControllerTest {
     @Test
     void listUnregistered_ReturnsListOfDonors() {
         // Arrange
-        List<Donor> expectedDonors = Arrays.asList(new Donor(), new Donor());
+        List<DonorDTO> expectedDonors = Arrays.asList(new Donor(), new Donor()).stream().map(DonorDTO::new).toList();
         when(adminService.getUnregisteredDonors()).thenReturn(expectedDonors);
 
         // Act
-        List<Donor> result = adminController.listUnregistered();
+        List<DonorDTO> result = adminController.listUnregistered();
 
         // Assert
         assertEquals(expectedDonors, result);

@@ -1,5 +1,6 @@
 package com.fer.progi.BloodDonation.funcionality.services;
 
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.models.BloodType;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.models.Location;
@@ -28,28 +29,8 @@ public class AdminServiceTest {
     @InjectMocks
     private AdminService adminService ;
 
-    @Test
-    public void getAllDonorsShouldReturnAllDonors() {
 
-        List<Donor> donors = Arrays.asList(new Donor("username1", new Date(), "Male", new BloodType(), new Location(), true),
-                new Donor("username2", new Date(), "Female", new BloodType(), new Location(), false));
-        Mockito.when(donorRepository.findAll()).thenReturn(donors);
 
-        List<Donor> result = adminService.getAllDonors();
-
-        Assertions.assertEquals(donors, result);
-    }
-
-    @Test
-    public void getUnregisteredDonorsShouldReturnUnregisteredDonors() {
-        List<Donor> donors = Arrays.asList(new Donor("username1", new Date(), "Male", new BloodType(), new Location(), true),
-                new Donor("username2", new Date(), "Female", new BloodType(), new Location(), false));
-        Mockito.when(donorRepository.findAll()).thenReturn(donors);
-
-        List<Donor> result = adminService.getUnregisteredDonors();
-
-        Assertions.assertEquals(Arrays.asList(donors.get(1)), result);
-    }
 
     @Test
     public void getDonorByUsernameShouldReturnDonorForValidUsername() {

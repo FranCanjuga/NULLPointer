@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"
-import { random } from "gsap";
 
 const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
 

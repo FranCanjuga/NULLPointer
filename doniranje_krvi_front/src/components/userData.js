@@ -79,13 +79,13 @@ const UserData = () =>{
 
     const izbrisiRez = () => {
         const Appointment = {
-          appID: parseInt(appID),
           username,
+          appointmentID: parseInt(appID)
         };
         console.log(Appointment);
       
         axios
-          .delete(`${baseURL}/user/deleteReservation`, Appointment, {
+          .post(`${baseURL}/user/deleteReservation`, Appointment, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

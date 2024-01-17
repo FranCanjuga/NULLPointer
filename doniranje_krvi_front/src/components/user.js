@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"
+import { random } from "gsap";
 
 const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
+
+/*const getRandomBloodType = () => {
+  const randomChoice = Math.random() < 0.5 ? 0 : 'AB';
+  return randomChoice;
+}; */
 
 const User = () => {
   const token = localStorage.getItem("token");
@@ -149,7 +155,6 @@ const User = () => {
   const [locationID, setLocationID] = useState('');
   const [criticalAction,setCritical] = useState(Boolean);
   const [dateAndTime, setDateAndTime] = useState('');
-
   const [filterLoc, setFilterLoc] = useState('');
 
   const addAppointment = () => {
@@ -207,8 +212,8 @@ const deleteAppointment = () =>{
 
   const finishAppointment = (usernames, appId) => {
     let body = {
-      appointmentID: appId,
-      usernames: usernames
+      usernames: usernames[0],
+      appointmentID: appId
     }
     const response = axios.post(`${baseURL}/cross/AppointmentFinished`, body, {
       headers: {
@@ -249,15 +254,10 @@ const deleteAppointment = () =>{
   } 
   
   const createTableRow = (app) => {
-    // Check if blood types exist
-    if (!app.bloodTypes || app.bloodTypes.length === 0) {
-      return null; // If no blood types, don't render the row
-    }
-  
     return (
       <tr key={app.appointment_id}>
         <td>{app.appointment_id}</td>
-        <td>{sortBloodTypes(app.bloodTypes)}</td>
+        <td>{app.bloodTypes}</td>
         <td>{napisiDatum(app.dateAndTime)}</td>
         <td>{app.location.locationName}</td>
         <td>{app.criticalAction ? "YES" : "NO"}</td>
@@ -312,6 +312,8 @@ const deleteAppointment = () =>{
     }
     return bloodTypes;
   };
+
+  const booleanToString = (value) => (value ? 'DA' : 'NE');
 
   // funkcija koja datum ljepse ispise 
   function napisiDatum(dateOfBirth) {
@@ -417,7 +419,7 @@ const deleteAppointment = () =>{
                       <option value="A">A</option>
                       <option value="B">B</option>
                       <option value="AB">AB</option>
-                      <option value="0">0</option>
+                      <option value="O">O</option>
                     </select>
                   </div>
                   

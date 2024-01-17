@@ -27,11 +27,10 @@ public class DonorService {
     private final PotvrdaRepository potvrdaRepository;
     private final PotvrdeDonoraRepository potvrdeDonoraRepository;
 
-    @Autowired
-    private PriznanjaDonoraRepository priznanjaDonoraRepository;
+    private final PriznanjaDonoraRepository priznanjaDonoraRepository;
 
     @Autowired
-    public DonorService(DonorRepository donorRepository, DonationHistoryRepository historyRepository, AppointmentRepository appointmentRepository, LocationRepository locationRepository, BloodTypeRepository bloodTypeRepository, PotvrdaRepository potvrdaRepository, PotvrdeDonoraRepository potvrdeDonoraRepository) {
+    public DonorService(DonorRepository donorRepository, DonationHistoryRepository historyRepository, AppointmentRepository appointmentRepository, LocationRepository locationRepository, BloodTypeRepository bloodTypeRepository, PotvrdaRepository potvrdaRepository, PotvrdeDonoraRepository potvrdeDonoraRepository, PriznanjaDonoraRepository priznanjaDonoraRepository) {
 
         this.donorRepository = donorRepository;
         this.historyRepository = historyRepository;
@@ -40,6 +39,7 @@ public class DonorService {
         this.bloodTypeRepository = bloodTypeRepository;
         this.potvrdaRepository = potvrdaRepository;
         this.potvrdeDonoraRepository = potvrdeDonoraRepository;
+        this.priznanjaDonoraRepository = priznanjaDonoraRepository;
     }
 
 

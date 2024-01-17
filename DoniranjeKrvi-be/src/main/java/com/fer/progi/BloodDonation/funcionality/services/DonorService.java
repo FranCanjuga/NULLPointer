@@ -1,5 +1,6 @@
 package com.fer.progi.BloodDonation.funcionality.services;
 
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.*;
 import com.fer.progi.BloodDonation.funcionality.models.*;
 
 import java.time.Instant;
@@ -10,10 +11,6 @@ import com.fer.progi.BloodDonation.funcionality.repositorys.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.DeleteAppointmentDTO;
-import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -140,23 +137,21 @@ public class DonorService {
 
         List<DonationHistoryDTO> donationHistoryDTOList = getAllDonationReservationByUsername(username);
 
-        for (DonationHistoryDTO donationHistory : donationHistoryDTOList) {
-
-            if(donationHistory.isFinished() )
-                donationHistoryDTOList.remove(donationHistory);
+        donationHistoryDTOList.removeIf(DonationHistoryDTO::isFinished);
+        ///////////
+        /*Brisanje appointmenta gdje je donor vec prijavljen*/
+        Optional<Donor> opt  =  donorRepository.findDonorByUsername(username);
+        Donor donor= opt.get();
+        Set<DonationHistory> donorsAppointments = donor.getDonationHistory();
+        for(DonationHistory d:donorsAppointments){
+            Appointment a = d.getAppointment();
+            donationHistoryDTOList.removeIf(dto -> Objects.equals(dto.getAppointmentID(), a.getAppointment_id()));
         }
-
-
+        ///////////
         return donationHistoryDTOList;
     }
 
     public boolean deleteReservationById(DeleteAppointmentDTO deleteAppointmentDTO) {
-        /*try {
-            historyRepository.delete(historyRepository.getById(donationHistoryId));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }*/
 
         Optional<Donor> opt  =  donorRepository.findDonorByUsername(deleteAppointmentDTO.getUsername());
         Donor donor= opt.get();
@@ -164,7 +159,7 @@ public class DonorService {
         Optional<Appointment> opt2  =  appointmentRepository.findById(deleteAppointmentDTO.getAppointmentID());
         Appointment appointment= opt2.get();
 
-        //TODO: brise sve potvrde za specificni DonationHistory
+
         //find DonatoionHistoryId -> PotvrdeDonoraRepo
         DonationHistory history = historyRepository.findDonationHistoriesByAppointmentAndDonor(appointment,donor);
 
@@ -210,8 +205,10 @@ public class DonorService {
                 throw new IllegalArgumentException("Appointment not found");
             }
 
-            donationHistoryDTOList.add(new DonationHistoryDTO(appointment, donationHistory.isCame() , appointment.isFinished()));
+            donationHistoryDTOList.add(new DonationHistoryDTO(donationHistory ,appointment, donationHistory.isCame() , appointment.isFinished()));
         }
+
+      //  donationHistoryDTOList.removeIf(donationHistoryDTO -> !donationHistoryDTO.isFinished() || !donationHistoryDTO.isCame());
 
 
         return donationHistoryDTOList;
@@ -232,7 +229,7 @@ public class DonorService {
         for(Appointment a: allAppointments){
             if(a.getDateAndTime().isAfter(LocalDateTime.now())){
                 //activeAppointments.add(a);
-                AppointmentGetDTO appDTO = new AppointmentGetDTO(a.getAppointment_id(),a.getLocation(),a.getDateAndTime());
+                AppointmentGetDTO appDTO = new AppointmentGetDTO(a.getAppointment_id(),a.getLocation(),a.getDateAndTime(),a.isCriticalAction());
                 activeAppointments.add(appDTO);
             }
             /*else{
@@ -261,19 +258,23 @@ public class DonorService {
      * @param usename - username of user
      * @return list of potvrde
      */
-    public List<Potvrda> getListOfPotvrda(String usename) {
+    public List<PotvrdeDto> getListOfPotvrda(String usename) {
         List<PotvrdeDonora> lista = potvrdeDonoraRepository.findAll();
-        return lista.stream().filter(
-                potvrdeDonora -> potvrdeDonora.getDonationHistory().getDonor().getUsername().equals(usename))
-        .filter(
-                potvrdeDonora -> potvrdeDonora.getGiven() && potvrdeDonora.getExpiers().after(Date.from(Instant.from(LocalDateTime.now()))))
-        .map(
-                PotvrdeDonora::getPotvrda)
-        .toList();
+        var var1 = new ArrayList<>(lista.stream().filter(
+                        potvrdeDonora -> potvrdeDonora.getDonationHistory().getDonor().getUsername().equals(usename))
+                .toList());
+
+        List<Potvrda> potvrdaList = new ArrayList<>();
+        for(var potvrda : var1){
+            if(potvrda.getGiven() && potvrda.getExpiers().after(Date.from(Instant.now()))){
+            potvrdaList.add(potvrda.getPotvrda());
+            }
+        }
+        return potvrdaList.stream().map(PotvrdeDto::new).toList();
     }
 
-    public List<Potvrda> getLAllPotvrde() {
-        return potvrdaRepository.findAll();
+    public List<PotvrdeDto> getLAllPotvrde() {
+        return potvrdaRepository.findAll().stream().map(PotvrdeDto::new).toList();
     }
 
 

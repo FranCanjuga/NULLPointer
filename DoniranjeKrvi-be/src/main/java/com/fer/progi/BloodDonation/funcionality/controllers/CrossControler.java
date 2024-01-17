@@ -9,6 +9,7 @@ import com.fer.progi.BloodDonation.funcionality.models.Appointment;
 import com.fer.progi.BloodDonation.funcionality.models.Location;
 import com.fer.progi.BloodDonation.funcionality.services.CrossService;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +23,12 @@ import java.util.List;
 @RequestMapping("/cross")
 @PreAuthorize("hasRole('cross')")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class CrossControler {
 
-    @Autowired
     private final CrossService crossService;
 
-    @Autowired
     private final DonorService donorService;
-
-    public CrossControler(CrossService crossService, DonorService donorService) {
-        this.crossService = crossService;
-        this.donorService = donorService;
-    }
-
 
 
     /**

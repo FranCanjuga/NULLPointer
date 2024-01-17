@@ -6,6 +6,7 @@ import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentsResp
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.models.*;
 import com.fer.progi.BloodDonation.funcionality.repositorys.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,31 +19,24 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class CrossService {
 
-    @Autowired
-    private CrossRepository crossRepository;
+    private final CrossRepository crossRepository;
 
-    @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
-    @Autowired
-    private BloodTypeRepository bloodTypeRepository;
+    private final BloodTypeRepository bloodTypeRepository;
 
-    @Autowired
-    private DonationHistoryRepository donationHistoryRepository;
+    private final DonationHistoryRepository donationHistoryRepository;
 
-    @Autowired
-    private AkcijaKrvRepository akcijaKrvRepository;
+    private final AkcijaKrvRepository akcijaKrvRepository;
 
-    @Autowired
-    private PriznajeRepository priznajeRepository;
+    private final PriznajeRepository priznajeRepository;
 
-    @Autowired
-    PriznanjaDonorRepository priznanjaDonorRepository;
+    private final PriznanjaDonorRepository priznanjaDonorRepository;
 
-    @Autowired
-    PotvrdeDonoraRepository potvrdeDonoraRepository;
+    private final PotvrdeDonoraRepository potvrdeDonoraRepository;
 
 
     /**

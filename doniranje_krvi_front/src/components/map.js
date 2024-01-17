@@ -5,6 +5,18 @@ import { jwtDecode } from "jwt-decode"
 
 const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
 
+function formatDate(dateTime) {
+  const date = new Date(dateTime);
+  const formattedDate = date.toLocaleDateString();
+  return `${formattedDate}`;
+}
+function formatTime(dateTime) {
+  const date = new Date(dateTime);
+  const formattedTime = date.toLocaleTimeString();
+  return `${formattedTime}`;
+}
+
+
 const YourComponent = () => {
   const position = { lat: 45.3272, lng: 14.4411 };
 
@@ -13,6 +25,7 @@ const YourComponent = () => {
   const [clickedMarkerName, setClickedMarkerName] = useState(null);
   const [locations,setLocations] = useState([]);
   var [pretrazeno,setPret] = useState(false);
+  const [appointments,setAppointments] = useState([]);
 
   const handleMarkerClick = (markerPosition, markerName) => {
     setInfoWindowPosition(markerPosition);
@@ -24,6 +37,7 @@ const YourComponent = () => {
   const token = localStorage.getItem("token");
   setPret(true);
   console.log(pretrazeno);
+  
 
   try {
     const response = await axios.get(`${baseURL}/user/ActiveAppointments`, {
@@ -31,7 +45,7 @@ const YourComponent = () => {
         Authorization: `Bearer ${token}`,
       },
     });
-
+    console.log(response.data)
     /*
     console.log(response.data)
     // Izdvoji location_id iz svih appointmenta
@@ -50,9 +64,9 @@ const YourComponent = () => {
     console.log(uniqueLocations);
     */
     const locations = response.data.map(appointment => appointment.location);
+    setAppointments(response.data)
     setLocations(locations);
     console.log(locations)
-
 
   } catch (error) {
     // Obrada greške
@@ -127,11 +141,53 @@ const YourComponent = () => {
             </button>
           </a>
         ) : localStorage.token && pretrazeno ? (
-          <div>
-            {Array.from(new Set(locations.map(location => location.location_id))).map(uniqueLocationId => (
-              <button className='map-btn' key={uniqueLocationId}>
-                {locations.find(location => location.location_id === uniqueLocationId).locationName}
-              </button>
+          <div class="container">
+            {Array.from(new Set(appointments.map(appointments => appointments.appointment_id))).map(uniqueAppointmentsId => (
+              <div className={`box ${appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).criticalAction ? 'critical-action-box' : ''}`}>
+              <form>
+                <label for="city">Grad</label>
+                <input
+                  type="text"
+                  value={appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).location.locationName}
+                  readOnly
+                />
+                            {appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).criticalAction && (
+                <button className="critical-action-button">Critical</button>
+              )}
+                <div class="datetime-row">
+                  <div class="date-time-field">
+                    <label for="date">Datum</label>
+                    <input
+                      type="text"
+                      id="date"
+                      value={formatDate(appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).dateAndTime)}
+                      readOnly
+                    />
+                  </div>
+            
+                  <div class="date-time-field">
+                    <label for="time">Vrijeme</label>
+                    <input
+                      type="time"
+                      id="time"
+                      value={formatTime(appointments.find(appointment => appointment.appointment_id === uniqueAppointmentsId).dateAndTime)}
+                      readOnly
+                    />
+                  </div>
+                </div>
+            
+                <label for="confirmation">Odaberi potvrdu</label>
+                <select id="confirmation" name="confirmation">
+                  <option value="confirm1">Potvrda 1</option>
+                  <option value="confirm2">Potvrda 2</option>
+                  <option value="confirm3">Potvrda 3</option>
+                </select>
+            
+                <button type="submit">Prijavi se</button>
+              </form>
+            </div>
+            
+              
             ))}
           </div>
         ) : (

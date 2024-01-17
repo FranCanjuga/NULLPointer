@@ -15,10 +15,12 @@ public class AppointmentGetDTO {
     private Long appointment_id;
     private Location location;
     public LocalDateTime dateAndTime;
+    private boolean critical;
 
-    public AppointmentGetDTO(Long appointment_id, Location location, LocalDateTime dateAndTime) {
+    public AppointmentGetDTO(Long appointment_id, Location location, LocalDateTime dateAndTime , boolean critical) {
         this.appointment_id = appointment_id;
         this.location = location;
         this.dateAndTime = dateAndTime;
+        this.critical = critical;
     }
 }

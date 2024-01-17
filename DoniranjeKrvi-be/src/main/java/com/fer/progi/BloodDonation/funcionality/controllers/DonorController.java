@@ -88,7 +88,7 @@ public class DonorController {
     }
 
     /**
-     * Method for getting list of all  appointments for donor (even finished ones)
+     * Method for getting list of all  appointments for donor ( finished ones)
      * @param username username of donor
      * @return list of all active appointments for donor
      */
@@ -97,6 +97,7 @@ public class DonorController {
 
         try {
             List<DonationHistoryDTO> historyData = donorService.getAllDonationReservationByUsername(username);
+            historyData.removeIf(history -> !history.isCame() || !history.isFinished());
             return ResponseEntity.ok(historyData);
         }catch (Exception e){
             return ResponseEntity
@@ -106,7 +107,7 @@ public class DonorController {
 
     }
     /**
-     * Method for getting list of all  active appointments donor can sing in for (even finished ones)
+     * Method for getting list of all  active appointments donor can sing in for
      * @param username username of donor
      * @return list of all active appointments for donor
      */
@@ -151,8 +152,8 @@ public class DonorController {
     }
 
     @GetMapping("/getPotvrdeDonora/{username}")
-    public ResponseEntity<List<Potvrda>> getPotvrde(@PathVariable String username) {
-        List<Potvrda> listPotvrda = donorService.getListOfPotvrda(username);
+    public ResponseEntity<List<PotvrdeDto>> getPotvrde(@PathVariable String username) {
+        List<PotvrdeDto> listPotvrda = donorService.getListOfPotvrda(username);
 
         if (listPotvrda != null && !listPotvrda.isEmpty()) {
             return ResponseEntity.ok(listPotvrda);
@@ -168,8 +169,8 @@ public class DonorController {
      * @return list of potvrde
      */
     @GetMapping("/getPotvrde")
-    public ResponseEntity<List<Potvrda>> getPotvrde() {
-        List<Potvrda> listPotvrda = donorService.getLAllPotvrde();
+    public ResponseEntity<List<PotvrdeDto>> getPotvrde() {
+        List<PotvrdeDto> listPotvrda = donorService.getLAllPotvrde();
 
         if (listPotvrda != null && !listPotvrda.isEmpty()) {
             return ResponseEntity.ok(listPotvrda);

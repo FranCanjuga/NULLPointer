@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import com.fer.progi.BloodDonation.funcionality.repositorys.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class DonorService {
 
     private final DonorRepository donorRepository;
@@ -29,21 +31,8 @@ public class DonorService {
     private final BloodTypeRepository bloodTypeRepository;
     private final PotvrdaRepository potvrdaRepository;
     private final PotvrdeDonoraRepository potvrdeDonoraRepository;
+    private final PriznanjaDonoraRepository priznanjaDonoraRepository;
 
-    @Autowired
-    private PriznanjaDonoraRepository priznanjaDonoraRepository;
-
-    @Autowired
-    public DonorService(DonorRepository donorRepository, DonationHistoryRepository historyRepository, AppointmentRepository appointmentRepository, LocationRepository locationRepository, BloodTypeRepository bloodTypeRepository, PotvrdaRepository potvrdaRepository, PotvrdeDonoraRepository potvrdeDonoraRepository) {
-
-        this.donorRepository = donorRepository;
-        this.historyRepository = historyRepository;
-        this.appointmentRepository = appointmentRepository;
-        this.locationRepository = locationRepository;
-        this.bloodTypeRepository = bloodTypeRepository;
-        this.potvrdaRepository = potvrdaRepository;
-        this.potvrdeDonoraRepository = potvrdeDonoraRepository;
-    }
 
 
     public DonorDTO getDonorDataByUsername(String username) {
@@ -140,11 +129,7 @@ public class DonorService {
 
         List<DonationHistoryDTO> donationHistoryDTOList = getAllDonationReservationByUsername(username);
 
-        for (DonationHistoryDTO donationHistory : donationHistoryDTOList) {
-
-            if(donationHistory.isFinished() )
-                donationHistoryDTOList.remove(donationHistory);
-        }
+        donationHistoryDTOList.removeIf(DonationHistoryDTO::isFinished);
 
 
         return donationHistoryDTOList;

@@ -5,6 +5,7 @@ import com.fer.progi.BloodDonation.funcionality.controllers.dto.*;
 import com.fer.progi.BloodDonation.funcionality.models.*;
 import com.fer.progi.BloodDonation.funcionality.services.CrossService;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @PreAuthorize("hasRole('user')")
+@RequiredArgsConstructor
 public class DonorController {
-    @Autowired
     private final DonorService donorService;
 
-    @Autowired
     private final CrossService crossService;
 
-    public DonorController(DonorService donorService, CrossService crossService) {
-        this.donorService = donorService;
-        this.crossService = crossService;
-    }
 
 
     @GetMapping("/profile/{username}")

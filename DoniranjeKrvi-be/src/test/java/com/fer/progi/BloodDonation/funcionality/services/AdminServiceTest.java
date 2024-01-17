@@ -6,18 +6,19 @@ import com.fer.progi.BloodDonation.funcionality.models.Location;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class AdminServiceTest {
 
@@ -25,7 +26,7 @@ public class AdminServiceTest {
     private DonorRepository donorRepository;
 
     @InjectMocks
-    private AdminService adminService;
+    private AdminService adminService ;
 
     @Test
     public void getAllDonorsShouldReturnAllDonors() {

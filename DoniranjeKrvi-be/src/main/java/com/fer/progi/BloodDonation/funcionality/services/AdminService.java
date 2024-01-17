@@ -2,6 +2,7 @@ package com.fer.progi.BloodDonation.funcionality.services;
 
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AdminService {
 
-    @Autowired
-    private DonorRepository donorRepository;
+    private final DonorRepository donorRepository;
 
     public List<Donor> getAllDonors() {
         return donorRepository.findAll();

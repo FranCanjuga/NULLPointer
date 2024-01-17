@@ -20,6 +20,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 10px;
     box-sizing: border-box;
+    box-shadow: 5px 5px 10px rgba(1, 0, 0, 0.1); /* Adjust the values as needed */
 }
 
 label {
@@ -50,6 +51,14 @@ button {
     cursor: pointer;
     font-size: 14px;
 }
+
+.green_btn:hover {
+    cursor: pointer; /* Optional: Change cursor on hover */
+    border: 1px solid #333;
+    margin-bottom: -1px;
+    box-shadow: 5px 5px 10px rgba(1, 0, 0, 0.15); /* Adjust the values as needed */
+}
+
 .datetime-row {
     display: flex;
     justify-content: space-between;
@@ -60,12 +69,16 @@ button {
     width: 48%; 
 }
 
+.date-time-field1 {
+    width: 56%; 
+}
+
 #time, #date{
     height: 34px;
 }
 
 .critical-action-box {
     background: rgba(255, 15, 15, 0.484); 
-    background: linear-gradient(340deg, #d6d9ff8f, #ff050532);
+    background: linear-gradient(40deg, #d6d9ff8f, #ff050532);
     position: relative;
 }

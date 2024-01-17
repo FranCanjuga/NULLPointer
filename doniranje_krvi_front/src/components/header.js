@@ -1,12 +1,31 @@
 import React from "react";
 import axios from "axios";
+import { useState } from 'react';
 
-const naClick = (e) => {
+
+
+
+const Header = () => {
+    var [REG, setREG] = useState(false);
+
+    const scrollToMap = () => {
+        const mapSection = document.getElementById('map');
+    
+        if (mapSection) {
+          const offsetTop = mapSection.getBoundingClientRect().top + window.scrollY;
+    
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth',
+          });
+        }
+      }; 
+      
+    const naClick = (e) => {
+    setREG(false)
     localStorage.removeItem("token")
     window.location.href = '/'
 }
-
-const Header = () => {
     return (
         
         <body className="head">
@@ -30,7 +49,7 @@ const Header = () => {
                     <a href="./prijava">
                         <button className="head-btn">PRIJAVA</button>
                     </a>
-                    }
+                    } 
                 </div>
             </nav>
 
@@ -41,7 +60,7 @@ const Header = () => {
                         <p>Utemeljitelj dobrovoljnog davanja krvi u Republici Hrvatskoj, promiče
                         dobrovoljno davanje krvi, organizira i provodi akcije davanja krvi.</p>
                         <p>Organizacija ima više od 370.000 članova volontera, kao i 550 profesionalaca. U Hrvatskoj je aktivan od 1878. godine.</p>
-                        <a href="#map" className="head-btn">Pridruži se</a>
+                        <a href="#" className="head-btn" onClick={scrollToMap}>Pridruži se</a>
                 </div>
             </div>
     

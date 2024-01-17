@@ -45,8 +45,9 @@ public class DonationHistoryDTO {
 
 
 
-    public DonationHistoryDTO(String username, Long appointmentID) {
+    public DonationHistoryDTO(String username, Long appointmentID, Long[] potvrdeID) {
         this.username = username;
         this.appointmentID = appointmentID;
+        this.potvrdeID = potvrdeID;
     }
 }

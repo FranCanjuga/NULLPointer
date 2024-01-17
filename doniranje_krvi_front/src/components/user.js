@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"
+import { random } from "gsap";
 
 const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
+
+/*const getRandomBloodType = () => {
+  const randomChoice = Math.random() < 0.5 ? 0 : 'AB';
+  return randomChoice;
+}; */
 
 const User = () => {
   const token = localStorage.getItem("token");
@@ -149,7 +155,6 @@ const User = () => {
   const [locationID, setLocationID] = useState('');
   const [criticalAction,setCritical] = useState(Boolean);
   const [dateAndTime, setDateAndTime] = useState('');
-
   const [filterLoc, setFilterLoc] = useState('');
 
   const addAppointment = () => {
@@ -207,8 +212,8 @@ const deleteAppointment = () =>{
 
   const finishAppointment = (usernames, appId) => {
     let body = {
-      appointmentID: appId,
-      usernames: usernames
+      usernames: usernames[0],
+      appointmentID: appId
     }
     const response = axios.post(`${baseURL}/cross/AppointmentFinished`, body, {
       headers: {
@@ -248,21 +253,23 @@ const deleteAppointment = () =>{
     }
   } 
   
-  const createTableRow = (app) => 
-    (<tr>
-      <td>{app.appointment_id}</td>
-      <td>{sortBloodTypes(app.bloodTypes)}</td>
-      <td>{napisiDatum(app.dateAndTime)}</td>
-      <td>{app.location.locationName}</td>
-      <td>{app.criticalAction ? "YES" : "NO"}</td>
-      <td>
-        <button id="table_button_finish" href='' value={app.appointment_id} onClick={zavrsiButton}>Završi</button>
-      </td>
-      <td>
-        <button id="table_button_delete" href='' value={app.appointment_id} onClick={izbrisiButton}>Izbriši</button>
-      </td>
-    </tr>
-    )
+  const createTableRow = (app) => {
+    return (
+      <tr key={app.appointment_id}>
+        <td>{app.appointment_id}</td>
+        <td>{app.bloodTypes}</td>
+        <td>{napisiDatum(app.dateAndTime)}</td>
+        <td>{app.location.locationName}</td>
+        <td>{app.criticalAction ? "YES" : "NO"}</td>
+        <td>
+          <button id="table_button_finish" href='' value={app.appointment_id} onClick={zavrsiButton}>Završi</button>
+        </td>
+        <td>
+          <button id="table_button_delete" href='' value={app.appointment_id} onClick={izbrisiButton}>Izbriši</button>
+        </td>
+      </tr>
+    );
+  };
   
 
   const deFade = () => {
@@ -412,7 +419,7 @@ const deleteAppointment = () =>{
                       <option value="A">A</option>
                       <option value="B">B</option>
                       <option value="AB">AB</option>
-                      <option value="0">0</option>
+                      <option value="O">O</option>
                     </select>
                   </div>
                   
@@ -466,13 +473,13 @@ const deleteAppointment = () =>{
         </div>
           <table class="appointment_table">
             <tr>
-              <th>Appointment ID</th>
+              <th>App ID</th>
               <th>Blood Types</th>
               <th>Date</th>
               <th>Location</th>
               <th>Critical?</th>
-              <th></th>
-              <th></th>
+              <th>Završi</th>
+              <th>Izbriši</th>
             </tr>
             {filterLoc ? activeApps.filter((app)=> app.location.location_id=== parseInt(filterLoc)).map(createTableRow) : activeApps.map(createTableRow)}
           </table>

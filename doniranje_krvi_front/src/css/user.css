@@ -355,21 +355,25 @@ body .user::before {
 .appointment_table {
   width: 100%;
   table-layout: fixed;
+  border-collapse:collapse;
 }
 
 .appointment_table td, .appointment_table th {
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
+  text-align: center;
   padding: 8px;
+  max-width: 150px; /* Adjust the maximum width as needed */
+
 }
 
-.appointment_table tr:nth-child(even){background-color: #e5d2d2;}
 
 .appointment_table th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: left;
-  background-color: #e9d6ba;
-  color: white;
+  text-align: center;
+  color: black;
+  white-space: normal;
+  min-width: 200px;
 }
 
 #table_button_finish {
@@ -377,8 +381,10 @@ body .user::before {
   padding: 5px;
   box-sizing: border-box;
   border-radius: 45px;
-  background: #fff;
+  background: rgb(72, 72, 204);
   cursor: pointer;
+  color: black;
+  font-weight: bold;
 }
 
 #table_button_delete {
@@ -388,4 +394,8 @@ body .user::before {
   border-radius: 45px;
   background: #fff;
   cursor: pointer;
+  color: black;
+  background-color: red;
+  font-weight: bold;
 }
+

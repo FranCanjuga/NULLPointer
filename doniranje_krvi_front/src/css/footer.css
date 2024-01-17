@@ -11,10 +11,11 @@
     width: 100px; 
     height: 50px;
     display: inline-block; 
+    box-shadow: 5px 5px 10px rgba(155, 5, 5, 0.5);
 }
 .tekstKriz{
     text-align: center;
-    padding: 20px;
+    padding: 10px; 
 }
 a {
     text-decoration: none;

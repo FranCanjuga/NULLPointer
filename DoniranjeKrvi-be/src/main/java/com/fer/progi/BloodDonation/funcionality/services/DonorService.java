@@ -27,11 +27,10 @@ public class DonorService {
     private final PotvrdaRepository potvrdaRepository;
     private final PotvrdeDonoraRepository potvrdeDonoraRepository;
 
-    @Autowired
-    private PriznanjaDonoraRepository priznanjaDonoraRepository;
+    private final PriznanjaDonoraRepository priznanjaDonoraRepository;
 
     @Autowired
-    public DonorService(DonorRepository donorRepository, DonationHistoryRepository historyRepository, AppointmentRepository appointmentRepository, LocationRepository locationRepository, BloodTypeRepository bloodTypeRepository, PotvrdaRepository potvrdaRepository, PotvrdeDonoraRepository potvrdeDonoraRepository) {
+    public DonorService(DonorRepository donorRepository, DonationHistoryRepository historyRepository, AppointmentRepository appointmentRepository, LocationRepository locationRepository, BloodTypeRepository bloodTypeRepository, PotvrdaRepository potvrdaRepository, PotvrdeDonoraRepository potvrdeDonoraRepository, PriznanjaDonoraRepository priznanjaDonoraRepository) {
 
         this.donorRepository = donorRepository;
         this.historyRepository = historyRepository;
@@ -40,6 +39,7 @@ public class DonorService {
         this.bloodTypeRepository = bloodTypeRepository;
         this.potvrdaRepository = potvrdaRepository;
         this.potvrdeDonoraRepository = potvrdeDonoraRepository;
+        this.priznanjaDonoraRepository = priznanjaDonoraRepository;
     }
 
 
@@ -69,7 +69,7 @@ public class DonorService {
                 donor.getAppUser().getFirstName(), donor.getAppUser().getLastName(), donor.getAppUser().getPhoneNumber() , priznanje == null ? null : priznanje.getNamePriznanje());
     }
 
-    public DonationHistory createNewReservation(DonationHistoryDTO historyDTO) {
+    public DonationHistory createNewReservation(ReservationDTO historyDTO) {
         Donor donor  =  donorRepository.findByUsername(historyDTO.getUsername());
 
 
@@ -138,18 +138,20 @@ public class DonorService {
         List<DonationHistoryDTO> donationHistoryDTOList = getAllDonationReservationByUsername(username);
 
         donationHistoryDTOList.removeIf(DonationHistoryDTO::isFinished);
-
-
+        ///////////
+        /*Brisanje appointmenta gdje je donor vec prijavljen*/
+        Optional<Donor> opt  =  donorRepository.findDonorByUsername(username);
+        Donor donor= opt.get();
+        Set<DonationHistory> donorsAppointments = donor.getDonationHistory();
+        for(DonationHistory d:donorsAppointments){
+            Appointment a = d.getAppointment();
+            donationHistoryDTOList.removeIf(dto -> Objects.equals(dto.getAppointmentID(), a.getAppointment_id()));
+        }
+        ///////////
         return donationHistoryDTOList;
     }
 
     public boolean deleteReservationById(DeleteAppointmentDTO deleteAppointmentDTO) {
-        /*try {
-            historyRepository.delete(historyRepository.getById(donationHistoryId));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }*/
 
         Optional<Donor> opt  =  donorRepository.findDonorByUsername(deleteAppointmentDTO.getUsername());
         Donor donor= opt.get();
@@ -157,7 +159,7 @@ public class DonorService {
         Optional<Appointment> opt2  =  appointmentRepository.findById(deleteAppointmentDTO.getAppointmentID());
         Appointment appointment= opt2.get();
 
-        //TODO: brise sve potvrde za specificni DonationHistory
+
         //find DonatoionHistoryId -> PotvrdeDonoraRepo
         DonationHistory history = historyRepository.findDonationHistoriesByAppointmentAndDonor(appointment,donor);
 

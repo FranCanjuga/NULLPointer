@@ -3,6 +3,7 @@ package com.fer.progi.BloodDonation.funcionality.services;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentGetDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.ReservationDTO;
 import com.fer.progi.BloodDonation.funcionality.models.*;
 import com.fer.progi.BloodDonation.funcionality.repositorys.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +66,7 @@ class DonorServiceTest {
         donor.setAppUser(new AppUser("testUser", "firstName", "lastName", "1234", "password", new HashSet<>()));
 
         when(donorRepository.findDonorByUsername(username)).thenReturn(Optional.of(donor));
-
+        when(priznanjaDonoraRepository.findAll()).thenReturn(new ArrayList<>());
         // Act
         DonorDTO result = donorService.getDonorDataByUsername(username);
 
@@ -98,9 +99,7 @@ class DonorServiceTest {
     void createNewReservation_InvalidAppointmentID_ReturnsNull() {
         // Arrange
         String username = "testUser";
-        DonationHistoryDTO historyDTO = new DonationHistoryDTO();
-        historyDTO.setUsername(username);
-        historyDTO.setAppointmentID(1L);
+        ReservationDTO historyDTO = new ReservationDTO("username", 1L, new Long[]{});
 
         when(donorRepository.findByUsername(username)).thenReturn(new Donor());
         when(appointmentRepository.findById(1L)).thenReturn(Optional.empty());

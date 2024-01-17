@@ -3,6 +3,7 @@ package com.fer.progi.BloodDonation.funcionality.controllers;
 import com.fer.progi.BloodDonation.funcionality.controllers.DonorController;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonationHistoryDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.ReservationDTO;
 import com.fer.progi.BloodDonation.funcionality.models.*;
 import com.fer.progi.BloodDonation.funcionality.services.CrossService;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
@@ -57,7 +58,7 @@ public class DonorControllerTest {
 
     @Test
     public void testCreateDonationReservation() {
-        DonationHistoryDTO historyDTO = new DonationHistoryDTO();
+        ReservationDTO historyDTO = new ReservationDTO("nesto", 1L, new Long[]{1L});
         DonationHistory history = new DonationHistory();
         when(donorService.createNewReservation(historyDTO)).thenReturn(history);
 
@@ -70,7 +71,7 @@ public class DonorControllerTest {
 
     @Test
     public void testCreateDonationReservationError() {
-        DonationHistoryDTO historyDTO = new DonationHistoryDTO();
+        ReservationDTO historyDTO = new ReservationDTO("nesto", 1L, new Long[]{1L});
         when(donorService.createNewReservation(historyDTO)).thenReturn(null);
 
         ResponseEntity<String> result = donorController.createDonationReservation(historyDTO);

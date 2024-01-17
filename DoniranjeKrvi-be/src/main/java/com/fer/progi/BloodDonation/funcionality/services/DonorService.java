@@ -138,8 +138,16 @@ public class DonorService {
         List<DonationHistoryDTO> donationHistoryDTOList = getAllDonationReservationByUsername(username);
 
         donationHistoryDTOList.removeIf(DonationHistoryDTO::isFinished);
-
-
+        ///////////
+        /*Brisanje appointmenta gdje je donor vec prijavljen*/
+        Optional<Donor> opt  =  donorRepository.findDonorByUsername(username);
+        Donor donor= opt.get();
+        Set<DonationHistory> donorsAppointments = donor.getDonationHistory();
+        for(DonationHistory d:donorsAppointments){
+            Appointment a = d.getAppointment();
+            donationHistoryDTOList.removeIf(dto -> Objects.equals(dto.getAppointmentID(), a.getAppointment_id()));
+        }
+        ///////////
         return donationHistoryDTOList;
     }
 

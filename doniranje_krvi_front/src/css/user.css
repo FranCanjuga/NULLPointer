@@ -1,23 +1,27 @@
-body .user{
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /*padding: 20px;
-    background: rgb(138, 106, 251); */
-    background: url('/public/images/blood_donor.jpg') no-repeat;
-    background-size: cover;
+body .user {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*padding: 20px;
+  background: rgb(138, 106, 251); */
+  background: url('/public/images/blood_donor.jpg') no-repeat;
+  background-size: cover;
+  position: relative; /* Set position to relative for z-index to work */
 }
+
 body .user::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(23, 25, 35); /* Color for darkening */
-    opacity: 0.7; /* Adjust the opacity level to control darkness */
+  content: '';
+  position: fixed; /* Set position to fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-color: rgb(23, 25, 35); /* Color for darkening */
+  opacity: 0.7; /* Adjust the opacity level to control darkness */
 }
+
 
 .reg-wrapper {
     position: relative;
@@ -87,12 +91,11 @@ body .user::before {
 .user-item {
     text-align: center;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
     outline: none;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: black;
     margin-top: 8px;
     border-radius: 40px;
@@ -102,8 +105,7 @@ body .user::before {
   }
   
   .user-info {
-    margin:10px;
-
+    margin:5px;
   }
   
   .blood-type {
@@ -196,6 +198,7 @@ body .user::before {
     font-size: 16px;
     color: #333;
     font-weight: 600;
+    
 }
 
 .reg-input-box .bloodTypes{
@@ -224,4 +227,165 @@ body .user::before {
     color: #333;
     font-weight: 600;
     float: left;
+}
+
+.btn4 {
+  width: 40%;
+    position: relative;
+}
+
+.black_overlay {
+  display: none;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 1001;
+  -moz-opacity: 0.8;
+  opacity: .80;
+  filter: alpha(opacity=80);
+}
+.white_content1 {
+  display: none;
+  position: absolute;
+  top: 25%;
+  left: 37.5%;
+  width: 25%;
+  height: 25%;
+  padding: 20px;
+  z-index: 1002;
+  overflow: auto;
+  
+  background: rgb(248, 241, 241);
+  padding: 25px;
+  border-radius: 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+
+  flex-direction:row;
+  justify-content: space-around;
+
+  text-align: center;
+}
+
+.white_content2 {
+  display: none;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  padding: 16px;
+  z-index: 1002;
+  overflow: auto;
+  
+  background: rgb(248, 241, 241);
+  padding: 25px;
+  border-radius: 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+}
+
+.button_container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 100px;
+}
+
+.button-container2 {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+
+.button_container button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #555;
+  font-size: 1.5em;
+}
+
+#donor_list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+#donor_list li:first-child {
+  border-top: none;
+}
+
+#donor_list li:last-child {
+  border-bottom: none;
+}
+
+.donor_check {
+  width: 20px;
+  height: 20px;
+  background-color: #3498db;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.donor_check::before {
+  content: '\2713'; /* Checkmark symbol */
+  font-size: 16px;
+  color: #fff;
+  display: block;
+  text-align: center;
+  line-height: 20px;
+}
+
+.appointment_table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.appointment_table td, .appointment_table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.appointment_table tr:nth-child(even){background-color: #e5d2d2;}
+
+.appointment_table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #e9d6ba;
+  color: white;
+}
+
+#table_button_finish {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 45px;
+  background: #fff;
+  cursor: pointer;
+}
+
+#table_button_delete {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 45px;
+  background: #fff;
+  cursor: pointer;
 }

@@ -1,6 +1,7 @@
 package com.fer.progi.BloodDonation.funcionality.controllers.dto;
 
 import com.fer.progi.BloodDonation.funcionality.models.Appointment;
+import com.fer.progi.BloodDonation.funcionality.models.DonationHistory;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,12 +33,13 @@ public class DonationHistoryDTO {
      * Constructor for DonationHistoryDTO in method getDonationReservationByUsername in DonorService
      * for request GET /donor/donationReservation/{username}
      */
-    public DonationHistoryDTO( Appointment appointment, boolean came,boolean finished){
+    public DonationHistoryDTO(DonationHistory donationHistory ,Appointment appointment, boolean came, boolean finished){
         this.appointmentID = appointment.getAppointment_id();
         this.came = came;
         this.dateAndTime = appointment.getDateAndTime().toString();
         this.locationName = appointment.getLocation().getLocationName();
         this.finished = finished;
+        this.username =donationHistory.getDonor().getUsername();
     }
 
 

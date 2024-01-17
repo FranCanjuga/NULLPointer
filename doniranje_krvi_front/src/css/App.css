@@ -5,6 +5,9 @@
 @import 'footer.css';
 @import 'user.css';
 @import 'contact.css';
+@import 'userData.css';
+@import 'history.css';
+@import 'AppointmentCard.css';
 
 * {
   margin: 0;

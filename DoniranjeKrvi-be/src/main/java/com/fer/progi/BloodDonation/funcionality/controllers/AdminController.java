@@ -2,6 +2,7 @@ package com.fer.progi.BloodDonation.funcionality.controllers;
 
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.services.AdminService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,10 @@ import java.util.List;
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('admin')")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class AdminController {
 
-    @Autowired
     private final AdminService adminService;
-
-    public AdminController(AdminService adminService) {
-        this.adminService = adminService;
-    }
 
     //Dohvaca sve donore
     @GetMapping("/allDonors")

@@ -196,10 +196,11 @@ const deleteAppointment = () =>{
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then(() => {
-      setRegistered(response.data);
-      console.log(response.data);
-    }).catch((error) => {
+    }).then((response) => 
+      response.data
+    ).then((data)=>{
+      setRegistered(data); console.log(registrirani)}
+    ).catch((error) => {
       console.error(error);
     });
   };
@@ -209,7 +210,7 @@ const deleteAppointment = () =>{
   }
 
   const finishAppointment = (usernames, appId) => {
-    const response = axios.get(`${baseURL}/cross/AppointmentFinished`, {
+    const response = axios.post(`${baseURL}/cross/AppointmentFinished`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -228,19 +229,26 @@ const deleteAppointment = () =>{
     const inp = document.createElement('input')
     inp.type = 'checkbox'
     inp.value = donor.username
-    inp.classList.append("donor_check")
+    inp.classList.add("donor_check")
 
-    li.appendChild(document.createElement('label').appendChild(donor.username))
+    const label = document.createElement('label');
+    label.appendChild(document.createTextNode(donor.firstName + " " + donor.lastName));
+
+    li.appendChild(label)
     li.appendChild(inp) 
+    return li
   }
 
   const dodajDolaske = async (app_id) => {
     registeredForApp(app_id)
-    const list = document.getElementById("donor_list");
-    if (registrirani.length>0) {
-      registrirani.map(makeListElementFromDonor);
-      registrirani.forEach((li)=>{
-      list.appendChild(li)
+    let list = document.getElementById("donor_list");
+    list.innerHTML = ''
+    if (registrirani && registrirani.length>0) {
+      console.log(list)
+      let li_list = registrirani.map(makeListElementFromDonor);
+      li_list.forEach((li)=>{
+        console.log(li)
+        list.appendChild(li)
     });
     } else {
       list.appendChild(document.createTextNode("Nema dolazaka"))
@@ -252,7 +260,7 @@ const deleteAppointment = () =>{
       <td>{app.appointment_id}</td>
       <td>{sortBloodTypes(app.bloodTypes)}</td>
       <td>{napisiDatum(app.dateAndTime)}</td>
-      <td>{app.locationName}</td>
+      <td>{app.location.locationName}</td>
       <td>{app.criticalAction ? "YES" : "NO"}</td>
       <td>
         <button value={app.appointment_id} onClick={zavrsiButton}>Završi</button>
@@ -285,7 +293,7 @@ const deleteAppointment = () =>{
 
   const završiPotvrduDonora = (event) => {
     let checks = document.getElementsByClassName('donor_check')
-    checks = checks.filter((el)=>el.checked)
+    checks = Array.from(checks).filter((el)=>el.checked)
     checks = checks.map((ch)=>ch.value)
     finishAppointment(checks, appFin);
   }
@@ -470,7 +478,7 @@ const deleteAppointment = () =>{
               <th></th>
             </tr>
             {console.log(filterLoc)}
-            {(filterLoc ? activeApps.filter((app)=>app.location_id===filterLoc).map(createTableRow) : activeApps).map(createTableRow)}
+            {(filterLoc ? activeApps.filter((app)=>app.location.location_id===filterLoc).map(createTableRow) : activeApps).map(createTableRow)}
           </table>
           {/**activeApps
             .filter((app, index, array) => array.findIndex(a => a.locationID === app.locationID) === index)

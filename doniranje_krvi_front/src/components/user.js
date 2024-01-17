@@ -248,21 +248,28 @@ const deleteAppointment = () =>{
     }
   } 
   
-  const createTableRow = (app) => 
-    (<tr>
-      <td>{app.appointment_id}</td>
-      <td>{sortBloodTypes(app.bloodTypes)}</td>
-      <td>{napisiDatum(app.dateAndTime)}</td>
-      <td>{app.location.locationName}</td>
-      <td>{app.criticalAction ? "YES" : "NO"}</td>
-      <td>
-        <button id="table_button_finish" href='' value={app.appointment_id} onClick={zavrsiButton}>Završi</button>
-      </td>
-      <td>
-        <button id="table_button_delete" href='' value={app.appointment_id} onClick={izbrisiButton}>Izbriši</button>
-      </td>
-    </tr>
-    )
+  const createTableRow = (app) => {
+    // Check if blood types exist
+    if (!app.bloodTypes || app.bloodTypes.length === 0) {
+      return null; // If no blood types, don't render the row
+    }
+  
+    return (
+      <tr key={app.appointment_id}>
+        <td>{app.appointment_id}</td>
+        <td>{sortBloodTypes(app.bloodTypes)}</td>
+        <td>{napisiDatum(app.dateAndTime)}</td>
+        <td>{app.location.locationName}</td>
+        <td>{app.criticalAction ? "YES" : "NO"}</td>
+        <td>
+          <button id="table_button_finish" href='' value={app.appointment_id} onClick={zavrsiButton}>Završi</button>
+        </td>
+        <td>
+          <button id="table_button_delete" href='' value={app.appointment_id} onClick={izbrisiButton}>Izbriši</button>
+        </td>
+      </tr>
+    );
+  };
   
 
   const deFade = () => {
@@ -305,8 +312,6 @@ const deleteAppointment = () =>{
     }
     return bloodTypes;
   };
-
-  const booleanToString = (value) => (value ? 'DA' : 'NE');
 
   // funkcija koja datum ljepse ispise 
   function napisiDatum(dateOfBirth) {
@@ -466,13 +471,13 @@ const deleteAppointment = () =>{
         </div>
           <table class="appointment_table">
             <tr>
-              <th>Appointment ID</th>
+              <th>App ID</th>
               <th>Blood Types</th>
               <th>Date</th>
               <th>Location</th>
               <th>Critical?</th>
-              <th></th>
-              <th></th>
+              <th>Završi</th>
+              <th>Izbriši</th>
             </tr>
             {filterLoc ? activeApps.filter((app)=> app.location.location_id=== parseInt(filterLoc)).map(createTableRow) : activeApps.map(createTableRow)}
           </table>

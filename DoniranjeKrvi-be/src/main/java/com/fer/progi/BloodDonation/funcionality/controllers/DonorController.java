@@ -74,7 +74,7 @@ public class DonorController {
 
     }
 
-    @DeleteMapping("/deleteReservation")
+    @PostMapping("/deleteReservation")
     public ResponseEntity<String> deleteReservation(@RequestBody DeleteAppointmentDTO deleteAppointmentDTO) {
         boolean deleteStatus = donorService.deleteReservationById(deleteAppointmentDTO);
 

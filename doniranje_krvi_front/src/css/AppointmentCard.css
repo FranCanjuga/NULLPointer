@@ -20,6 +20,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 10px;
     box-sizing: border-box;
+    box-shadow: 5px 5px 10px rgba(1, 0, 0, 0.1); /* Adjust the values as needed */
 }
 
 label {
@@ -51,10 +52,11 @@ button {
     font-size: 14px;
 }
 
-.button:hover {
+.green_btn:hover {
     cursor: pointer; /* Optional: Change cursor on hover */
     border: 1px solid #333;
-    margin-left: -2px;
+    margin-bottom: -1px;
+    box-shadow: 5px 5px 10px rgba(1, 0, 0, 0.15); /* Adjust the values as needed */
 }
 
 .datetime-row {
@@ -65,6 +67,10 @@ button {
 
 .date-time-field {
     width: 48%; 
+}
+
+.date-time-field1 {
+    width: 56%; 
 }
 
 #time, #date{

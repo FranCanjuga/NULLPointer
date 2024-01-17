@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { APIProvider, Map, Marker, InfoWindow } from '@vis.gl/react-google-maps';
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"
@@ -66,10 +66,14 @@ const YourComponent = () => {
     // Obrada greške
   }
   };
+  useEffect(() => {
+    // Set the initial value and trigger onChange
+    setSelectedConfirmation('1');
+  }, []);
 
   const handleClick = (e, appointment_id, potvrda) => {
-    e.preventDefault();
 
+    e.preventDefault();
     potvrda = [potvrda]
 
     const rezervacija = {
@@ -86,9 +90,13 @@ const YourComponent = () => {
           Authorization: `Bearer ${token}`,
         }}
     ).then((response) => {
-      
+      alert("Uspješna prijava!");
     }).catch((error) => {
+          console.log("Batoooooooo error")
           console.error(error);
+
+          // Display dialog with the message
+    alert("Već ste prijavljeni na ovaj termin");
       })
     ;};
 
@@ -163,7 +171,7 @@ const YourComponent = () => {
           {appointments.sort((a, b) => (b.criticalAction ? 1 : -1)).map((appointment) => (
           <div className={`box ${appointment.criticalAction ? 'critical-action-box' : ''}`} key={appointment.appointment_id}>
             <form method="post">
-            <label htmlFor="city">Grad</label>
+            <label htmlFor="city">Mjesto</label>
             <input
               type="text" value={appointment.location.locationName} readOnly/>
 
@@ -194,20 +202,20 @@ const YourComponent = () => {
               </div>
 
               <label htmlFor="confirmation">Odaberi potvrdu</label>
-              <select id="confirmation" name="confirmation" onChange={(e) => setSelectedConfirmation(e.target.value)}>
-                <option value="0">-</option>
+              
+              <select id="potvrdaSelect" name="confirmation" onChange={(e) => setSelectedConfirmation(e.target.value)}>
                 <option value="1">Besplatni javni prijevoz</option>
                 <option value="2">Besplatan obrok u menzi</option>
                 <option value="3">Mjesečno članstvo u gymu</option>
                 <option value="4">Besplatan proteinski napitak</option>
               </select>
 
-              <button type="submit" onClick={(e) => handleClick(e, appointment.appointment_id, selectedConfirmation)}>Prijavi se</button>
+              <button className="green_btn" type="submit" onClick={(e) => handleClick(e, appointment.appointment_id, selectedConfirmation)}>Rezerviraj</button>
             </form>
           </div>
         ))}
-      </div>
 
+      </div>
         ) : (
           <div className="dark-background">
             <a href="./prijava">

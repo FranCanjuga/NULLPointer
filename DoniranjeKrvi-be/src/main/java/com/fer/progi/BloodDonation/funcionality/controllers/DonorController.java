@@ -45,7 +45,7 @@ public class DonorController {
 
     //Stvaranje nove rezervacije
     @PostMapping("/create")
-    public ResponseEntity<String> createDonationReservation(@RequestBody DonationHistoryDTO historyDTO) {
+    public ResponseEntity<String> createDonationReservation(@RequestBody ReservationDTO historyDTO) {
 
         //stvara novu instancu DonationHistory
         DonationHistory history = donorService.createNewReservation(historyDTO);

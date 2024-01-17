@@ -77,13 +77,7 @@ const YourComponent = () => {
     const rezervacija = {
       username,
       appointment_id,
-      key1: false,
-      potvrda,
-      key2: null,
-      key3: null,
-      key4: null,
-      key5: null,
-      key6: false,
+      potvrda
     };
     
     console.log(rezervacija)
@@ -205,11 +199,11 @@ const YourComponent = () => {
 
               <label htmlFor="confirmation">Odaberi potvrdu</label>
               <select id="confirmation" name="confirmation" onChange={(e) => setSelectedConfirmation(e.target.value)}>
-                <option value="confirm1">-</option>
-                <option value="confirm1">Besplatni javni prijevoz</option>
-                <option value="confirm2">Besplatan obrok u menzi</option>
-                <option value="confirm3">Mjesečno članstvo u gymu</option>
-                <option value="confirm3">Besplatan proteinski napitak</option>
+                <option value="0">-</option>
+                <option value="1">Besplatni javni prijevoz</option>
+                <option value="2">Besplatan obrok u menzi</option>
+                <option value="3">Mjesečno članstvo u gymu</option>
+                <option value="4">Besplatan proteinski napitak</option>
               </select>
 
               <button type="submit" onClick={(e) => handleClick(e, appointment.appointment_id, selectedConfirmation)}>Prijavi se</button>

@@ -151,12 +151,6 @@ public class DonorService {
     }
 
     public boolean deleteReservationById(DeleteAppointmentDTO deleteAppointmentDTO) {
-        /*try {
-            historyRepository.delete(historyRepository.getById(donationHistoryId));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }*/
 
         Optional<Donor> opt  =  donorRepository.findDonorByUsername(deleteAppointmentDTO.getUsername());
         Donor donor= opt.get();
@@ -164,7 +158,7 @@ public class DonorService {
         Optional<Appointment> opt2  =  appointmentRepository.findById(deleteAppointmentDTO.getAppointmentID());
         Appointment appointment= opt2.get();
 
-        //TODO: brise sve potvrde za specificni DonationHistory
+
         //find DonatoionHistoryId -> PotvrdeDonoraRepo
         DonationHistory history = historyRepository.findDonationHistoriesByAppointmentAndDonor(appointment,donor);
 

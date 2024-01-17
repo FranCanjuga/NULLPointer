@@ -6,6 +6,7 @@ import com.fer.progi.BloodDonation.funcionality.models.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.fer.progi.BloodDonation.funcionality.repositorys.*;
 import org.springframework.boot.CommandLineRunner;
@@ -136,18 +137,10 @@ public class DonorService {
     public List<DonationHistoryDTO> getDonationReservationByUsername(String username) {
 
         List<DonationHistoryDTO> donationHistoryDTOList = getAllDonationReservationByUsername(username);
-
         donationHistoryDTOList.removeIf(DonationHistoryDTO::isFinished);
-        ///////////
-        /*Brisanje appointmenta gdje je donor vec prijavljen*/
-        Optional<Donor> opt  =  donorRepository.findDonorByUsername(username);
-        Donor donor= opt.get();
-        Set<DonationHistory> donorsAppointments = donor.getDonationHistory();
-        for(DonationHistory d:donorsAppointments){
-            Appointment a = d.getAppointment();
-            donationHistoryDTOList.removeIf(dto -> Objects.equals(dto.getAppointmentID(), a.getAppointment_id()));
-        }
-        ///////////
+
+
+
         return donationHistoryDTOList;
     }
 
@@ -226,16 +219,25 @@ public class DonorService {
         if(allAppointments.isEmpty()){return null;}
         List<AppointmentGetDTO> activeAppointments = new ArrayList<>();
 
+        Optional<Donor> opt  =  donorRepository.findDonorByUsername(username);
+        Donor donor= opt.get();
+
+        Set<DonationHistory> donorsAppointments = donor.getDonationHistory();
+        donorsAppointments =  donorsAppointments.stream().filter(donationHistory -> !donationHistory.getAppointment().isFinished()).collect(Collectors.toSet());
+
+        for(DonationHistory d:donorsAppointments){
+            Appointment a = d.getAppointment();
+            allAppointments.removeIf(dto -> Objects.equals(dto.getAppointment_id(), a.getAppointment_id()));
+        }
+
         for(Appointment a: allAppointments){
             if(a.getDateAndTime().isAfter(LocalDateTime.now())){
                 //activeAppointments.add(a);
                 AppointmentGetDTO appDTO = new AppointmentGetDTO(a.getAppointment_id(),a.getLocation(),a.getDateAndTime(),a.isCriticalAction());
                 activeAppointments.add(appDTO);
             }
-            /*else{
-                //pass
-            }*/
         }
+
         if(activeAppointments.isEmpty()){
             return null;
         }

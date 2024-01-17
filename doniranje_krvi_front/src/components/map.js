@@ -69,8 +69,6 @@ const YourComponent = () => {
 
   const handleClick = (e, appointment_id, potvrda) => {
     e.preventDefault();
-    setREG(true)
-    console.log(REG)
 
     potvrda = [potvrda]
 
@@ -88,18 +86,16 @@ const YourComponent = () => {
     
     console.log(rezervacija)
 
-    if(REG) {
       const token = localStorage.getItem("token");
       axios.post(`${baseURL}/user/create`, rezervacija,
         {headers: {
           Authorization: `Bearer ${token}`,
         }}
     ).then((response) => {
-
+      
     }).catch((error) => {
           console.error(error);
       })
-    }
     ;};
 
 

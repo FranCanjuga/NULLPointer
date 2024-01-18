@@ -216,10 +216,10 @@ const YourComponent = () => {
               <label htmlFor="confirmation">Odaberi potvrdu</label>
               
               <select id="potvrdaSelect" name="confirmation" onChange={(e) => setSelectedConfirmation(e.target.value)}>
-                <option value="1">Besplatni javni prijevoz</option>
-                <option value="2">Besplatan obrok u menzi</option>
-                <option value="3">Mjesečno članstvo u gymu</option>
-                <option value="4">Besplatan proteinski napitak</option>
+                <option value="1">Kupon za hranu</option>
+                <option value="2">Opravdanje izostanka za posao</option>
+                <option value="3">Karta za javni prijevoz</option>
+                <option value="4">Opravdanje izostanka za školu</option>
               </select>
 
               <button className="green_btn" type="submit" onClick={(e) => handleClick(e, appointment.appointment_id, selectedConfirmation)}>Rezerviraj</button>
@@ -229,7 +229,7 @@ const YourComponent = () => {
 
       </div>
         ) : (
-          <div className="dark-background">
+          <div>
             <a href="./prijava">
               <button className="map-btn">Prijavi se <br></br>za odabir termina</button>
             </a>

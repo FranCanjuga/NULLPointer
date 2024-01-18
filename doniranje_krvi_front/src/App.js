@@ -10,6 +10,8 @@ import Contact from './components/contact';
 import UserData from './components/userData';
 import History from  './components/history';
 import SecretPage from  './components/easterEgg';
+import Features from './components/features';
+import Privacy from './components/privacy';
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
         <Route path ='/userData' element={<UserData/>}/>
         <Route path ='/povijestDoniranja' element={<History/>}/>
         <Route path ='/secretPage' element={<SecretPage/>}/>
+        <Route path ='/features' element={<Features/>}/>
+        <Route path ='/privacy' element={<Privacy/>}/>
      </Routes>
   );
 }

@@ -1,16 +1,16 @@
-body .contact {
+body .privacy {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     /*padding: 20px;
     background: rgb(138, 106, 251); */
-    background-color: rgb(165, 123, 205);
+    background-color: red;
     background-size: cover;
     position: relative; /* Set position to relative for z-index to work */
   }
   
-  body .contact::before {
+  body .privacy::before {
     content: '';
     position: fixed; /* Set position to fixed */
     top: 0;
@@ -64,8 +64,4 @@ body .contact {
 
   .feature{
     font-weight: bold;
-  }
-
-  h3{
-    text-align: center;
   }

@@ -224,7 +224,10 @@ const deleteAppointment = () =>{
       .catch((error) => {
         if (error.response && error.response.status === 500) {
             alert("Ne može se završiti appointmen koji je u tijeku")
-        } else {
+        } else if(error.response && error.response.status === 400){
+          alert("Ne može se završiti appointmen koji je u tijeku")
+        }
+        else {
           console.error(error);
         }
       });

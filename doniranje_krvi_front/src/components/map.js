@@ -104,7 +104,7 @@ const YourComponent = () => {
           console.error(error);
 
           // Display dialog with the message
-    alert("Već ste prijavljeni na ovaj termin");
+    alert(error.response.data);
       })
     ;};
 

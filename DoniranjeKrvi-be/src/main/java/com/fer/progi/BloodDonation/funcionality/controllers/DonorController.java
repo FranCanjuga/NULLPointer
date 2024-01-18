@@ -48,13 +48,19 @@ public class DonorController {
     public ResponseEntity<String> createDonationReservation(@RequestBody ReservationDTO historyDTO) {
 
         //stvara novu instancu DonationHistory
-        DonationHistory history = donorService.createNewReservation(historyDTO);
+        DonationHistory history;
+        try {
+             history = donorService.createNewReservation(historyDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
         if(history != null){
             return ResponseEntity.ok("Donation reservation created successfully.");
         }
-        else{
+        else
             return ResponseEntity.badRequest().body("ERROR: Unable to create Donation reservation");
-        }
+
 
     }
 

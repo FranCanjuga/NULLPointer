@@ -73,6 +73,9 @@ public class DonorService {
     public DonationHistory createNewReservation(ReservationDTO historyDTO) {
         Donor donor  =  donorRepository.findByUsername(historyDTO.getUsername());
 
+        if(!donor.isVerified()) {
+            throw new IllegalArgumentException("Donor is not verified");
+        }
 
         Optional<Appointment> opt2  =  appointmentRepository.findById(historyDTO.getAppointmentID());
         if(opt2.isEmpty()){
@@ -111,6 +114,9 @@ public class DonorService {
             historyRepository.save(history);
             return history;
         }*/
+
+
+
         DonationHistory history = new DonationHistory(donor, appointment, false);
 
         Long[] longPotvrda = historyDTO.getPotvrdeID();

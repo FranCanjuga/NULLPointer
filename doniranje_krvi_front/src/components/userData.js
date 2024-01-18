@@ -96,6 +96,7 @@ function napisiVrijeme(vrijeme) {
           })
           .then((response) => {
             console.log(response.data);
+            alert("Izbrisana rezervacija")
             window.location.href ='/userData';
           })
           .catch((error) => {

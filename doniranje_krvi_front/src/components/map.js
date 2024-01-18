@@ -33,6 +33,7 @@ const YourComponent = () => {
   const [selectedConfirmation, setSelectedConfirmation] = useState('');
   const [username, setUsername] = useState('')
   const [donorData, setDonorData] = useState([]);
+  const [notAUser, setNotAUser] =useState('');
 
 
   const handleMarkerClick = (markerPosition, markerName) => {
@@ -48,7 +49,10 @@ const YourComponent = () => {
 
   const decodedToken = jwtDecode(token);
   setUsername(decodedToken.sub)
-
+  if(decodedToken.roles != "user"){
+    setNotAUser("ne");
+    return 
+  }
   try {
     const response = await axios.get(`${baseURL}/user/ActiveAppointments`, {
       headers: {
@@ -76,10 +80,11 @@ const YourComponent = () => {
     e.preventDefault();
     potvrda = [potvrda]
 
+    //maknuti prazan array sa potvrde kad se slozi baza
     const rezervacija = {
       username,
       appointment_id : parseInt(appointment_id),
-      potvrda
+      potvrda,
     };
     
     console.log(rezervacija)
@@ -167,6 +172,10 @@ const YourComponent = () => {
               Pretraži
             </button>
           </a>
+        ) : localStorage.token && pretrazeno && notAUser === "ne" ? (
+          <div>
+            <h2>Samo korisnik može pretražiti </h2>
+            </div>
         ) : localStorage.token && pretrazeno ? (
           <div className="container">
           {appointments.sort((a, b) => (b.criticalAction ? 1 : -1)).map((appointment) => (

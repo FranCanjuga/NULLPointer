@@ -208,14 +208,26 @@ const deleteAppointment = () =>{
     let body = {
       usernames: usernames,
       appointmentID: parseInt(appId)
-    }
+    };
+  
+    console.log(body);
+  
     const response = axios.post(`${baseURL}/cross/AppointmentFinished`, body, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).catch((error) => {
-      console.error(error);
-    });
+    })
+      .then(() => {
+        window.location.href = '/user';
+
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 500) {
+            alert("Ne može se završiti appointmen koji je u tijeku")
+        } else {
+          console.error(error);
+        }
+      });
   };
 
   const makeListElementFromDonor = (donor) => {
@@ -251,7 +263,7 @@ const deleteAppointment = () =>{
     return (
       <tr key={app.appointment_id}>
         <td>{app.bloodTypes.length === 0 ? ("ALL") :(app.bloodTypes)}</td>
-        <td>{napisiDatumSkraceno(app.dateAndTime)}</td>
+        <td>{napisiDatum(app.dateAndTime)}</td>
         <td>{napisiVrijeme(app.dateAndTime)}</td>
         <td>{app.location.locationName}</td>
         <td>{app.criticalAction ? "YES" : "NO"}</td>

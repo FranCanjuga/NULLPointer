@@ -47,7 +47,7 @@ function napisiVrijeme(vrijeme) {
                       },
                   });
                   setPriznanje(response.data);
-
+                  console.log(response)
                 
             } catch(error){
                 console.error("Error fetching user data:", error);
@@ -72,7 +72,7 @@ function napisiVrijeme(vrijeme) {
                       },
                  }) ;
                  setDonorRez(response3.data);
-                 console.log(response3.data);
+                 console.log(response3)
             }catch(error){
                 console.error("Error fetching user data:", error);
             }
@@ -81,14 +81,22 @@ function napisiVrijeme(vrijeme) {
     },[token,decodedToken.sub]);
 
     const izbrisiRez = () => {
+
+
+     const appointment ={
+        username : decodedToken.sub,
+        appointmentID : app,
+      }
+
         axios
-          .post(`${baseURL}/user/deleteReservation`, app, {
+          .post(`${baseURL}/user/deleteReservation`, appointment, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
           .then((response) => {
             console.log(response.data);
+            window.location.href ='/userData';
           })
           .catch((error) => {
             if (error.response && error.response.status === 500) {
@@ -145,26 +153,7 @@ function napisiVrijeme(vrijeme) {
       )}
       <br></br>
       <br></br>
-      <h2>Aktivni sastanci darivanja krvi</h2>
-      <br></br>
-      {aktivniSastanci.length === 0 ? (
-        <div className="reg-wrapper">
-          <h2 className="nemanje">Nema aktivnih sastanaka</h2>
-        </div>
-      ) : (
         <div>
-          <ul className="user-list">
-            {aktivniSastanci.map((akSas) => (
-                <li key={akSas.appointment_id} className="user-item">
-                  <div className="user-info">
-                    <p className="username">Vrste krvi : {akSas.bloodTypes.length == 0 ? ("SVE") : (akSas.bloodTypes) }</p>
-                    <p className="blood-type">Datum : {napisiDatum(akSas.dateAndTime)}</p>
-                    <p className="location">Vrijeme : {napisiVrijeme(akSas.dateAndTime)}</p>
-                    <p className="donor-id">Lokacija : {akSas.location.locationName}</p>
-                  </div>
-                </li>
-            ))}
-          </ul>
           <br></br>
           <h2>Tvoje aktivne rezervacije</h2>
           <br></br>
@@ -178,9 +167,9 @@ function napisiVrijeme(vrijeme) {
               {donorRezervations.map((rez) => (
                 <li key={rez.appointment_id} className="user-item">
                   <div className="user-info">
-                    <p className="username">Došao : {rez.came}</p>
                     <p className="blood-type">Datum : {napisiDatum(rez.dateAndTime)}</p>
-                    <p className="donor-id">Lokacija : {rez.location.locationName}</p>
+                    <p className="location">Vrijeme : {napisiVrijeme(rez.dateAndTime)}</p>
+                    <p className="donor-id">Lokacija : {rez.locationName}</p>
                   </div>
                 </li>
               ))}
@@ -198,8 +187,8 @@ function napisiVrijeme(vrijeme) {
                     <select className="mjesto" required onChange={(e) => setApp(e.target.value)}>
                       <option>Odaberite rezervaciju</option>
                       {donorRezervations.map((appointment) => (
-                        <option key={appointment.appointment_id} value={appointment.appointment_id}>
-                          {appointment.location.locationName}
+                        <option key={appointment.appointmentID} value={appointment.appointmentID}>
+                          {appointment.locationName}
                         </option>
                       ))}
                     </select>
@@ -209,7 +198,6 @@ function napisiVrijeme(vrijeme) {
             </form>
           </section>
         </div>
-      )}
       <br></br>
       <br></br>
       <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>

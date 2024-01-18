@@ -206,8 +206,8 @@ const deleteAppointment = () =>{
 
   const finishAppointment = (usernames, appId) => {
     let body = {
-      usernames: usernames[0],
-      appointmentID: appId
+      usernames: usernames,
+      appointmentID: parseInt(appId)
     }
     const response = axios.post(`${baseURL}/cross/AppointmentFinished`, body, {
       headers: {

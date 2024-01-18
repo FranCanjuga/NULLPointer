@@ -78,13 +78,14 @@ const YourComponent = () => {
 
     const rezervacija = {
       username,
-      appointment_id,
+      appointment_id : parseInt(appointment_id),
       potvrda
     };
     
     console.log(rezervacija)
 
       const token = localStorage.getItem("token");
+      console.log(rezervacija)
       axios.post(`${baseURL}/user/create`, rezervacija,
         {headers: {
           Authorization: `Bearer ${token}`,

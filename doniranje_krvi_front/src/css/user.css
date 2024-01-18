@@ -363,7 +363,7 @@ body .user::before {
   text-align: center;
   padding: 8px;
   max-width: 150px; /* Adjust the maximum width as needed */
-
+  
 }
 
 
@@ -398,4 +398,5 @@ body .user::before {
   background-color: red;
   font-weight: bold;
 }
+
 

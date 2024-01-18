@@ -251,7 +251,7 @@ const deleteAppointment = () =>{
     return (
       <tr key={app.appointment_id}>
         <td>{app.bloodTypes.length === 0 ? ("ALL") :(app.bloodTypes)}</td>
-        <td>{napisiDatum(app.dateAndTime)}</td>
+        <td>{napisiDatumSkraceno(app.dateAndTime)}</td>
         <td>{napisiVrijeme(app.dateAndTime)}</td>
         <td>{app.location.locationName}</td>
         <td>{app.criticalAction ? "YES" : "NO"}</td>
@@ -323,6 +323,23 @@ const deleteAppointment = () =>{
             } 
          }      
     }
+}
+
+function napisiDatumSkraceno(dateOfBirth) {
+  if (typeof dateOfBirth !== 'undefined' && typeof dateOfBirth === 'string') {
+    var datum = dateOfBirth.split("-");
+
+    if (datum.length === 3) {
+      var mj = datum[2].split("T");
+
+      if (mj.length === 2) {
+        var year = datum[0].slice(2); // Extract last two digits of the year
+        var vrijeme = mj[0] + "." + datum[1] + "." + year + ".";
+        return vrijeme;
+      }
+    }
+  }
+  return "";
 }
 
 //vraca vrijeme

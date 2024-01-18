@@ -15,9 +15,6 @@ const UserData = () =>{
     const token = localStorage.getItem("token");
     const decodedToken = jwtDecode(token);
 
-
-    const booleanToString = (value) => (value ? 'DA' : 'NE');
-
     // funkcija koja datum ljepse ispise 
   function napisiDatum(date) {
     if (typeof date !== 'undefined' && typeof date === 'string') {

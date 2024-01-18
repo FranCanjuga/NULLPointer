@@ -33,6 +33,7 @@ const YourComponent = () => {
   const [selectedConfirmation, setSelectedConfirmation] = useState('');
   const [username, setUsername] = useState('')
   const [donorData, setDonorData] = useState([]);
+  const [notAUser, setNotAUser] =useState('');
 
 
   const handleMarkerClick = (markerPosition, markerName) => {
@@ -48,7 +49,10 @@ const YourComponent = () => {
 
   const decodedToken = jwtDecode(token);
   setUsername(decodedToken.sub)
-
+  if(decodedToken.roles != "user"){
+    setNotAUser("ne");
+    return 
+  }
   try {
     const response = await axios.get(`${baseURL}/user/ActiveAppointments`, {
       headers: {
@@ -78,10 +82,11 @@ const YourComponent = () => {
     e.preventDefault();
     potvrda = [potvrda]
 
+    //maknuti prazan array sa potvrde kad se slozi baza
     const rezervacija = {
       username,
       appointment_id : parseInt(appointment_id),
-      potvrda
+      potvrda,
     };
     
     console.log(rezervacija)
@@ -169,6 +174,10 @@ const YourComponent = () => {
               Pretraži
             </button>
           </a>
+        ) : localStorage.token && pretrazeno && notAUser === "ne" ? (
+          <div>
+            <h2>Samo korisnik može pretražiti </h2>
+            </div>
         ) : localStorage.token && pretrazeno ? (
           <div className="container">
           {appointments.sort((a, b) => (b.criticalAction ? 1 : -1)).map((appointment) => (
@@ -207,10 +216,10 @@ const YourComponent = () => {
               <label htmlFor="confirmation">Odaberi potvrdu</label>
               
               <select id="potvrdaSelect" name="confirmation" onChange={(e) => setSelectedConfirmation(e.target.value)}>
-                <option value="1">Besplatni javni prijevoz</option>
-                <option value="2">Besplatan obrok u menzi</option>
-                <option value="3">Mjesečno članstvo u gymu</option>
-                <option value="4">Besplatan proteinski napitak</option>
+                <option value="1">Kupon za hranu</option>
+                <option value="2">Opravdanje izostanka za posao</option>
+                <option value="3">Karta za javni prijevoz</option>
+                <option value="4">Opravdanje izostanka za školu</option>
               </select>
 
               <button className="green_btn" type="submit" onClick={(e) => handleClick(e, appointment.appointment_id, selectedConfirmation)}>Rezerviraj</button>
@@ -220,7 +229,7 @@ const YourComponent = () => {
 
       </div>
         ) : (
-          <div className="dark-background">
+          <div>
             <a href="./prijava">
               <button className="map-btn">Prijavi se <br></br>za odabir termina</button>
             </a>

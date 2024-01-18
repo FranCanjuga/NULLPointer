@@ -2,6 +2,7 @@ package com.fer.progi.BloodDonation.funcionality.controllers;
 
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
+
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentFinishedDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentsResponseDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
@@ -10,12 +11,14 @@ import com.fer.progi.BloodDonation.funcionality.models.Location;
 import com.fer.progi.BloodDonation.funcionality.services.CrossService;
 import com.fer.progi.BloodDonation.funcionality.services.DonorService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import java.util.List;
 
@@ -76,6 +79,7 @@ public class CrossControler {
     @PostMapping("/addAppointment")
     public ResponseEntity<Object> addAppointment(@RequestBody ApointmentDTO apointment) {
 
+
      try{
             crossService.addAppointment(apointment);
             return ResponseEntity.ok(null);
@@ -86,7 +90,6 @@ public class CrossControler {
         }
 
     }
-
 
 
 
@@ -147,6 +150,7 @@ public class CrossControler {
                     .body(null);
         }
     }
+
 
 
 }

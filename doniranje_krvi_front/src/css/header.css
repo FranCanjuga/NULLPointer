@@ -135,6 +135,10 @@ svg {
     width: 2500px;
     left: -350px;
     z-index: -1;
-    fill: #0099ff;
+    fill: #9ba1e2;
     opacity: 0.3;
+}
+
+.slova li{
+    font-weight: bold;
 }

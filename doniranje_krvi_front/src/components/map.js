@@ -66,10 +66,12 @@ const YourComponent = () => {
     // Obrada greške
   }
   };
+  
   useEffect(() => {
     // Set the initial value and trigger onChange
     setSelectedConfirmation('1');
   }, []);
+  
 
   const handleClick = (e, appointment_id, potvrda) => {
 
@@ -78,18 +80,19 @@ const YourComponent = () => {
 
     const rezervacija = {
       username,
-      appointment_id,
+      appointment_id : parseInt(appointment_id),
       potvrda
     };
     
     console.log(rezervacija)
 
       const token = localStorage.getItem("token");
+      console.log(rezervacija)
       axios.post(`${baseURL}/user/create`, rezervacija,
         {headers: {
           Authorization: `Bearer ${token}`,
         }}
-    ).then((response) => {
+    ).then((response) => { 
       alert("Uspješna prijava!");
     }).catch((error) => {
           console.log("Batoooooooo error")

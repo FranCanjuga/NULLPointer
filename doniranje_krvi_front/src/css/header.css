@@ -13,7 +13,11 @@ body .head {
     background: url('/public/images/main_page_bkg.jpg') no-repeat;
     background-position: center;
     background-size: cover;
-    height: 100vh;;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to bottom, rgba(62, 35, 35, 0), rgba(255, 255, 255, 0.864)), url('/public/images/main_page_bkg.jpg') center/cover no-repeat;
+    box-shadow: 5px 5px 10px rgba(228, 237, 239, 0.282);
 }
 #logo3{
     width: 70px;
@@ -33,15 +37,15 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    /*border: #222 solid; */
+    /*border: #222 solid; */ 
     width: 100%;
-    background-color: #9ba1e2;
+    /*background-color: #9ba1e2;*/
     height: 100px;
     filter: drop-shadow(5px 5px 100px rgba(184, 185, 205, 0.536));
 }
 
 .logo {
-    width: 65px;
+    width: 70px;
 }
 
 nav ul li {
@@ -112,4 +116,25 @@ nav ul li a{
 
 #logo3 {
     filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.2))
+} 
+
+svg {
+    position: absolute;
+    top: -160px;
+    width: 2500px;
+    left: -350px;
+    z-index: -1;
+    fill: #9ba1e2;
+    fill: linear-gradient(220deg,#0099ff, #9ba1e2);
+    opacity: 1;
+}
+
+#svg2 {
+    position: absolute;
+    top: -160px;
+    width: 2500px;
+    left: -350px;
+    z-index: -1;
+    fill: #0099ff;
+    opacity: 0.3;
 }

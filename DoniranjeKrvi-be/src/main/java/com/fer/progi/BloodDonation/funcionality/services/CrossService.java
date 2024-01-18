@@ -1,6 +1,7 @@
 package com.fer.progi.BloodDonation.funcionality.services;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.ApointmentDTO;
+
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentFinishedDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.AppointmentsResponseDTO;
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
@@ -46,6 +47,7 @@ public class CrossService {
     public void addAppointment(ApointmentDTO appointment) {
 
         Location location = locationRepository.findById(appointment.locationID).orElse(null);
+
         if(location == null) {
             throw new IllegalArgumentException("Location with given ID does not exist");
         }
@@ -62,11 +64,14 @@ public class CrossService {
 
 //        -provjeri da nema konflikta u datumima na toj lokaciji
 
+
         Appointment appointmentModel = new Appointment();
         appointmentModel.setLocation(location);
         appointmentModel.setCriticalAction(appointment.isCriticalAction());
         appointmentModel.setDateAndTime(dateTime);
+
         crossRepository.save(appointmentModel);
+
 
 
 

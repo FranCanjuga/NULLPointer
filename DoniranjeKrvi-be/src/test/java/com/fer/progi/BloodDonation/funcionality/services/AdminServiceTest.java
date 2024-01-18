@@ -5,6 +5,7 @@ import com.fer.progi.BloodDonation.funcionality.models.BloodType;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.models.Location;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
+import com.fer.progi.BloodDonation.security.repository.AppUserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,9 @@ public class AdminServiceTest {
 
     @Mock
     private DonorRepository donorRepository;
+
+    @Mock
+    private AppUserRepository userRepository;
 
     @InjectMocks
     private AdminService adminService ;
@@ -77,7 +81,7 @@ public class AdminServiceTest {
         Donor donor = new Donor("username1", new Date(), "Male", new BloodType(), new Location(), false);
         Mockito.when(donorRepository.findByUsername("username1")).thenReturn(donor);
         Mockito.doNothing().when(donorRepository).delete(donor);
-
+        Mockito.doNothing().when(userRepository).deleteAppUserByUsername(donor.getUsername());
         boolean result = adminService.rejectDonor("username1");
 
         Assertions.assertTrue(result);

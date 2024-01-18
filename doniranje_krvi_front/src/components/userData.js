@@ -10,8 +10,7 @@ const UserData = () =>{
     const [priznanja, setPriznanje]= useState('');
     const [aktivniSastanci,setAktivniSas] = useState([])
     const [donorRezervations,setDonorRez] = useState([])
-    const [appID, setAppId] = useState('')
-    const [username,setUsername] = useState('')
+    const [app, setApp] = useState('')
     const [message, setMessage] = useState('');
     const token = localStorage.getItem("token");
     const decodedToken = jwtDecode(token);
@@ -20,9 +19,9 @@ const UserData = () =>{
     const booleanToString = (value) => (value ? 'DA' : 'NE');
 
     // funkcija koja datum ljepse ispise 
-  function napisiDatum(dateOfBirth) {
-    if (typeof dateOfBirth !== 'undefined' && typeof dateOfBirth === 'string') {
-        var datum  = dateOfBirth.split("-");
+  function napisiDatum(date) {
+    if (typeof date !== 'undefined' && typeof date === 'string') {
+        var datum  = date.split("-");
         
         if (datum.length === 3) {
             var mj = datum[2].split("T");
@@ -33,6 +32,13 @@ const UserData = () =>{
             } 
          }      
     }
+}
+//vraca vrijeme
+function napisiVrijeme(vrijeme) {
+  const dateObject = new Date(vrijeme);
+  const timeString = dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  return timeString;
 }
 
     useEffect(()=>{
@@ -58,7 +64,7 @@ const UserData = () =>{
                       },
                  }) ;
                  setAktivniSas(response2.data);
-                 console.log(response2.data);
+
             }catch(error){
                 console.error("Error fetching user data:", error);
             }
@@ -78,14 +84,8 @@ const UserData = () =>{
     },[token,decodedToken.sub]);
 
     const izbrisiRez = () => {
-        const Appointment = {
-          username,
-          appointmentID: parseInt(appID)
-        };
-        console.log(Appointment);
-      
         axios
-          .post(`${baseURL}/user/deleteReservation`, Appointment, {
+          .post(`${baseURL}/user/deleteReservation`, app, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -137,10 +137,10 @@ const UserData = () =>{
         <div>
           <ul className="user-list">
             {priznanja.map((priz) => (
-              <li key={priz.potvrda_id} className="user-item">
-                <div className="user-info">
-                  <p className="username">Potvrda : {priz.namePotvrda}</p>
-                </div>
+              <li key={priz.id} className="user-item">
+                  <div className="user-info">
+                    <p className="potvrda">Potvrda : {priz.potvrdaName}</p>
+                  </div>
               </li>
             ))}
           </ul>
@@ -152,23 +152,20 @@ const UserData = () =>{
       <br></br>
       {aktivniSastanci.length === 0 ? (
         <div className="reg-wrapper">
-          <h2 className="nemanje">Nemate aktivnih sastanaka</h2>
+          <h2 className="nemanje">Nema aktivnih sastanaka</h2>
         </div>
       ) : (
         <div>
           <ul className="user-list">
             {aktivniSastanci.map((akSas) => (
-              akSas.bloodTypes && akSas.bloodTypes.length > 0 ? (
                 <li key={akSas.appointment_id} className="user-item">
                   <div className="user-info">
-                  <p className="donor-id">Appointment ID : {akSas.appointment_id}</p>
-                    <p className="username">Vrste krvi : {akSas.bloodTypes.join(', ')}</p>
-                    <p className="location">Kritična akcija : {booleanToString(akSas.criticalAction)}</p>
+                    <p className="username">Vrste krvi : {akSas.bloodTypes.length == 0 ? ("SVE") : (akSas.bloodTypes) }</p>
                     <p className="blood-type">Datum : {napisiDatum(akSas.dateAndTime)}</p>
+                    <p className="location">Vrijeme : {napisiVrijeme(akSas.dateAndTime)}</p>
                     <p className="donor-id">Lokacija : {akSas.location.locationName}</p>
                   </div>
                 </li>
-              ) : null
             ))}
           </ul>
           <br></br>
@@ -197,17 +194,18 @@ const UserData = () =>{
           <br></br>
           <section className="reg-wrapper">
             <header className="naslov2">Brisanje rezervacije</header>
-            <form className="reg-form" action="" method="post">
-              <div className="column">
+              <form className="reg-form" action="" method="post">
+                <div className="column">
                 <div className="reg-input-box">
-                  <label htmlFor="locationID"><b>Username</b></label>
-                  <input type="text" placeholder="Upišite username" name="locationID"
-                    required value={username} onChange={(e) => setUsername(e.target.value)}></input>
-                </div>
-                <div className="reg-input-box">
-                  <label htmlFor="locationID"><b>Appointment ID</b></label>
-                  <input type="text" placeholder="Upišite ID appointmenta" name="locationID"
-                    required value={appID} onChange={(e) => setAppId(e.target.value)}></input>
+                  <label htmlFor="locationID"><b>Rezervacije</b></label>
+                    <select className="mjesto" required onChange={(e) => setApp(e.target.value)}>
+                      <option>Odaberite rezervaciju</option>
+                      {donorRezervations.map((appointment) => (
+                        <option key={appointment.appointment_id} value={appointment.appointment_id}>
+                          {appointment.location.locationName}
+                        </option>
+                      ))}
+                    </select>
                 </div>
               </div>
               <button type="button" className="btn2" onClick={() => izbrisiRez()}>Izbrisi rezervaciju</button>

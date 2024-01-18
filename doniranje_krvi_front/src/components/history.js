@@ -23,7 +23,6 @@ const History = () =>{
                       },
                   });
                   setPovijest(response.data);
-                  console.log(response.data)
                 
             } catch(error){
                 console.error("Error fetching user data:", error);
@@ -48,6 +47,14 @@ const History = () =>{
          }      
     }
 }
+
+//vraca vrijeme
+function napisiVrijeme(vrijeme) {
+    const dateObject = new Date(vrijeme);
+    const timeString = dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+    return timeString;
+  }
     
     
     return(
@@ -61,19 +68,17 @@ const History = () =>{
                     <h2 className="nemanje">Nemate povijest doniranja krvi</h2>
                 </div>
             ) : (
-                <div className="reg-wrapper">
                     <ul className="user-list">
                             {povijest.map((pov) => (
-                        <li key={pov.appointment_id} className="user-item">
+                        <li key={pov.appointmentID} className="user-item">
                             <div className="user-info">
-                                <p className="username">Došao : {pov.came}</p>
                                 <p className="blood-type">Datum : {napisiDatum(pov.dateAndTime)}</p>
-                                <p className="donor-id">Lokacija : {pov.location.locationName}</p>
+                                <p className="dosao">Vrijeme : {napisiVrijeme(pov.dateAndTime)}</p>
+                                <p className="donor-id">Lokacija : {pov.locationName}</p>
                             </div>
                         </li>
                         ))}
                     </ul>
-                </div>
             )}
             <br></br>
             <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>  

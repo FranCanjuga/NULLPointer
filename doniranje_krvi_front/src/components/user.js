@@ -4,11 +4,6 @@ import { jwtDecode } from "jwt-decode"
 
 const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
 
-/*const getRandomBloodType = () => {
-  const randomChoice = Math.random() < 0.5 ? 0 : 'AB';
-  return randomChoice;
-}; */
-
 const User = () => {
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
@@ -255,9 +250,9 @@ const deleteAppointment = () =>{
   const createTableRow = (app) => {
     return (
       <tr key={app.appointment_id}>
-        <td>{app.appointment_id}</td>
-        <td>{app.bloodTypes}</td>
+        <td>{app.bloodTypes.length === 0 ? ("ALL") :(app.bloodTypes)}</td>
         <td>{napisiDatum(app.dateAndTime)}</td>
+        <td>{napisiVrijeme(app.dateAndTime)}</td>
         <td>{app.location.locationName}</td>
         <td>{app.criticalAction ? "YES" : "NO"}</td>
         <td>
@@ -330,6 +325,14 @@ const deleteAppointment = () =>{
     }
 }
 
+//vraca vrijeme
+function napisiVrijeme(vrijeme) {
+  const dateObject = new Date(vrijeme);
+  const timeString = dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  return timeString;
+}
+
   return (
     <div className="user">
   {roles.includes("admin") ? (
@@ -344,14 +347,20 @@ const deleteAppointment = () =>{
     <li key={user.donorID} className="user-item">
       <div className="user-info">
         <p className="username">Username : {user.username}</p>
-        {user.bloodType && user.bloodType.type && (
-          <p className="blood-type">Blood Type : {user.bloodType.type}</p>
+        {user.bloodType && (
+          <p className="blood-type">Krvna grupa : {user.bloodType}</p>
         )}
-        {user.donor_id && (
-          <p className="donor-id">Donor ID : {user.donor_id}</p>
+        {user.firstName && (
+          <p className="donor-id">Ime i prezime : {user.firstName} {user.lastName}</p>
         )}
-        {user.location && user.location.locationName && (
-          <p className="location">Location : {user.location.locationName}</p>
+        {user.city  && (
+          <p className="location">Grad : {user.city}</p>
+        )}
+        {user.gender  && (
+          <p className="gender">Spol : {user.gender}</p>
+        )}
+        {user.phoneNumber  && (
+          <p className="blood-type">Broj mobitela : {user.phoneNumber}</p>
         )}
       </div>
       <div className="buttons">
@@ -418,7 +427,7 @@ const deleteAppointment = () =>{
                       <option value="A">A</option>
                       <option value="B">B</option>
                       <option value="AB">AB</option>
-                      <option value="O">O</option>
+                      <option value="0">0</option>
                     </select>
                   </div>
                   
@@ -472,9 +481,9 @@ const deleteAppointment = () =>{
         </div>
           <table class="appointment_table">
             <tr>
-              <th>App ID</th>
               <th>Blood Types</th>
               <th>Date</th>
+              <th>Time</th>
               <th>Location</th>
               <th>Critical?</th>
               <th>Završi</th>

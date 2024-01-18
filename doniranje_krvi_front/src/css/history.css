@@ -69,3 +69,7 @@ body .history::before {
 .naslov{
     text-align: center;
 }
+
+.dosao{
+    color : green;
+}

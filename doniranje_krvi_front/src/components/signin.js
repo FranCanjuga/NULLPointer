@@ -40,6 +40,9 @@ const SignIn = () => {
         window.location.href = '/';
       }
 
+    const prijavaPov = () =>{
+        window.location.href = '/prijava';
+    }
     const Reg = () =>{
         window.location.href='/registracija';
     }
@@ -51,6 +54,7 @@ const SignIn = () => {
         <div className="wrapper">
             <h2>Korisničko ime ili lozinka su pogrešni</h2>
             <br></br>
+            <button type="button" className="btn3" onClick={() => prijavaPov()}>Vrati se</button>
             <button type="button" className="btn2" onClick={() => Reg()}>Registriraj se</button>
         </div>
       ) : (

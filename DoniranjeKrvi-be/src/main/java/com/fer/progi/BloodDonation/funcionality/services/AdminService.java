@@ -1,8 +1,10 @@
 package com.fer.progi.BloodDonation.funcionality.services;
 
 import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
+import com.fer.progi.BloodDonation.funcionality.models.AppUser;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
+import com.fer.progi.BloodDonation.security.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class AdminService {
 
     private final DonorRepository donorRepository;
+    private final AppUserRepository userRepository;
 
     public List<DonorDTO> getAllDonors() {
         return donorRepository.findAll()
@@ -56,6 +59,7 @@ public class AdminService {
         if (donor != null) {
             // Reject the donor, for example, remove the donor from the database
             donorRepository.delete(donor);
+            userRepository.deleteAppUserByUsername(donor.getUsername());
             return true;
         }
         return false;

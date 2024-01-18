@@ -99,9 +99,10 @@ class DonorServiceTest {
     void createNewReservation_InvalidAppointmentID_ReturnsNull() {
         // Arrange
         String username = "testUser";
-        ReservationDTO historyDTO = new ReservationDTO("username", 1L, new Long[]{});
+        Donor donor = new Donor(username, new Date(), "Male", new BloodType("A+"), new Location(1L, "TestLocation", 0.0, 0.0), true);
+        ReservationDTO historyDTO = new ReservationDTO("testUser", 1L, new Long[]{});
 
-        when(donorRepository.findByUsername(username)).thenReturn(new Donor());
+        when(donorRepository.findByUsername(username)).thenReturn(donor);
         when(appointmentRepository.findById(1L)).thenReturn(Optional.empty());
 
         // Act
@@ -208,7 +209,10 @@ class DonorServiceTest {
                 new Appointment(1L, new Location(), new HashSet<>(), new HashSet<>(), false, LocalDateTime.now().plusHours(1), false),
                 new Appointment(2L, new Location(), new HashSet<>(), new HashSet<>(), false, LocalDateTime.now().plusDays(2), false)
         );
+        String username = "testUser";
+        Donor donor = new Donor(username, new Date(), "Male", new BloodType("A+"), new Location(1L, "TestLocation", 0.0, 0.0), true);
         when(appointmentRepository.findAll()).thenReturn(activeAppointments);
+        when(donorRepository.findDonorByUsername(any())).thenReturn(Optional.of(donor));
 
         // Act
         List<AppointmentGetDTO> result = donorService.getListOfActiveDonationDates("testUser");

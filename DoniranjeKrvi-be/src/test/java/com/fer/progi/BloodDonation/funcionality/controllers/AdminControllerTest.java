@@ -36,7 +36,7 @@ class AdminControllerTest {
     @Test
     void listAll_ReturnsListOfDonors() {
         // Arrange
-        List<DonorDTO> expectedDonors = Arrays.asList(new Donor(), new Donor()).stream().map(DonorDTO::new).toList();
+        List<DonorDTO> expectedDonors = Arrays.asList(new DonorDTO(), new DonorDTO());
         when(adminService.getAllDonors()).thenReturn(expectedDonors);
 
         // Act
@@ -51,7 +51,7 @@ class AdminControllerTest {
     @Test
     void listUnregistered_ReturnsListOfDonors() {
         // Arrange
-        List<DonorDTO> expectedDonors = Arrays.asList(new Donor(), new Donor()).stream().map(DonorDTO::new).toList();
+        List<DonorDTO> expectedDonors = Arrays.asList(new DonorDTO(), new DonorDTO());
         when(adminService.getUnregisteredDonors()).thenReturn(expectedDonors);
 
         // Act

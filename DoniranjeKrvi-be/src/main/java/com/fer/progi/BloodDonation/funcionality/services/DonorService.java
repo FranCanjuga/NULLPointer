@@ -157,10 +157,7 @@ public class DonorService {
             DonationHistory history = historyRepository.findDonationHistoriesByAppointmentAndDonor(appointment, donor);
 
             List<PotvrdeDonora> potvrdeDonora = potvrdeDonoraRepository.findByDontionHistoryId(history.getDonationHistory_id());
-            for (PotvrdeDonora p : potvrdeDonora) {
-                Potvrda potvrda = p.getPotvrda();
-                potvrdaRepository.delete(potvrda);
-            }
+
             potvrdeDonoraRepository.deleteAll(potvrdeDonora);
 
 

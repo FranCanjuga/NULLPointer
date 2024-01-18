@@ -70,10 +70,12 @@ const YourComponent = () => {
     // Obrada greške
   }
   };
+  
   useEffect(() => {
     // Set the initial value and trigger onChange
     setSelectedConfirmation('1');
   }, []);
+  
 
   const handleClick = (e, appointment_id, potvrda) => {
 
@@ -95,7 +97,7 @@ const YourComponent = () => {
         {headers: {
           Authorization: `Bearer ${token}`,
         }}
-    ).then((response) => {
+    ).then((response) => { 
       alert("Uspješna prijava!");
     }).catch((error) => {
           console.log("Batoooooooo error")

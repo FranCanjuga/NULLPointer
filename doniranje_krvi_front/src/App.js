@@ -9,6 +9,8 @@ import User from './components/user';
 import Contact from './components/contact';
 import UserData from './components/userData';
 import History from  './components/history';
+import SecretPage from  './components/easterEgg';
+
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path='/contact' element={<Contact/>}/>
         <Route path ='/userData' element={<UserData/>}/>
         <Route path ='/povijestDoniranja' element={<History/>}/>
+        <Route path ='/secretPage' element={<SecretPage/>}/>
      </Routes>
   );
 }

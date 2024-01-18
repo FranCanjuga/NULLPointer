@@ -58,3 +58,14 @@ body {
   border: 5px solid gray; 
   margin: 5px; 
 }
+
+.secret {
+  padding: 5px 30px;
+}
+
+.we {
+  margin-left: 30px;
+}
+.we div {
+  padding: 5px;
+}

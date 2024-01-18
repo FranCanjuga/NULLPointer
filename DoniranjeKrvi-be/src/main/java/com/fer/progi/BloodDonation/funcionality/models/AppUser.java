@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@Setter
 @Entity
 @Table(name = "users")
 public class AppUser implements UserDetails {
@@ -23,9 +24,13 @@ public class AppUser implements UserDetails {
     @Column(unique = true)
     private String username;
 
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     private String password;
@@ -36,10 +41,10 @@ public class AppUser implements UserDetails {
     @Column(unique = true)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "userRole",
+            name = "user_role",
             joinColumns = {@JoinColumn(name = "username")},
-            inverseJoinColumns = {@JoinColumn(name = "roleId")},
-            uniqueConstraints = @UniqueConstraint(columnNames = {"username", "roleId"})
+            inverseJoinColumns = {@JoinColumn(name = "role_id")},
+            uniqueConstraints = @UniqueConstraint(columnNames = {"username", "role_id"})
     )
     private Set<Role> authorities;
 
@@ -73,27 +78,14 @@ public class AppUser implements UserDetails {
     }
 
 
-
-    public void setAuthorities(Set<Role> authorities) {
-        this.authorities = authorities;
-    }
-
     @Override
     public Set<Role> getAuthorities() {
         return authorities;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public String getPassword() {
         return password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override
@@ -133,15 +125,4 @@ public class AppUser implements UserDetails {
         return phoneNumber;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 }

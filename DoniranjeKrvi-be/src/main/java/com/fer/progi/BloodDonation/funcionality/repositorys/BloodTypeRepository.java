@@ -4,10 +4,13 @@ package com.fer.progi.BloodDonation.funcionality.repositorys;
 import com.fer.progi.BloodDonation.funcionality.models.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
+@Repository
 
 public interface BloodTypeRepository extends JpaRepository<BloodType, Long>{
 
@@ -17,7 +20,9 @@ public interface BloodTypeRepository extends JpaRepository<BloodType, Long>{
      * @param bloodTypes - array of String names of bloodTypes
      * @return List of bloodTypes
      */
-    default List<BloodType> findByType(String[] bloodTypes){
+
+    default List<BloodType> findByTypes(String[] bloodTypes){
+
         var bloodTypesSet = Arrays.stream(bloodTypes)
                 .collect(Collectors.toSet());
 
@@ -28,4 +33,11 @@ public interface BloodTypeRepository extends JpaRepository<BloodType, Long>{
                 })
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    List<BloodType> findAll();
+
+    BloodType findByType(String bloodType);
+
 }

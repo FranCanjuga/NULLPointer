@@ -1,0 +1,75 @@
+body .history{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*padding: 20px;
+    background: rgb(138, 106, 251); */
+    background: url('/public/images/blood_donor.jpg') no-repeat;
+    background-size: cover;
+    position: relative;
+}
+body .history::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-color: rgba(23, 25, 35, 0.7);
+    opacity: 0.7; /* Adjust the opacity level to control darkness */
+}
+
+.reg-wrapper {
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+    background: rgb(248, 241, 241);
+    padding: 25px;
+    border-radius: 45px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+}
+
+
+.reg-wrapper .reg-form {
+    margin-top: 13px;
+}
+
+.reg-form .reg-input-box {
+    width: 47%;
+    margin-top: 20px;
+}
+
+.reg-input-box label {
+    color: #333;
+    padding-left: 12px;
+}
+
+.reg-form .reg-input-box input {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    color: #707070;
+    margin-top: 8px;
+    border: 2px solid rgba(9, 9, 9, 0.2);
+    border-radius: 40px;
+    padding: 0 15px;
+    background: rgb(255, 250, 250);
+}
+
+.reg-form .column {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
+}
+
+.naslov{
+    text-align: center;
+}
+
+.dosao{
+    color : green;
+}

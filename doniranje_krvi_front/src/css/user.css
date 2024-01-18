@@ -1,0 +1,402 @@
+body .user {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*padding: 20px;
+  background: rgb(138, 106, 251); */
+  background: url('/public/images/blood_donor.jpg') no-repeat;
+  background-size: cover;
+  position: relative; /* Set position to relative for z-index to work */
+}
+
+body .user::before {
+  content: '';
+  position: fixed; /* Set position to fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-color: rgb(23, 25, 35); /* Color for darkening */
+  opacity: 0.7; /* Adjust the opacity level to control darkness */
+}
+
+
+.reg-wrapper {
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+    background: rgb(248, 241, 241);
+    padding: 25px;
+    border-radius: 45px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+}
+
+
+.reg-wrapper .reg-form {
+    margin-top: 13px;
+}
+
+.reg-form .reg-input-box {
+    width: 47%;
+    margin-top: 20px;
+}
+
+.reg-input-box label {
+    color: #333;
+    padding-left: 12px;
+}
+
+.reg-form .reg-input-box input {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    color: #707070;
+    margin-top: 8px;
+    border: 2px solid rgba(9, 9, 9, 0.2);
+    border-radius: 40px;
+    padding: 0 15px;
+    background: rgb(255, 250, 250);
+}
+
+.reg-form .column {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
+}
+
+.naslov{
+    text-align: center;
+}
+
+.podaci {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    outline: none;
+    font-size: 1.5rem;
+    color: black;
+    margin-top: 8px;
+    border-radius: 40px;
+    padding: 0 15px;
+    background: rgb(255, 250, 250);
+}
+
+.user-item {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    font-size: 1rem;
+    color: black;
+    margin-top: 8px;
+    border-radius: 40px;
+    padding: 0 15px;
+    background: rgb(255, 250, 250);
+    
+  }
+  
+  .user-info {
+    margin:5px;
+  }
+  
+  .blood-type {
+    color: blue;
+  }
+  
+  .donor-id {
+    color: red;
+  }
+  
+  .location {
+    color: green;
+  }
+  
+  .reject-button {
+    background-color: red;
+    color: white;
+    margin-right: 10px;
+    text-emphasis: center;
+    font-weight: bold;
+    width: 80px;
+    height: 80px;
+    cursor: pointer; /* Set cursor to hand */
+    border: 2px solid black; /* Set initial border */
+    transition: border-color 0.3s;
+  }
+  
+  .approve-button {
+    background-color: green;
+    color: white;
+    text-emphasis: center;
+    font-weight: bold;
+    width: 80px;
+    height: 80px;
+    cursor: pointer; /* Set cursor to hand */
+    border: 2px solid black; /* Set initial border */
+    transition: border-color 0.3s;
+  }
+
+  .naslov2{
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: -5px;
+  }
+
+  .reg-wrapper .reg-form {
+    margin-top: 13px;
+}
+
+  .reg-form .reg-input-box {
+    width: 47%;
+    margin-top: 20px;
+}
+
+.reg-input-box label {
+    color: #333;
+    padding-left: 12px;
+}
+
+.reg-form .reg-input-box input {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    color: #707070;
+    margin-top: 8px;
+    border: 2px solid rgba(9, 9, 9, 0.2);
+    border-radius: 40px;
+    padding: 0 15px;
+    background: rgb(255, 250, 250);
+}
+
+.reg-form .column {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
+}
+
+.reg-wrapper .btn {
+    width: 100%;
+    height: 55px;
+    margin-top: 20px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    
+}
+
+.reg-input-box .bloodTypes{
+    width: 22%; 
+    height: 50px;
+    margin-left: 9px;
+    border: 2px solid rgba(9, 9, 9, 0.2);
+    border-radius: 40px;
+    font-size: 16px;
+    text-align: center;
+    color: #707070;
+    background: rgb(255, 250, 250);
+}
+
+.btn3{
+    width: 40%;
+    height : 30px;
+    margin-top: 20px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    float: left;
+}
+
+.btn4 {
+  width: 40%;
+    position: relative;
+}
+
+.black_overlay {
+  display: none;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 1001;
+  -moz-opacity: 0.8;
+  opacity: .80;
+  filter: alpha(opacity=80);
+}
+.white_content1 {
+  display: none;
+  position: absolute;
+  top: 25%;
+  left: 37.5%;
+  width: 25%;
+  height: 25%;
+  padding: 20px;
+  z-index: 1002;
+  overflow: auto;
+  
+  background: rgb(248, 241, 241);
+  padding: 25px;
+  border-radius: 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+
+  flex-direction:row;
+  justify-content: space-around;
+
+  text-align: center;
+}
+
+.white_content2 {
+  display: none;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  padding: 16px;
+  z-index: 1002;
+  overflow: auto;
+  
+  background: rgb(248, 241, 241);
+  padding: 25px;
+  border-radius: 45px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+}
+
+.button_container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 100px;
+}
+
+.button-container2 {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+
+.button_container button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #555;
+  font-size: 1.5em;
+}
+
+#donor_list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+#donor_list li:first-child {
+  border-top: none;
+}
+
+#donor_list li:last-child {
+  border-bottom: none;
+}
+
+.donor_check {
+  width: 20px;
+  height: 20px;
+  background-color: #3498db;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.donor_check::before {
+  content: '\2713'; /* Checkmark symbol */
+  font-size: 16px;
+  color: #fff;
+  display: block;
+  text-align: center;
+  line-height: 20px;
+}
+
+.appointment_table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse:collapse;
+}
+
+.appointment_table td, .appointment_table th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+  max-width: 150px; /* Adjust the maximum width as needed */
+  
+}
+
+
+.appointment_table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  color: black;
+  white-space: normal;
+  min-width: 200px;
+}
+
+#table_button_finish {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 45px;
+  background: rgb(72, 72, 204);
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+}
+
+#table_button_delete {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 45px;
+  background: #fff;
+  cursor: pointer;
+  color: black;
+  background-color: red;
+  font-weight: bold;
+}
+
+

@@ -1,0 +1,24 @@
+.footer {
+    background: #9ba1e2;
+}
+.hrvatskiK{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-right: 160px;
+}
+.krizek {
+    width: 100px; 
+    height: 50px;
+    display: inline-block; 
+    box-shadow: 5px 5px 10px rgba(155, 5, 5, 0.5);
+}
+.tekstKriz{
+    text-align: center;
+    padding: 10px; 
+    font-weight: bold;
+}
+a {
+    text-decoration: none;
+    color: #333;
+}

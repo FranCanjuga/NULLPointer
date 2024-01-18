@@ -1,24 +1,31 @@
 package com.fer.progi.BloodDonation.funcionality.services;
 
+import com.fer.progi.BloodDonation.funcionality.controllers.dto.DonorDTO;
 import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import com.fer.progi.BloodDonation.funcionality.repositorys.DonorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AdminService {
 
-    @Autowired
-    private DonorRepository donorRepository;
+    private final DonorRepository donorRepository;
 
-    public List<Donor> getAllDonors() {
-        return donorRepository.findAll();
+    public List<DonorDTO> getAllDonors() {
+        return donorRepository.findAll()
+                .stream()
+                .map(DonorDTO::new)
+                .toList();
+
     }
 
-    public List<Donor> getUnregisteredDonors() {
+    public List<DonorDTO> getUnregisteredDonors() {
         List<Donor> donors = donorRepository.findAll();
         List<Donor> unregistered = new ArrayList<>();
         for (Donor donor : donors) {
@@ -26,7 +33,7 @@ public class AdminService {
                 unregistered.add(donor);
             }
         }
-        return unregistered;
+        return unregistered.stream().map(DonorDTO::new).toList();
     }
 
     public Donor getDonorByUsername(String username) {

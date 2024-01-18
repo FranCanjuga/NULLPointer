@@ -1,17 +1,14 @@
 package com.fer.progi.BloodDonation.funcionality.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@Entity(name = "bloodType")
+@Entity(name = "blood_type")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -20,7 +17,9 @@ public class BloodType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bloodTypeId;
+    private int blood_type_id;
+
+    @Column(unique = true)
     private String type;
 
     public BloodType(String type) {

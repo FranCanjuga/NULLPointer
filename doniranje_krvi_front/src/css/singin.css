@@ -1,0 +1,137 @@
+
+body .signin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('/public/images/blood_donor.jpg') no-repeat;
+    background-size: cover;
+    filter: brightness(100%);
+}
+
+body .signin::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(23, 25, 35); /* Color for darkening */
+    opacity: 0.7; /* Adjust the opacity level to control darkness */
+}
+
+.wrapper {
+    width: 420px;
+    background: rgb(248, 241, 241);
+    color: #000000;
+    border-radius: 10px;
+    padding: 30px 40px;
+    position: relative;
+}
+.wrapper h1 {
+    font-size: 36px;
+    text-align: center;
+}
+
+.wrapper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(9, 9, 9, 0.2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: rgb(3, 3, 3);
+    padding: 20px 45px 20px 20px;
+    background: rgb(255, 250, 250);
+}
+
+.input-box input::placeholder {
+    color: rgb(2, 2, 2);
+}
+
+.input-box i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.wrapper .remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -10px 0 15px;
+
+
+}
+
+.remember-forgot label input {
+    accent-color: #000000;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+.remember-forgot input{
+    width: 15px;
+    height: 15px;
+}
+
+.remember-forgot a {
+    color: #0f0f0f;
+    text-decoration: none;
+}
+.remember-forgot a:hover {
+    text-decoration: underline;
+}
+
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.wrapper .register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+
+}
+.register-link p a {
+    color: #080808;
+    text-decoration: none;
+    font-weight: 600;
+}
+.register-link p a:hover {
+    text-decoration: underline;
+}
+.btn2{
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+

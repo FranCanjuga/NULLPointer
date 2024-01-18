@@ -2,10 +2,7 @@ package com.fer.progi.BloodDonation.funcionality.models;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,24 +13,28 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Donor {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long donorID;
+        private Long donor_id;
 
         @Column(unique = true)
         private String username;
 
+        @Column(name = "date_of_birth")
         private Date dateOfBirth;
 
         private String gender;
 
-        private String bloodType;
+        @ManyToOne
+        @JoinColumn(name = "blood_type_id")
+        private BloodType bloodType;
 
-        private String town;
-
-        private String street;
+        @ManyToOne
+        @JoinColumn(name = "location_id")
+        private Location location;
 
         private boolean verified;
 
@@ -42,23 +43,13 @@ public class Donor {
         private AppUser appUser;
 
 
-        @Column(unique = true)
-        @ManyToMany(fetch = FetchType.EAGER)
-        @JoinTable(
-                name = "DonoroPriznanje",
-                joinColumns = {@JoinColumn(name = "donorId")},
-                inverseJoinColumns = {@JoinColumn(name = "priznanjeId")},
-                uniqueConstraints = @UniqueConstraint(columnNames = {"donorId", "priznanjeId"})
-        )
-        private Set<Priznanje> priznanja;
-
 
 
         @OneToMany(mappedBy = "donor", cascade = CascadeType.ALL, orphanRemoval = true)
         private Set<DonationHistory> donationHistory = new HashSet<>();
 
 
-
+/*
         @Column(unique = true)
         @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(
@@ -67,23 +58,22 @@ public class Donor {
                 inverseJoinColumns = {@JoinColumn(name = "priznanjeId")}
         )
         private Set<Priznanje> recognitions;
+*/
 
 
 
-
-        public Donor( String username, Date dateOfBirth, String gender, String bloodType, String town, String street, boolean verified) {
+        public Donor( String username, Date dateOfBirth, String gender, BloodType bloodType, Location location, boolean verified) {
                 this.username = username;
                 this.dateOfBirth = dateOfBirth;
                 this.gender = gender;
                 this.bloodType = bloodType;
-                this.town = town;
-                this.street = street;
+                this.location = location;
                 this.verified = verified;
                 donationHistory = new HashSet<>();
         }
 
-        public Donor(String username, Date dateOfBirth, String gender, String bloodType, String town, String street) {
-               this(username, dateOfBirth, gender, bloodType, town, street, false);
+        public Donor(String username, Date dateOfBirth, String gender, BloodType bloodType, Location location) {
+               this(username, dateOfBirth, gender, bloodType, location, false);
         }
 
 

@@ -1,0 +1,67 @@
+body .features {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*padding: 20px;
+    background: rgb(138, 106, 251); */
+    background-color: #9ba1e2;;
+    background-size: cover;
+    position: relative; /* Set position to relative for z-index to work */
+  }
+  
+  body .features::before {
+    content: '';
+    position: fixed; /* Set position to fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-color: rgb(23, 25, 35); /* Color for darkening */
+    opacity: 0.7; /* Adjust the opacity level to control darkness */
+  }
+  
+  
+  .reg-wrapper {
+      position: relative;
+      max-width: 800px;
+      width: 100%;
+      background: rgb(248, 241, 241);
+      padding: 25px;
+      border-radius: 45px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+  }
+  
+  
+  .reg-wrapper .reg-form {
+      margin-top: 13px;
+  }
+  
+  .reg-form .reg-input-box {
+      width: 47%;
+      margin-top: 20px;
+  }
+  
+  .reg-input-box label {
+      color: #333;
+      padding-left: 12px;
+  }
+  
+  .reg-form .reg-input-box input {
+      position: relative;
+      height: 50px;
+      width: 100%;
+      outline: none;
+      font-size: 1rem;
+      color: #707070;
+      margin-top: 8px;
+      border: 2px solid rgba(9, 9, 9, 0.2);
+      border-radius: 40px;
+      padding: 0 15px;
+      background: rgb(255, 250, 250);
+  }
+
+  .feature{
+    font-weight: bold;
+  }

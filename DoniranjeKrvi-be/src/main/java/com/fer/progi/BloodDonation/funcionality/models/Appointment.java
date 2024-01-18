@@ -20,11 +20,11 @@ import java.util.Set;
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long appointmentID;
+        private Long appointment_id;
 
 
         @ManyToOne
-        @JoinColumn(name = "locationID")
+        @JoinColumn(name = "location_id")
         private Location location;
 
     @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,9 +34,13 @@ import java.util.Set;
     private Set<AkcijaKrv> bloodTypes = new HashSet<>();
 
 
+    @Column(name = "critical_action")
     private boolean criticalAction;
 
+    @Column(name = "date_and_time")
     private LocalDateTime dateAndTime;
+
+    private boolean finished;
 
 
 }

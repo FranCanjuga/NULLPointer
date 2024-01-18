@@ -1,12 +1,12 @@
 import React, {useState} from "react"
 import axios from "axios"
-
 const baseURL = process.env.REACT_APP_URL || 'http://localhost:8080';
 
 const SignIn = () => {
 
     const[username,setUsername] = useState('')
     const[password,setLozinka]=useState('')
+    const [message, setMessage] = useState('');
     const handleClick = (e) => {
         e.preventDefault();
         const korisnik = { username, password};
@@ -26,27 +26,69 @@ const SignIn = () => {
             else
                 delete axios.defaults.headers.common["Authorization"];
             window.location.href = '/'
-        });
+        }).catch((error) => {
+            if (error.response && error.response.status === 500) {
+              console.error("Error 500 - Dodan appointment");
+                setMessage('Error 500');
+            } else {
+              console.error(error);
+            }
+          });
+    }
+
+    const povratak =() =>{
+        window.location.href = '/';
+      }
+
+    const prijavaPov = () =>{
+        window.location.href = '/prijava';
+    }
+    const Reg = () =>{
+        window.location.href='/registracija';
     }
 
 
     return (
-        <form className="signin-form" action="" method="post">
-            <div className="container">
-                <label htmlFor="uname"><b>Username</b></label>
-                <input type="text" placeholder="Upišite username" name="uname" required value={username} onChange={(e)=>setUsername(e.target.value)}></input><br></br>
+    <body className="signin">
+         {message ? (
+        <div className="wrapper">
+            <h2>Korisničko ime ili lozinka su pogrešni</h2>
+            <br></br>
+            <button type="button" className="btn3" onClick={() => prijavaPov()}>Vrati se</button>
+            <button type="button" className="btn2" onClick={() => Reg()}>Registriraj se</button>
+        </div>
+      ) : (
+    <div className="wrapper">   
+        <form action="" method="post">
+            <h1>Login</h1>
+                <div className="input-box">
+                    <input type="text" placeholder="Username" name="uname"
+                    required value={username} onChange={(e)=>setUsername(e.target.value)}></input>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div className="input-box">
+                    <input type="password" placeholder="Password" name="psw" 
+                    required value={password} onChange={(e)=>setLozinka(e.target.value)}></input>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
 
-                <label htmlFor="psw"><b>Lozinka</b></label>
-                <input type="password" placeholder="Upišite lozinku" name="psw" required value={password} onChange={(e)=>setLozinka(e.target.value)}></input><br></br>
+                <div className="remember-forgot">
+                    <label><input type="checkbox"></input> Zapamti me</label>
+                    <a href="#">Zaboravljena lozinka?</a>
+                </div>
 
-                <button type="submit" onClick={handleClick}>Prijava</button><br></br>
-                <label>Nemaš račun? <a href="./registracija">Registriraj se</a></label>
-            </div>
-
-            <div className="container">
-                <a href="./"><button type="button" className="cancelbtn">Vrati se</button></a>
-            </div>
+                <button type="submit" className="btn" onClick={handleClick}>
+                Prijava</button>
+                
+                <div className="register-link">
+                    <p>Nemaš račun? <a href="./registracija">Registriraj se</a></p>
+                </div>
+                
+                <button type="button" className="btn2" onClick={() => povratak()}>Vrati se</button>
         </form>
+        </div>
+      )}
+    </body>
     )
 }
 

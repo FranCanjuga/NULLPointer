@@ -9,26 +9,26 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Entity(name = "donation_history")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"donorID", "appointmentID"})
+        @UniqueConstraint(columnNames = {"donor_id", "appointment_id"})
 })
 public class DonationHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long donationHistoryId;
+    private Long donationHistory_id;
 
     @ManyToOne
-    @JoinColumn(name = "donorID")
+    @JoinColumn(name = "donor_id")
     private Donor donor;
 
     @ManyToOne
-    @JoinColumn(name = "appointmentID")
+    @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
     private boolean came;

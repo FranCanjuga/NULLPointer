@@ -1,5 +1,6 @@
 package com.fer.progi.BloodDonation.funcionality.controllers.dto;
 
+import com.fer.progi.BloodDonation.funcionality.models.Donor;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,9 +25,7 @@ public class DonorDTO {
 
     private String bloodType;
 
-    private String town;
-
-    private String address;
+    private String city;
 
     private boolean verified;
 
@@ -36,18 +35,34 @@ public class DonorDTO {
 
     private String phoneNumber;
 
+    private String priznanje;
 
-    public DonorDTO(String username, Date dateOfBirth, String gender, String bloodType, String town, String address, boolean verified, String firstName, String lastName, String phoneNumber) {
+
+    public DonorDTO(String username, Date dateOfBirth, String gender, String bloodType, String city, boolean verified, String firstName, String lastName, String phoneNumber, String priznanje) {
         this.username = username;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.bloodType = bloodType;
-        this.town = town;
-        this.address = address;
+        this.city = city;
         this.verified = verified;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.priznanje = priznanje;
     }
+
+    public DonorDTO(Donor donor){
+        this.username = donor.getUsername();
+        this.dateOfBirth = donor.getDateOfBirth();
+        this.gender = donor.getGender();
+        this.bloodType = donor.getBloodType().getType();
+        this.city = donor.getLocation().getLocationName();
+        this.verified = donor.isVerified();
+        this.firstName = donor.getAppUser().getFirstName();
+        this.lastName = donor.getAppUser().getLastName();
+        this.phoneNumber = donor.getAppUser().getPhoneNumber();
+    }
+
+
 
 }

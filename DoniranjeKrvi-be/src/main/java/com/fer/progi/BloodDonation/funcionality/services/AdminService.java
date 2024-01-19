@@ -8,6 +8,7 @@ import com.fer.progi.BloodDonation.security.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class AdminService {
         return false;
     }
 
+    @Transactional
     public boolean rejectDonor(String username) {
         Donor donor = donorRepository.findByUsername(username);
         if (donor != null) {

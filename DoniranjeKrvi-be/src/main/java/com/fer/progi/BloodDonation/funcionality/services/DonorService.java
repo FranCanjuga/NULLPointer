@@ -74,7 +74,7 @@ public class DonorService {
         Donor donor  =  donorRepository.findByUsername(historyDTO.getUsername());
 
         if(!donor.isVerified()) {
-            throw new IllegalArgumentException("Donor is not verified");
+            throw new IllegalArgumentException("Donor nije verificiran.Molimo pričekajte da vas administrator verificira.");
         }
 
         Optional<Appointment> opt2  =  appointmentRepository.findById(historyDTO.getAppointmentID());
@@ -83,55 +83,27 @@ public class DonorService {
         }
         Appointment appointment= opt2.get();
 
+        try {
 
-        /* Sav kod u komentarim sluzi za ispitivanje zadnjeg davanja krvi
-        Set<DonationHistory> donationHistorySet = donor.getDonationHistory();
-        Appointment lastAppointment = null;
-        for(DonationHistory d: donationHistorySet){
-            assert lastAppointment != null;
-            if (d.getAppointment().getDateAndTime().isAfter(lastAppointment.getDateAndTime() )){
-                lastAppointment = d.getAppointment();
-            }
-        }
 
-        LocalDateTime appointmentDateTime = lastAppointment.getDateAndTime();
-        LocalDateTime threeMonthsAgo = LocalDateTime.now().minusMonths(3);
-        if(appointmentDateTime.isAfter(threeMonthsAgo) ){
-            //Prosla donacija je bila prije manje od 3 mjeseca, donor ne smije davati krv.
-            return null;
-        }
-        else{
             DonationHistory history = new DonationHistory(donor, appointment, false);
-            Long[] longPotvrda = historyDTO.getPotvrdeID();
-            List<Potvrda> svePotvrde = potvrdaRepository.findAllById(Arrays.stream(longPotvrda).toList());
 
-            for(Potvrda p: svePotvrde){
-                PotvrdeDonora potvrdeDonora = new PotvrdeDonora(p,history,null,false);
+            Long[] longPotvrda = historyDTO.getPotvrdeID();
+            List<Potvrda> svePotvrde = new ArrayList<>();
+            for (Long p : longPotvrda) {
+                svePotvrde.add(potvrdaRepository.findById(p).get());
+            }
+
+            for (Potvrda p : svePotvrde) {
+                PotvrdeDonora potvrdeDonora = new PotvrdeDonora(p, history, null, false);
                 potvrdeDonoraRepository.save(potvrdeDonora);
             }
-
-
             historyRepository.save(history);
+
             return history;
-        }*/
-
-
-
-        DonationHistory history = new DonationHistory(donor, appointment, false);
-
-        Long[] longPotvrda = historyDTO.getPotvrdeID();
-        List<Potvrda> svePotvrde = new ArrayList<>();
-        for(Long p: longPotvrda){
-            svePotvrde.add(potvrdaRepository.findById(p).get());
+        }catch (Exception e){
+            throw new IllegalArgumentException("već ste rezervirali termin za ovu akciju");
         }
-
-        for(Potvrda p: svePotvrde){
-            PotvrdeDonora potvrdeDonora = new PotvrdeDonora(p,history,null,false);
-            potvrdeDonoraRepository.save(potvrdeDonora);
-        }
-        historyRepository.save(history);
-
-        return history;
 
     }
 

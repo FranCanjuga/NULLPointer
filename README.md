@@ -1,7 +1,7 @@
 # Url na aplikaciju
 > https://blood-donations-fe2.onrender.com/
 > 
-> login za admina : admin@gmail.com, lozinka : admin
+> login za admina : admin@gmail.com, lozinka : admin                         
 > login za Crveni križ : cross@gmail.com, lozinka : cross
 
 # Programsko inženjerstvo
